@@ -5,6 +5,8 @@ import ch.loway.oss.ari4java.AriVersion;
 import ch.loway.oss.ari4java.generated.actions.ActionEvents;
 import ch.loway.oss.ari4java.tools.ARIException;
 import ch.loway.oss.ari4java.tools.RestException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 
 public class Asterisk {
     private static Asterisk ASTERISK = null;
@@ -13,14 +15,15 @@ public class Asterisk {
     private final String username;
     private final String password;
     private final String app;
-    private ActionEvents actionEvents;
     private final ARI ari;
 
-    private Asterisk(String url, String username, String password, String app) throws ARIException {
-        this.url = url;
-        this.username = username;
-        this.password = password;
-        this.app = app;
+    private ActionEvents actionEvents;
+
+    private Asterisk(Environment environment) throws ARIException {
+        this.url = environment.getProperty("asterisk.url");
+        this.username = environment.getProperty("asterisk.username");
+        this.password = environment.getProperty("asterisk.password");
+        this.app = environment.getProperty("asterisk.app");
         this.ari = ARI.build(url, app, username, password, AriVersion.IM_FEELING_LUCKY);
         this.actionEvents = ari.getActionImpl(ActionEvents.class);
     }
@@ -33,9 +36,9 @@ public class Asterisk {
         ari.channels().originate(number).setExtension(number).setApp(app).execute();
     }
 
-    public static Asterisk create(String url, String username, String password, String app) throws ARIException {
+    public static Asterisk create(Environment environment) throws ARIException {
         if (ASTERISK == null) {
-            ASTERISK = new Asterisk(url, username, password, app);
+            ASTERISK = new Asterisk(environment);
         }
 
         return ASTERISK;
