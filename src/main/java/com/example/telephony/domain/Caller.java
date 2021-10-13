@@ -5,7 +5,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -17,4 +19,7 @@ public class Caller extends BaseEntity {
 
     @Column(name = "number")
     private String number;
+
+    @ManyToMany(mappedBy = "callers")
+    private List<Dial> dials;
 }
