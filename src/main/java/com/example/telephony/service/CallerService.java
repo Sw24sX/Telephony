@@ -28,6 +28,10 @@ public class CallerService {
         return callerRepository.save(caller);
     }
 
+    public List<Caller> create(List<Caller> callers) {
+        return callerRepository.saveAll(callers);
+    }
+
     public Caller update(Long id, Caller caller) {
         Caller callerDb = getById(id);
         caller.setId(callerDb.getId());

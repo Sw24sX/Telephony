@@ -1,7 +1,8 @@
 create table "dial" (
     "id" int8 NOT NULL PRIMARY KEY,
     "dialing-start" timestamp NOT NULL,
-    "dialing-end" timestamp
+    "dialing-end" timestamp,
+    "name" int8 NOT NULL UNIQUE
 );
 
 create table "dial_caller" (

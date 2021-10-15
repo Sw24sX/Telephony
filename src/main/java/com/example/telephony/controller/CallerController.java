@@ -43,6 +43,13 @@ public class CallerController {
         return callerMapper.callerToCallerDto(callerService.create(callerMapper.callerToCallerDto(callerDto)));
     }
 
+    @PostMapping("list")
+    @ApiOperation("Create caller list")
+    public List<CallerDto> create(@ApiParam("List callers") @RequestBody List<CallerDto> callerDtos) {
+        List<Caller> callers = callerMapper.listCallerDtoToCaller(callerDtos);
+        return callerMapper.listCallerToCallerDto(callerService.create(callers));
+    }
+
     @PutMapping("{id}")
     @ApiOperation("Update caller")
     public CallerDto update(@ApiParam("Updated caller data") @RequestBody CallerDto callerDto,

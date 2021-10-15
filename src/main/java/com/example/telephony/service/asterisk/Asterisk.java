@@ -5,6 +5,7 @@ import ch.loway.oss.ari4java.AriVersion;
 import ch.loway.oss.ari4java.generated.actions.ActionEvents;
 import ch.loway.oss.ari4java.tools.ARIException;
 import ch.loway.oss.ari4java.tools.RestException;
+import com.example.telephony.domain.Caller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 
@@ -32,7 +33,8 @@ public class Asterisk {
         this.actionEvents.eventWebsocket(this.app).execute(messageCallBack);
     }
 
-    public void call(String number) throws RestException {
+    public void call(Caller caller) throws RestException {
+        String number = caller.getNumber();
         ari.channels().originate(number).setExtension(number).setApp(app).execute();
     }
 
