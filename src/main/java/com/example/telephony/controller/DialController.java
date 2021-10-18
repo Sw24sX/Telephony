@@ -43,9 +43,4 @@ public class DialController {
     public DialDto update(@RequestBody DialDto dialDto, @PathVariable("id") Long id) throws Exception {
         throw new Exception("Todo");
     }
-
-    @PostMapping("call/{id}")
-    public void call(@PathVariable("id") Long dialId) {
-        dialService.startDialing(dialId);
-    }
 }

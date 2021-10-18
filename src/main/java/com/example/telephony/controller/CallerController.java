@@ -63,4 +63,9 @@ public class CallerController {
     public void delete(@ApiParam("Caller id") @PathVariable("id") Long id) {
         callerService.delete(id);
     }
+
+    @PostMapping("call/{id}")
+    public void callById(@PathVariable("id") Long id) {
+        Caller caller = callerService.getById(id);
+    }
 }
