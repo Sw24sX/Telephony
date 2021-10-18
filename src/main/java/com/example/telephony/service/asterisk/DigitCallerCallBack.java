@@ -1,6 +1,9 @@
 package com.example.telephony.service.asterisk;
 
 import com.example.telephony.domain.Caller;
+import com.example.telephony.repository.CallerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;

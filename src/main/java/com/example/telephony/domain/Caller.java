@@ -3,10 +3,7 @@ package com.example.telephony.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -22,4 +19,7 @@ public class Caller extends BaseEntity {
 
     @ManyToMany(mappedBy = "callers")
     private List<Dial> dials;
+
+    @OneToMany(mappedBy = "caller")
+    private List<CallStatistic> callStatistics;
 }
