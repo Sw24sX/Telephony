@@ -17,4 +17,7 @@ public class CallStatistic extends BaseEntity {
 
     @OneToMany(mappedBy = "callStatistic")
     private List<Digit> digits;
+
+    @Column(name = "channel")
+    private String channel;
 }

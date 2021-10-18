@@ -3,15 +3,15 @@ package com.example.telephony.service.asterisk;
 import ch.loway.oss.ari4java.generated.models.*;
 import ch.loway.oss.ari4java.tools.AriCallback;
 import ch.loway.oss.ari4java.tools.RestException;
+import org.springframework.stereotype.Component;
 
+@Component
 public abstract class MessageCallBack implements AriCallback<Message> {
     @Override
     public void onSuccess(Message result) {
-
         if (result instanceof StasisStart) {
             StasisStart stasisStart = (StasisStart)result;
             stasisStart(stasisStart);
-
 
         } else if (result instanceof ChannelDtmfReceived) {
             ChannelDtmfReceived channelDtmfReceived = (ChannelDtmfReceived)result;

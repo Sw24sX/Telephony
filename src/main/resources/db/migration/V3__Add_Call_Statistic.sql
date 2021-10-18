@@ -1,6 +1,7 @@
 create table "call_statistic" (
     "id" int8 NOT NULL PRIMARY KEY,
-    "caller_id" int8 NOT NULL REFERENCES "caller" ("id")
+    "caller_id" int8 NOT NULL REFERENCES "caller" ("id"),
+    "channel" varchar(100)
 );
 
 create table "call_statistic_digit" (
