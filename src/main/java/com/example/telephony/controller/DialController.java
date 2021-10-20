@@ -5,6 +5,7 @@ import com.example.telephony.dto.DialDto;
 import com.example.telephony.mapper.DialMapper;
 import com.example.telephony.service.DialService;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,22 +26,25 @@ public class DialController {
 
     @GetMapping
     public List<DialDto> getAll() {
-        return dialMapper.listDialToListDialDto(dialService.getAll());
+//        return dialMapper.listDialToListDialDto(dialService.getAll());
+        throw new NotImplementedException();
     }
 
     @GetMapping("{id}")
     public DialDto getById(@PathVariable("id") Long id) {
-        return dialMapper.dialToDialDto(dialService.getById(id));
+        throw new NotImplementedException();
+//        return dialMapper.dialToDialDto(dialService.getById(id));
     }
 
     @PostMapping
     public DialDto create(@RequestBody DialDto dialDto) {
         Dial dial = dialMapper.dialDtoToDial(dialDto);
-        return dialMapper.dialToDialDto(dialService.create(dial));
+        throw new NotImplementedException();
+//        return dialMapper.dialToDialDto(dialService.create(dial));
     }
 
     @PutMapping("{id}")
     public DialDto update(@RequestBody DialDto dialDto, @PathVariable("id") Long id) throws Exception {
-        throw new Exception("Todo");
+        throw new NotImplementedException();
     }
 }
