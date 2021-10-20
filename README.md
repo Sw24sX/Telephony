@@ -2,7 +2,7 @@
 
 <h2 name="context">Содержание</h2>
 
-* <a href="preface">Предисловие</a>
+* <a href="#preface">Предисловие</a>
 * <a href="#java_install"> Установка Java</a>
   - <a href="#java_intsall_windows"> Установка на Windows</a>
   - <a href="#java_install_linux"> Установка на Linux</a>
@@ -14,7 +14,7 @@
 * <a href="#run_server_commands">Команды для запуска</a>
 * <a href="#link_for_work">Ссылки для работы</a>
 
-<h2 name = "preface">Предисловие</h2>
+<h2 name = "preface">Предисловие</h2> <a href="#context">(к содержанию)</a>
 
 ----
 
@@ -23,7 +23,7 @@
 Если планируется запускать проект исключительно в IDE, то можно переместиться сразу на пункт <a href="#postgresql_install"> Установка PostgreSQL</a>
 
 
-<h2 name="java_install">Установка Java</h2>
+<h2 name="java_install">Установка Java</h2> <a href="#context">(к содержанию)</a>
 
 -------
 
@@ -37,11 +37,11 @@
 
  Для проверки можно в командной строке (Win+R -> cmd) исполнить команду `java -version`. Если все предыдущие шаги были проделаны верно, то в ответ должна вернуться информация о текущей версии Java.
 
-<h3 name="java_install_linux">Установка на Linux</h3>
+<h3 name="java_install_linux">Установка на Linux</h3> 
 
 будет в будущем
 
-<h2 name="maven_install">Установка Maven</h2>
+<h2 name="maven_install">Установка Maven</h2> <a href="#context">(к содержанию)</a>
 
 ------
 
@@ -60,7 +60,7 @@
 
 будет в будущем
 
-<h2 name = "postgresql_install">Установка PostgreSQL</h2>
+<h2 name = "postgresql_install">Установка PostgreSQL</h2> <a href="#context">(к содержанию)</a>
 
 -----
 
@@ -70,7 +70,7 @@
 
 Не обязательный пункт: в качестве удобного административного инструмента и алтернативы pgAdmin могу предложить DBeaver: <a href = "https://dbeaver.io/"> ссылка </a>. Для подключения необходимо нажать на соответсвующую кнопку, выбрать PostgreSQL, в поле "база данных" вводим `telephony`, пароль ставим тот, который указывали при установке. Остальные параметры можно оставить без изменений. Перед подключением рекомендуется нажать на "Тест подключения".
 
-<h2 name="change_project_settings">Настройка проекта</h2>
+<h2 name="change_project_settings">Настройка проекта</h2> <a href="#context">(к содержанию)</a>
 
 ----
 
@@ -81,7 +81,7 @@
 - `spring.datasource.url` - путь к базе данных. Если была создана база данных `telephony`, то менять нет необхоимости
 - `spring.datasource.username` и `spring.datasource.password` - имя пользователя и пароль, которые вы указывали при установке PostgreSQL. Если был установлен пароль `123`, а имя пользователя установлено по умолчанию, то изменения не требуются
 
-<h2 name = "run_server_commands">Команды для запуска</h2>
+<h2 name = "run_server_commands">Команды для запуска</h2> <a href="#context">(к содержанию)</a>
 
 ----
 
@@ -92,7 +92,7 @@
 - `mvn spring-boot:run` или `mvnw spring-boot:run`: команды эквивалентны друг другу. Для завершения работы сервера необхоимо будет нажать Ctrl+C.
 - `java -jar target/telephony-0.0.1-SNAPSHOT.jar`: запуск jar файла. Может появиться проблема, если проект не собран в исполняемый файл. Для исправления необходимо выполнить команду `mvn clean package`. Во время сборки maven запустит имеющиеся тесты. После этого можно повторить  предыдущую команду.
 
-<h2 name="link_for_work">Ссылки для работы</h2>
+<h2 name="link_for_work">Ссылки для работы</h2> <a href="#context">(к содержанию)</a>
 
 ----
 
