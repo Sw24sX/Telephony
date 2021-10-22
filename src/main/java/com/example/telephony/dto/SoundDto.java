@@ -6,5 +6,4 @@ import lombok.Data;
 public class SoundDto {
     private Long id;
     private String name;
-    private byte[] blob;
 }

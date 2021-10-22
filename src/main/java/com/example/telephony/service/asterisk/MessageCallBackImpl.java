@@ -1,10 +1,8 @@
 package com.example.telephony.service.asterisk;
 
 import ch.loway.oss.ari4java.ARI;
-import ch.loway.oss.ari4java.generated.models.ChannelDtmfReceived;
-import ch.loway.oss.ari4java.generated.models.ChannelHangupRequest;
-import ch.loway.oss.ari4java.generated.models.StasisEnd;
-import ch.loway.oss.ari4java.generated.models.StasisStart;
+import ch.loway.oss.ari4java.generated.models.*;
+import ch.loway.oss.ari4java.tools.AriCallback;
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.service.CallStatisticService;
 import org.springframework.stereotype.Component;
@@ -19,8 +17,18 @@ public class MessageCallBackImpl extends MessageCallBack {
 
     @Override
     public void stasisStart(StasisStart stasisStart) throws RestException {
-        String mediaUrl = "sound:http://localhost:8080/hello";
-        ari.channels().play(stasisStart.getChannel().getId(), mediaUrl).execute();
+        String mediaUrl = "sound:http://192.168.0.103:8080/hello.wav";
+        ari.channels().play(stasisStart.getChannel().getId(), mediaUrl).execute(new AriCallback<Playback>() {
+            @Override
+            public void onSuccess(Playback result) {
+                System.out.println(result + result.getState());
+            }
+
+            @Override
+            public void onFailure(RestException e) {
+                System.out.printf(e.getMessage());
+            }
+        });
         String.format(
                 "StasisStart - Channel: %s State: %s", stasisStart.getChannel().getId(), stasisStart.getChannel().getState());
     }
