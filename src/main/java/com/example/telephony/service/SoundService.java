@@ -1,6 +1,8 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.Sound;
+import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.SoundRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,8 @@ public class SoundService {
     }
 
     public Sound getById(Long id) {
-        return soundRepository.findById(id).orElse(null);
+        return soundRepository.findById(id).orElseThrow(()->
+                new EntityNotFoundException(String.format(ExceptionMessage.SOUND_NOT_FOUND.getMessage(), id)));
     }
 
     public List<Sound> getAll() {
