@@ -8,7 +8,9 @@ import ch.loway.oss.ari4java.tools.ARIException;
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.CallStatistic;
 import com.example.telephony.domain.Caller;
+import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.service.asterisk.MessageCallBack;
+import com.example.telephony.service.asterisk.MessageCallBackImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class AsteriskService {
 
     @Autowired
     public AsteriskService(CallStatisticService callStatisticService, CallerService callerService,
-                           Environment environment, MessageCallBack messageCallBack) throws ARIException {
+                           Environment environment) throws ARIException {
         this.callStatisticService = callStatisticService;
         String url = environment.getProperty("asterisk.url");
         String username = environment.getProperty("asterisk.username");
@@ -31,18 +33,26 @@ public class AsteriskService {
         this.app = environment.getProperty("asterisk.app");
         this.ari = ARI.build(url, app, username, password, AriVersion.IM_FEELING_LUCKY);
         this.actionEvents = ari.getActionImpl(ActionEvents.class);
-        this.actionEvents.eventWebsocket(this.app).execute(messageCallBack);
+        this.actionEvents.eventWebsocket(this.app).execute(new MessageCallBackImpl(callStatisticService, ari));
         this.callerService = callerService;
     }
 
-    public void callByCaller(Caller caller) throws RestException {
+    public void callByCaller(Caller caller) {
         String number = caller.getNumber();
         CallStatistic callStatistic = new CallStatistic();
         callStatistic.setCaller(caller);
         callStatistic = callStatisticService.create(callStatistic);
-        Channel channel = ari.channels().originate(number).setExtension(number).setApp(app).execute();
+        Channel channel = createChannel(number);
         callStatistic.setChannel(channel.getId());
         callStatisticService.update(callStatistic);
+    }
+
+    private Channel createChannel(String number) {
+        try {
+            return ari.channels().originate(number).setExtension(number).setApp(app).execute();
+        } catch (RestException e) {
+            throw new TelephonyException(e.getMessage());
+        }
     }
 
     public void callAll() throws RestException {
