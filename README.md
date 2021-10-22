@@ -80,6 +80,7 @@
 - `asterisk.username` и `asterisk.password` - логин и пароль для доступа к ARI (swagger) сервера asterisk
 - `spring.datasource.url` - путь к базе данных. Если была создана база данных `telephony`, то менять нет необхоимости
 - `spring.datasource.username` и `spring.datasource.password` - имя пользователя и пароль, которые вы указывали при установке PostgreSQL. Если был установлен пароль `123`, а имя пользователя установлено по умолчанию, то изменения не требуются
+- `server.address` - необходимо указать основной IPv4-адрес. Узнать его можно введя в консоль (Win+R -> cmd) команду `ipconfig /all`
 
 <h2 name = "run_server_commands">Команды для запуска</h2> <a href="#context">(к содержанию)</a>
 
