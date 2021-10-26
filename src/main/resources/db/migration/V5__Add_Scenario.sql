@@ -9,7 +9,7 @@ create table "scenario_sound" (
     "sound_id" int8 not null references "sound" ("id")
 );
 
-alter table "scenario"
+alter table "sound"
     add "path" varchar(1024) not null unique;
 
 alter table "sound" drop column "blob";

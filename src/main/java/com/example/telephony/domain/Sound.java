@@ -18,4 +18,8 @@ public class Sound extends BaseEntity {
     @NonNull
     @Column(name = "name")
     private String name;
+
+    @NonNull
+    @Column(name = "path")
+    private String path;
 }
