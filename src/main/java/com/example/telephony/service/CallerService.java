@@ -1,6 +1,8 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.Caller;
+import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.CallerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,8 @@ public class CallerService {
     }
 
     public Caller getById(Long id) {
-        return callerRepository.findById(id).orElse(null);
+        return callerRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(String.format(ExceptionMessage.CALLER_NOT_FOUND.getMessage(), id)));
     }
 
     public Caller create(Caller caller) {
