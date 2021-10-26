@@ -18,7 +18,4 @@ public class Sound extends BaseEntity {
     @NonNull
     @Column(name = "name")
     private String name;
-
-    @Column(name = "blob")
-    private byte[] blob;
 }

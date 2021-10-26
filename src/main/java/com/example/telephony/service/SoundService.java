@@ -5,6 +5,8 @@ import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.SoundRepository;
+import jdk.jshell.spi.ExecutionControl;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,10 +41,8 @@ public class SoundService {
     }
 
     private Sound createFile(MultipartFile multipartFile) throws IOException {
-        Sound sound = new Sound();
-        sound.setName(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        sound.setBlob(multipartFile.getBytes());
-        return soundRepository.save(sound);
+        //todo
+        throw new NotImplementedException();
     }
 
     public Sound update(Long id, Sound sound) {

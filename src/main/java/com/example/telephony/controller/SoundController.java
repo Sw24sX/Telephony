@@ -4,6 +4,7 @@ import com.example.telephony.domain.Sound;
 import com.example.telephony.dto.SoundDto;
 import com.example.telephony.mapper.SoundMapper;
 import com.example.telephony.service.SoundService;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -48,10 +49,7 @@ public class SoundController {
 
     @GetMapping("download/{id}")
     public ResponseEntity<byte[]> downloadSound(@PathVariable("id") Long id) {
-        Sound sound = soundService.getById(id);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
-        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(sound.getName()).build().toString());
-        return ResponseEntity.ok().headers(httpHeaders).body(sound.getBlob());
+        //todo
+        throw new NotImplementedException();
     }
 }
