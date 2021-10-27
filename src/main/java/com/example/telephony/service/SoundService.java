@@ -9,6 +9,7 @@ import jdk.jshell.spi.ExecutionControl;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class SoundService {
     }
 
     private Sound createFile(MultipartFile multipartFile) throws IOException {
-        //todo
+        CommonsMultipartFile commonsMultipartFile = (CommonsMultipartFile) multipartFile;
         throw new NotImplementedException();
     }
 
