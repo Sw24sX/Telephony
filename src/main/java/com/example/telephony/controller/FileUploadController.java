@@ -20,10 +20,10 @@ public class FileUploadController {
         this.fileStorageService = fileStorageService;
     }
 
-    @PostMapping()
-    public void upload(@RequestParam("file") MultipartFile file) {
-        fileStorageService.save(file);
-    }
+//    @PostMapping()
+//    public void upload(@RequestParam("file") MultipartFile file) {
+//        fileStorageService.save(file);
+//    }
 
     @GetMapping()
     public List<UploadFile> files() {

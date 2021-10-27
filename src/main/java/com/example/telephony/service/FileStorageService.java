@@ -41,15 +41,18 @@ public class FileStorageService {
         }
     }
 
-    public void save(MultipartFile multipartFile) {
+    public String save(MultipartFile multipartFile, String fileName) {
+        Path filePath = path.resolve(fileName);
         try {
-            String fileName = multipartFile.getOriginalFilename();
-            multipartFile.transferTo(path.resolve(fileName));
+            multipartFile.transferTo(filePath);
         } catch (IOException e) {
-            throw new TelephonyException("Could not store the file. Error:"+e.getMessage());
+            throw new TelephonyException("Could not store the file. Error:" + e.getMessage());
         }
+
+        return filePath.toString();
     }
 
+    //TODO: change method below
     public Resource load(String filename) {
         Path file = path.resolve(filename);
         try {
@@ -60,7 +63,7 @@ public class FileStorageService {
                 throw new RuntimeException("Could not read the file.");
             }
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Error:"+e.getMessage());
+            throw new RuntimeException("Error:" + e.getMessage());
         }
     }
 

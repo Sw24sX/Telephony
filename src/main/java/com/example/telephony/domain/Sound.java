@@ -22,4 +22,8 @@ public class Sound extends BaseEntity {
     @NonNull
     @Column(name = "path")
     private String path;
+
+    @NonNull
+    @Column(name = "uri")
+    private String uri;
 }

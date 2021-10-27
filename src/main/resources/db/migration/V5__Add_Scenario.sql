@@ -13,3 +13,6 @@ alter table "sound"
     add "path" varchar(1024) not null unique;
 
 alter table "sound" drop column "blob";
+
+alter table "sound"
+    add "uri" varchar(1024) not null unique;

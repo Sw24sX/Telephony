@@ -101,6 +101,6 @@
 ----
 
 - Инструкция по настройке сервера asterisk: <a href="https://github.com/Alllex202/asterisk_setup#readme">ссылка</a>
-- Документация по приложению (Swagger): `http://localhost:8080/swagger-ui.html#/`
+- Документация по приложению (Swagger): `http://*server.address*:8080/docApi/swagger-ui.html`, где `server.address` - свойство, настроенное пунктом выше
 - Ссылка на репозиторий web-приложения: <a href="#">ссылка</a>
 - Ссылка на репозиторий мобильного приложения: <a href="#">ссылка</a>
