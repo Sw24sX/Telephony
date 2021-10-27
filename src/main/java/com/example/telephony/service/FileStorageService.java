@@ -1,7 +1,7 @@
 package com.example.telephony.service;
 
+import com.example.telephony.common.Properties;
 import com.example.telephony.exception.TelephonyException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -16,7 +16,6 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 
@@ -25,10 +24,7 @@ public class FileStorageService {
     private final Path path;
 
     public FileStorageService(Environment environment) {
-        String defaultPath = "storage";
-        String propertyName = "file.storage.path";
-        String storagePath = environment.getProperty(propertyName);
-        path = Paths.get(storagePath != null ? storagePath : defaultPath);
+        path = Paths.get(Properties.getProperty(environment, "file.storage.path"));
     }
 
     public void init() {
@@ -48,16 +44,9 @@ public class FileStorageService {
     public void save(MultipartFile multipartFile) {
         try {
             String fileName = multipartFile.getOriginalFilename();
-            Path a = path.toAbsolutePath().resolve(multipartFile.getOriginalFilename());
-            InputStream stream = multipartFile.getInputStream();
-//            Files.createFile(multipartFile.getInputStream(), a, StandardCopyOption.REPLACE_EXISTING);
-            String filePath = new File("").getAbsolutePath();
-            Path p = Paths.get(filePath);
-//            multipartFile.transferTo(new File(a.toUri()));
             multipartFile.transferTo(path.resolve(fileName));
         } catch (IOException e) {
-//            throw new RuntimeException("Could not store the file. Error:"+e.getMessage());
-            throw new TelephonyException(e.getMessage());
+            throw new TelephonyException("Could not store the file. Error:"+e.getMessage());
         }
     }
 
@@ -83,9 +72,5 @@ public class FileStorageService {
         } catch (IOException e) {
             throw new RuntimeException("Could not load the files.");
         }
-    }
-
-    public void clear() {
-        FileSystemUtils.deleteRecursively(path.toFile());
     }
 }
