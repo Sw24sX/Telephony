@@ -7,13 +7,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FileUploadConfiguration implements CommandLineRunner {
+    private final FileStorageService fileStorageService;
 
-    @Autowired
-    FileStorageService fileStorageService;
+    public FileUploadConfiguration(FileStorageService fileStorageService) {
+        this.fileStorageService = fileStorageService;
+    }
 
     @Override
-    public void run(String... args) throws Exception {
-        fileStorageService.clear();
+    public void run(String... args) {
+//        fileStorageService.clear();
         fileStorageService.init();
     }
 }
