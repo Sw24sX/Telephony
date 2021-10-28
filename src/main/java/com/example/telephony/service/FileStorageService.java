@@ -1,22 +1,16 @@
 package com.example.telephony.service;
 
 import com.example.telephony.common.Properties;
+import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.stream.Stream;
 
 
 @Service
@@ -31,7 +25,7 @@ public class FileStorageService {
         try {
             createDirectoriesIfNotExist();
         } catch (IOException e) {
-            throw new RuntimeException("Could not initialize folder for upload!");
+            throw new TelephonyException(ExceptionMessage.NOT_INITIALIZE_FOLDER_FOR_UPLOAD.getMessage());
         }
     }
 
@@ -46,34 +40,9 @@ public class FileStorageService {
         try {
             multipartFile.transferTo(filePath);
         } catch (IOException e) {
-            throw new TelephonyException("Could not store the file. Error:" + e.getMessage());
+            throw new TelephonyException(String.format(ExceptionMessage.COULD_NOT_STORE_FILE.getMessage(), fileName));
         }
 
         return filePath.toString();
-    }
-
-    //TODO: change method below
-    public Resource load(String filename) {
-        Path file = path.resolve(filename);
-        try {
-            Resource resource = new UrlResource(file.toUri());
-            if(resource.exists() || resource.isReadable()){
-                return resource;
-            }else{
-                throw new RuntimeException("Could not read the file.");
-            }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Error:" + e.getMessage());
-        }
-    }
-
-    public Stream<Path> load() {
-        try {
-            return Files.walk(this.path,1)
-                    .filter(path -> !path.equals(this.path))
-                    .map(this.path::relativize);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not load the files.");
-        }
     }
 }

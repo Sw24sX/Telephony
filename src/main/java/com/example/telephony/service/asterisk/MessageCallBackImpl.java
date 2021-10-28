@@ -17,18 +17,7 @@ public class MessageCallBackImpl extends MessageCallBack {
 
     @Override
     public void stasisStart(StasisStart stasisStart) throws RestException {
-        String mediaUrl = "sound:http://192.168.0.103:8080/hello.wav";
-        ari.channels().play(stasisStart.getChannel().getId(), mediaUrl).execute(new AriCallback<Playback>() {
-            @Override
-            public void onSuccess(Playback result) {
-                System.out.println(result + result.getState());
-            }
 
-            @Override
-            public void onFailure(RestException e) {
-                System.out.printf(e.getMessage());
-            }
-        });
         String.format(
                 "StasisStart - Channel: %s State: %s", stasisStart.getChannel().getId(), stasisStart.getChannel().getState());
     }
