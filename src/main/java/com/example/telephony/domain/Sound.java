@@ -7,7 +7,9 @@ import lombok.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -26,4 +28,7 @@ public class Sound extends BaseEntity {
     @NonNull
     @Column(name = "uri")
     private String uri;
+
+    @ManyToMany(mappedBy = "sounds")
+    private List<Scenario> scenarios;
 }
