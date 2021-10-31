@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-fileStorage/**
+file.storage/**
 
 ### STS ###
 .apt_generated
