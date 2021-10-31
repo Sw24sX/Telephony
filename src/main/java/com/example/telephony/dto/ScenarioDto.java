@@ -2,9 +2,11 @@ package com.example.telephony.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class SoundDto {
+public class ScenarioDto {
     private Long id;
     private String name;
-    private String uri;
+    private List<SoundDto> sounds;
 }

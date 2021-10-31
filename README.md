@@ -13,6 +13,7 @@
 * <a href="#change_project_settings"> Настройка проекта </a>
 * <a href="#run_server_commands">Команды для запуска</a>
 * <a href="#link_for_work">Ссылки для работы</a>
+* <a href="#info">Заметки и полезная информация</a>
 
 <h2 name = "preface">Предисловие</h2> <a href="#context">(к содержанию)</a>
 
@@ -76,11 +77,14 @@
 
 Настроки расположены по пути `*папка проекта*\src\main\resources\application.properties`. 
 
+Обязательно:
 - `asterisk.url` - необходимо изменить ip на данные вашего сервера asterisk
 - `asterisk.username` и `asterisk.password` - логин и пароль для доступа к ARI (swagger) сервера asterisk
+- `server.address` - необходимо указать основной IPv4-адрес. Узнать его можно введя в консоль (Win+R -> cmd) команду `ipconfig /all`
+
+Если была установка с параметрами НЕ по умолчанию:
 - `spring.datasource.url` - путь к базе данных. Если была создана база данных `telephony`, то менять нет необхоимости
 - `spring.datasource.username` и `spring.datasource.password` - имя пользователя и пароль, которые вы указывали при установке PostgreSQL. Если был установлен пароль `123`, а имя пользователя установлено по умолчанию, то изменения не требуются
-- `server.address` - необходимо указать основной IPv4-адрес. Узнать его можно введя в консоль (Win+R -> cmd) команду `ipconfig /all`
 
 <h2 name = "run_server_commands">Команды для запуска</h2> <a href="#context">(к содержанию)</a>
 
@@ -98,6 +102,12 @@
 ----
 
 - Инструкция по настройке сервера asterisk: <a href="https://github.com/Alllex202/asterisk_setup#readme">ссылка</a>
-- Документация по приложению (Swagger): `http://localhost:8080/swagger-ui.html#/`
+- Документация по приложению (Swagger): `http://*server.address*:8080/docApi/swagger-ui.html`, где `server.address` - свойство, настроенное пунктом выше
 - Ссылка на репозиторий web-приложения: <a href="#">ссылка</a>
 - Ссылка на репозиторий мобильного приложения: <a href="#">ссылка</a>
+
+<h2 name= "info">Заметки и полезная информация</h2> <a href="#context">(к содержанию)</a>
+
+----
+
+- здесь скоро появится информация
