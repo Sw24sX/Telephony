@@ -51,6 +51,6 @@ public class AsteriskService {
     public void callByCallerWithScenario(Caller caller, Scenario scenario) {
         ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ari);
         Channel channel = createChannel(caller.getNumber());
-        scenarioManager.addCallScenario(channel.getId(), scenarioStep);
+        scenarioManager.addCallScenario(channel, scenarioStep);
     }
 }
