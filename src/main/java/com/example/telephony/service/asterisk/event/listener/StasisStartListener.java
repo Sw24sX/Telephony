@@ -36,22 +36,5 @@ public class StasisStartListener implements ApplicationListener<AsteriskEvent> {
         String channelId = stasisStart.getChannel().getId();
         ScenarioStep scenarioStep = scenarioManager.getFirstStep(channelId);
         scenarioStep.execute(stasisStart.getChannel());
-
-//        String mediaUrl = String.format("sound:%s", "http://192.168.0.103:8080/sounds/static/hello.wav");
-//        try {
-//            ari.channels().play(stasisStart.getChannel().getId(), mediaUrl).execute(new AriCallback<Playback>() {
-//                @Override
-//                public void onSuccess(Playback result) {
-//                    System.out.println(result + result.getState());
-//                }
-//
-//                @Override
-//                public void onFailure(RestException e) {
-//                    System.out.println(e.getMessage());
-//                }
-//            });
-//        } catch (RestException e) {
-//            throw new TelephonyException(e.getMessage());
-//        }
     }
 }
