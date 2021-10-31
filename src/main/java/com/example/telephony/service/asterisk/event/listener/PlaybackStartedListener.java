@@ -1,7 +1,8 @@
-package com.example.telephony.service.asterisk;
+package com.example.telephony.service.asterisk.event.listener;
 
 import ch.loway.oss.ari4java.generated.models.Event;
 import ch.loway.oss.ari4java.generated.models.PlaybackStarted;
+import com.example.telephony.service.asterisk.AsteriskEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 

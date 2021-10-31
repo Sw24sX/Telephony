@@ -18,4 +18,7 @@ public class Scenario extends BaseEntity {
     @JoinTable(name = "scenario_sound", joinColumns = @JoinColumn(name = "scenario_id"),
             inverseJoinColumns = @JoinColumn(name = "sound_id"))
     private List<Sound> sounds;
+
+    @OneToMany(mappedBy = "scenario")
+    private List<CallChannel> callChannels;
 }

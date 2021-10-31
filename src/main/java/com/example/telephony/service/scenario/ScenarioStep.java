@@ -5,4 +5,5 @@ import ch.loway.oss.ari4java.generated.models.Channel;
 public interface ScenarioStep {
     void execute(Channel channel);
     void setNext(ScenarioStep next);
+    ScenarioStep getNext();
 }

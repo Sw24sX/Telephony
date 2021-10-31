@@ -15,8 +15,14 @@ public class MessageCallBack implements AriCallback<Message> {
 
     @Override
     public void onSuccess(Message result) {
-        if(result instanceof Event)
-        asteriskEventPublisher.publishAsteriskEvent((Event) result);
+        System.out.println(result.getType());
+        if(result instanceof Dial){
+            Dial dial = (Dial) result;
+            System.out.println(dial.getForwarded().getId());
+        }
+        if(result instanceof Event){
+            asteriskEventPublisher.publishAsteriskEvent((Event) result);
+        }
 //
 //        if (result instanceof StasisStart) {
 //            StasisStart stasisStart = (StasisStart)result;

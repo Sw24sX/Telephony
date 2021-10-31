@@ -22,4 +22,7 @@ public class Caller extends BaseEntity {
 
     @OneToMany(mappedBy = "caller")
     private List<CallStatistic> callStatistics;
+
+    @OneToMany(mappedBy = "caller")
+    private List<CallChannel> callChannels;
 }

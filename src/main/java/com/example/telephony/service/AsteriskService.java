@@ -1,20 +1,17 @@
 package com.example.telephony.service;
 
 import ch.loway.oss.ari4java.ARI;
-import ch.loway.oss.ari4java.AriVersion;
-import ch.loway.oss.ari4java.generated.actions.ActionEvents;
 import ch.loway.oss.ari4java.generated.models.Channel;
-import ch.loway.oss.ari4java.tools.ARIException;
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.CallStatistic;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.Scenario;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.service.asterisk.ARIService;
-import com.example.telephony.service.asterisk.AsteriskEventPublisher;
-import com.example.telephony.service.scenario.ScenarioCall;
+import com.example.telephony.service.scenario.ScenarioBuilder;
+import com.example.telephony.service.scenario.ScenarioManager;
+import com.example.telephony.service.scenario.ScenarioStep;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,12 +19,15 @@ public class AsteriskService {
     private final String app;
     private final ARI ari;
     private final CallStatisticService callStatisticService;
+    private final ScenarioManager scenarioManager;
 
     @Autowired
-    public AsteriskService(CallStatisticService callStatisticService, ARIService ariService) {
+    public AsteriskService(CallStatisticService callStatisticService, ARIService ariService,
+                           ScenarioManager scenarioManager) {
         this.callStatisticService = callStatisticService;
         this.ari = ariService.getAri();
         this.app = ariService.getApp();
+        this.scenarioManager = scenarioManager;
     }
 
     public void callByCaller(Caller caller) {
@@ -49,8 +49,8 @@ public class AsteriskService {
     }
 
     public void callByCallerWithScenario(Caller caller, Scenario scenario) {
-        ScenarioCall scenarioCall = ScenarioCall.build(scenario, ari);
+        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ari);
         Channel channel = createChannel(caller.getNumber());
-        scenarioCall.start(channel);
+        scenarioManager.addCallScenario(channel.getId(), scenarioStep);
     }
 }

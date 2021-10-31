@@ -1,5 +1,6 @@
-package com.example.telephony.service.asterisk;
+package com.example.telephony.service.asterisk.event.listener;
 
+import com.example.telephony.service.asterisk.AsteriskEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
