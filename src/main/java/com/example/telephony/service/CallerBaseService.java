@@ -3,24 +3,28 @@ package com.example.telephony.service;
 import ch.loway.oss.ari4java.tools.ARIException;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
+import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.exception.CallersAlreadyCreatedException;
+import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
+import com.example.telephony.repository.CallerRepository;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CallerBaseService {
     private final CallerBaseRepository callerBaseRepository;
     private final CallerService callerService;
+    private final CallerRepository callerRepository;
 
-    public CallerBaseService(CallerBaseRepository callerBaseRepository, CallerService callerService, Environment environment) throws ARIException {
+    public CallerBaseService(CallerBaseRepository callerBaseRepository,
+                             CallerService callerService, CallerRepository callerRepository) {
         this.callerBaseRepository = callerBaseRepository;
         this.callerService = callerService;
-    }
-
-    public void startDialing() {
-        //TODO
+        this.callerRepository = callerRepository;
     }
 
     public List<CallersBase> getAll() {
@@ -32,25 +36,34 @@ public class CallerBaseService {
     }
 
     public CallersBase create(CallersBase callersBase) {
+        List<Caller> alreadyCreates = callerRepository.findAllByNumberIn(
+                getNumbersFromCallers(callersBase.getCallers()));
+        if (!alreadyCreates.isEmpty()) {
+            throw new TelephonyException(ExceptionMessage.CALLERS_ALREADY_CREATED.getMessage());
+        }
+        callersBase.setCallers(callerRepository.saveAll(callersBase.getCallers()));
         return callerBaseRepository.save(callersBase);
+    }
+
+    private List<String> getNumbersFromCallers(List<Caller> callers) {
+        return callers.stream().map(Caller::getNumber).collect(Collectors.toList());
     }
 
     public CallersBase update(Long id, CallersBase callersBase) {
-        //TODO save new numbers
         CallersBase callersBaseDb = getById(id);
+
+        List<Caller> alreadyCreates = callerRepository.findAllByNumberIn(
+                getNumbersFromCallers(callersBase.getCallers()));
+        if (alreadyCreates.size() != callersBase.getCallers().size()) {
+            throw new TelephonyException(ExceptionMessage.CALLERS_NOT_CREATED.getMessage());
+        }
         callersBase.setId(callersBaseDb.getId());
+        callersBase.setCallers(alreadyCreates);
         return callerBaseRepository.save(callersBase);
     }
 
-    public CallersBase addCallerToDial(Long dialId, Long callerId) {
-        CallersBase callersBase = getById(dialId);
-        Caller caller = callerService.getById(callerId);
-        callersBase.getCallers().add(caller);
-        return callerBaseRepository.save(callersBase);
-    }
-
-    public CallersBase removeFromDial(CallersBase callersBase, Caller caller) {
-        //TODO
-        return null;
+    public void deleteCallersBase(Long id) {
+        CallersBase callersBase = getById(id);
+        callerBaseRepository.delete(callersBase);
     }
 }

@@ -18,16 +18,6 @@ public class CallersBase extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @NotNull
-    @Column(name = "dialing-start")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dialStart;
-
-    @NotNull
-    @Column(name = "dialing-end")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dialEnd;
-
     @ManyToMany
     @JoinTable(name = "caller_base_callers", joinColumns = @JoinColumn(name = "caller_base_id"),
             inverseJoinColumns = @JoinColumn(name = "caller_id"))
