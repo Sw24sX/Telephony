@@ -12,12 +12,10 @@ public class ScenarioStepImpl implements ScenarioStep{
     private final ARI ari;
     private final Sound sound;
     private ScenarioStep next;
-    private boolean isFinished;
 
     public ScenarioStepImpl(ARI ari, Sound sound) {
         this.ari = ari;
         this.sound = sound;
-        this.isFinished = false;
     }
 
     @Override

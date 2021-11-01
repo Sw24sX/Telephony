@@ -104,7 +104,7 @@
 - Инструкция по настройке сервера asterisk: <a href="https://github.com/Alllex202/asterisk_setup#readme">ссылка</a>
 - Документация по приложению (Swagger): `http://*server.address*:8080/docApi/swagger-ui.html`, где `server.address` - свойство, настроенное пунктом выше
 - Ссылка на репозиторий web-приложения: <a href="#">ссылка</a>
-- Ссылка на репозиторий мобильного приложения: <a href="#">ссылка</a>
+- Ссылка на репозиторий мобильного приложения: <a href="https://github.com/dekabrsky/ITalks">ссылка</a>
 
 <h2 name= "info">Заметки и полезная информация</h2> <a href="#context">(к содержанию)</a>
 
