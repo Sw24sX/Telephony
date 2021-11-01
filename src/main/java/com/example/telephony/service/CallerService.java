@@ -1,11 +1,9 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.Caller;
-import com.example.telephony.domain.Scenario;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.CallerRepository;
-import com.example.telephony.service.scenario.ScenarioManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +12,10 @@ import java.util.List;
 @Service
 public class CallerService {
     private final CallerRepository callerRepository;
-    private final ScenarioService scenarioService;
-    private final AsteriskService asteriskService;
-    private final ScenarioManager scenarioManager;
 
     @Autowired
-    public CallerService(CallerRepository callerRepository, ScenarioService scenarioService,
-                         AsteriskService asteriskService, ScenarioManager scenarioManager) {
+    public CallerService(CallerRepository callerRepository) {
         this.callerRepository = callerRepository;
-        this.scenarioService = scenarioService;
-        this.asteriskService = asteriskService;
-        this.scenarioManager = scenarioManager;
     }
 
     public List<Caller> getAll() {
@@ -53,11 +44,5 @@ public class CallerService {
     public void delete(Long id) {
         Caller caller = getById(id);
         callerRepository.delete(caller);
-    }
-
-    public void callToCallerWithScenario(Long callerId, Long scenarioId) {
-        Caller caller = getById(callerId);
-        Scenario scenario = scenarioService.getById(scenarioId);
-        asteriskService.callByCallerWithScenario(caller, scenario);
     }
 }
