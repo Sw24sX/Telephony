@@ -63,11 +63,4 @@ public class CallerController {
     public void delete(@ApiParam("Caller id") @PathVariable("id") Long id) {
         callerService.delete(id);
     }
-
-    @PostMapping("call/{caller_id}/with-scenario/{scenario_id}")
-    @ApiOperation("Start scenario for caller")
-    public void callById(@ApiParam("Caller id") @PathVariable("caller_id") Long callerId,
-                         @ApiParam("Scenario id") @PathVariable("scenario_id") Long scenarioId) {
-        callerService.callToCallerWithScenario(callerId, scenarioId);
-    }
 }
