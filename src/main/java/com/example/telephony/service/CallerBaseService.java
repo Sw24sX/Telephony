@@ -1,14 +1,11 @@
 package com.example.telephony.service;
 
-import ch.loway.oss.ari4java.tools.ARIException;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.enums.ExceptionMessage;
-import com.example.telephony.exception.CallersAlreadyCreatedException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
 import com.example.telephony.repository.CallerRepository;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
