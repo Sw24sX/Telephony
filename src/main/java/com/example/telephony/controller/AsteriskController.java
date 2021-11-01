@@ -3,9 +3,7 @@ package com.example.telephony.controller;
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.service.AsteriskService;
 import com.example.telephony.service.CallerService;
-import jdk.jshell.spi.ExecutionControl;
 import org.apache.commons.lang3.NotImplementedException;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class AsteriskController {
     private final AsteriskService asteriskService;
     private final CallerService callerService;
-    private final DialController dialController;
+    private final CallerBaseController callerBaseController;
 
     @Autowired
     public AsteriskController(AsteriskService asteriskService, CallerService callerService,
-                              DialController dialController) {
+                              CallerBaseController callerBaseController) {
         this.asteriskService = asteriskService;
         this.callerService = callerService;
-        this.dialController = dialController;
+        this.callerBaseController = callerBaseController;
     }
 
     @PostMapping("call/caller/{id}")

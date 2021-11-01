@@ -18,7 +18,7 @@ public class Caller extends BaseEntity {
     private String number;
 
     @ManyToMany(mappedBy = "callers")
-    private List<Dial> dials;
+    private List<CallersBase> callersBases;
 
     @OneToMany(mappedBy = "caller")
     private List<CallStatistic> callStatistics;

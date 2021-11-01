@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class DialDto {
+public class CallersBaseDto {
     private Long id;
     private LocalDateTime dialStart;
     private LocalDateTime dialEnd;
