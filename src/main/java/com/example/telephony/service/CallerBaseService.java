@@ -10,6 +10,8 @@ import com.example.telephony.service.file.FileParseService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -69,9 +71,17 @@ public class CallerBaseService {
     }
 
     public CallersBase uploadFromExelFile(MultipartFile multipartFile, String name){
-        CallersBase callersBase = fileParseService.parseExelToCallersBase(multipartFile);
+        CallersBase callersBase = fileParseService.parseExelToCallersBase(getInputStream(multipartFile));
         callersBase.setCallers(callerRepository.saveAll(callersBase.getCallers()));
         callersBase.setName(name);
         return callerBaseRepository.save(callersBase);
+    }
+
+    private InputStream getInputStream(MultipartFile multipartFile) {
+        try {
+            return multipartFile.getInputStream();
+        } catch (IOException e) {
+            throw new TelephonyException(e.getMessage());
+        }
     }
 }

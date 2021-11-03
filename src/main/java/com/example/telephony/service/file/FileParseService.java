@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @Service
@@ -20,8 +21,8 @@ public class FileParseService {
     private final static Set<String> PHONE_COLUMN_NAME =
             new HashSet<>(Lists.newArrayList("number", "phone number", "телефон", "номер телефона", "phone"));
 
-    public CallersBase parseExelToCallersBase(MultipartFile multipartFile) {
-        Workbook workbook = createWorkbook(multipartFile);
+    public CallersBase parseExelToCallersBase(InputStream inputStream) {
+        Workbook workbook = createWorkbook(inputStream);
         int firstSheetNumber = 0;
         Sheet sheet = workbook.getSheetAt(firstSheetNumber);
         checkFormatCorrected(sheet);
@@ -29,9 +30,9 @@ public class FileParseService {
         return getCallersBase(sheet, columns);
     }
 
-    private Workbook createWorkbook(MultipartFile multipartFile) {
+    private Workbook createWorkbook(InputStream inputStream) {
         try {
-            return new XSSFWorkbook(multipartFile.getInputStream());
+            return new XSSFWorkbook(inputStream);
         } catch (IOException e) {
             throw new TelephonyException(e.getMessage());
         }
