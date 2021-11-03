@@ -10,4 +10,5 @@ public class CallersBaseDto {
     private Long id;
     private String name;
     private List<CallerDto> callers;
+    private String[] variablesList;
 }

@@ -64,7 +64,7 @@ public class CallerBaseController {
     @ApiOperation("Upload callers base from exel file")
     public CallersBaseDto uploadFromExel(@ApiParam("Callers base in exel file") @RequestParam("file") MultipartFile multipartFile,
                                          @ApiParam("Name base") @RequestParam("name") String name) {
-        callerBaseService.uploadFromExelFile(multipartFile, name);
-        return null;
+        CallersBase callersBase = callerBaseService.uploadFromExelFile(multipartFile, name);
+        return callersBaseMapper.callersBaseToCallersBaseDto(callersBase);
     }
 }

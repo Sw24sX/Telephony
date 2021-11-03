@@ -3,6 +3,7 @@ package com.example.telephony.domain;
 import com.example.telephony.converter.VariablesJsonConverter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +20,11 @@ import java.util.Map;
 @Entity
 @Data
 @Table(name = "caller_base")
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@TypeDefs({
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class),
+        @TypeDef(name = "string-array", typeClass = StringArrayType.class)
+})
+
 public class CallersBase extends BaseEntity {
     @NotNull
     @Column(name = "name")
@@ -30,8 +35,7 @@ public class CallersBase extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "caller_id"))
     private List<Caller> callers;
 
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", name = "variables")
-//    @Convert(converter = VariablesJsonConverter.class)
-    private Map<String, String> variables;
+    @Type(type = "string-array")
+    @Column(name = "variables_list", columnDefinition = "text[]")
+    private String[] variablesList;
 }
