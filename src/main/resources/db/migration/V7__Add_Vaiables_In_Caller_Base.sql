@@ -1,1 +1,1 @@
-alter table "caller_base" add "variables" json;
+alter table "caller_base" add "variables" jsonb;

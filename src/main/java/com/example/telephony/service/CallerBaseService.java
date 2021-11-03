@@ -78,7 +78,13 @@ public class CallerBaseService {
         Sheet sheet = workbook.getSheetAt(0);
         List<String> columns = getColumnsName(sheet);
         List<Map<String, String>> data = getData(sheet, columns);
-        int a = 1;
+
+        Map<String, String> variables = data.get(0);
+        CallersBase callersBase = new CallersBase();
+        callersBase.setName(name);
+        callersBase.setVariables(variables);
+        CallersBase result = callerBaseRepository.save(callersBase);
+
         return null;
     }
 

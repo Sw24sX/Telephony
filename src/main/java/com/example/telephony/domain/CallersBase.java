@@ -3,8 +3,12 @@ package com.example.telephony.domain;
 import com.example.telephony.converter.VariablesJsonConverter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +19,7 @@ import java.util.Map;
 @Entity
 @Data
 @Table(name = "caller_base")
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class CallersBase extends BaseEntity {
     @NotNull
     @Column(name = "name")
@@ -25,7 +30,8 @@ public class CallersBase extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "caller_id"))
     private List<Caller> callers;
 
-//    @Column(name = "variables")
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb", name = "variables")
 //    @Convert(converter = VariablesJsonConverter.class)
-//    private Map<String, String> variables;
+    private Map<String, String> variables;
 }
