@@ -24,12 +24,9 @@ public class FileParseService {
         Workbook workbook = createWorkbook(multipartFile);
         int firstSheetNumber = 0;
         Sheet sheet = workbook.getSheetAt(firstSheetNumber);
-        List<String> columns = getColumnsName(sheet);
-        List<Caller> callers = getCallers(sheet, columns);
-        CallersBase callersBase = new CallersBase();
-        callersBase.setVariablesList(columns.toArray(new String[0]));
-        callersBase.setCallers(callers);
-        return callersBase;
+        checkFormatCorrected(sheet);
+        List<String> columns = getCorrectColumnsName(sheet);
+        return getCallersBase(sheet, columns);
     }
 
     private Workbook createWorkbook(MultipartFile multipartFile) {
@@ -40,27 +37,47 @@ public class FileParseService {
         }
     }
 
-    private List<String> getColumnsName(Sheet sheet) {
+    private void checkFormatCorrected(Sheet sheet) {
+        int lastRowNum = sheet.getLastRowNum();
+        if (lastRowNum < 2) {
+            throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
+        }
+    }
+
+    private List<String> getCorrectColumnsName(Sheet sheet) {
         List<String> result = new ArrayList<>();
         for (Cell cell : sheet.getRow(sheet.getFirstRowNum())) {
-            if(cell.getCellType() == CellType._NONE) {
-                break;
-            }
-            if (cell.getCellType() != CellType.STRING) {
-                throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
-            }
-            String cellValue = getValueCell(cell);
-            result.add(cellValue);
+            result.add(getColumnCellName(cell));
         }
 
         checkCorrectColumnNames(result);
         return result;
     }
 
+    private String getColumnCellName(Cell cell) {
+        if (cell.getCellType() != CellType.STRING) {
+            throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
+        }
+        String cellValue = cell.getStringCellValue().trim();
+        if (!cellValueIsValid(cellValue)) {
+            throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
+        }
+
+        return cellValue;
+    }
+
     private void checkCorrectColumnNames(List<String> columns) {
         if (columns.isEmpty()) {
             throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
         }
+    }
+
+    private CallersBase getCallersBase(Sheet sheet, List<String> columns) {
+        List<Caller> callers = getCallers(sheet, columns);
+        CallersBase callersBase = new CallersBase();
+        callersBase.setVariablesList(columns.toArray(new String[0]));
+        callersBase.setCallers(callers);
+        return callersBase;
     }
 
     private List<Caller> getCallers(Sheet sheet, List<String> columnsNames) {
@@ -108,6 +125,10 @@ public class FileParseService {
     private RowParseResult readRow(Row row, List<String> columnsNames) {
         Map<String, String> variables = new HashMap<>();
         boolean isValid = true;
+        int countCellsInRow = row.getLastCellNum();
+        if(countCellsInRow > columnsNames.size()) {
+            throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
+        }
         for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
             Cell cell = row.getCell(i);
             String cellValue = getValueCell(cell);
@@ -120,6 +141,10 @@ public class FileParseService {
     }
 
     private String getValueCell(Cell cell) {
+        if (cell == null) {
+            return NOT_VALID_VALUE;
+        }
+
         switch (cell.getCellType()) {
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
