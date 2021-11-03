@@ -6,6 +6,7 @@ import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.SoundRepository;
+import com.example.telephony.service.file.FileStorageService;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class SoundService {

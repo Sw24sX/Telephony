@@ -1,6 +1,6 @@
 package com.example.telephony.configuration;
 
-import com.example.telephony.service.FileStorageService;
+import com.example.telephony.service.file.FileStorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
