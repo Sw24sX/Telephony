@@ -75,14 +75,15 @@
 
 ----
 
-Настроки расположены по пути `*папка проекта*\src\main\resources\application.properties`. 
+Настроки расположены по пути `*папка проекта*\src\main\resources\evironment.properties`. 
+Если файл `environment.properties`, то необходимо содать его.
 
-Обязательно:
+Обязательно (в файле `environment.properties`):
 - `asterisk.url` - необходимо изменить ip на данные вашего сервера asterisk
 - `asterisk.username` и `asterisk.password` - логин и пароль для доступа к ARI (swagger) сервера asterisk
 - `server.address` - необходимо указать основной IPv4-адрес. Узнать его можно введя в консоль (Win+R -> cmd) команду `ipconfig /all`
 
-Если была установка с параметрами НЕ по умолчанию:
+Если была установка с параметрами НЕ по умолчанию (в файле `application.properties`):
 - `spring.datasource.url` - путь к базе данных. Если была создана база данных `telephony`, то менять нет необхоимости
 - `spring.datasource.username` и `spring.datasource.password` - имя пользователя и пароль, которые вы указывали при установке PostgreSQL. Если был установлен пароль `123`, а имя пользователя установлено по умолчанию, то изменения не требуются
 
