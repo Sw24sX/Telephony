@@ -1,4 +1,4 @@
-package com.example.telephony.service;
+package com.example.telephony.service.file;
 
 import com.example.telephony.common.Properties;
 import com.example.telephony.enums.ExceptionMessage;

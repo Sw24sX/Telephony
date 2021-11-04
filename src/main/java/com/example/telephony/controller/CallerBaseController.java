@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,14 +40,14 @@ public class CallerBaseController {
     }
 
     @PostMapping
-    @ApiParam("Create new callers base with new callers only")
+    @ApiOperation("Create new callers base with new callers only")
     public CallersBaseDto create(@ApiParam("Callers base data") @RequestBody CallersBaseDto callersBaseDto) {
         CallersBase callersBase = callersBaseMapper.callersBaseDtoToCallersBase(callersBaseDto);
         return callersBaseMapper.callersBaseToCallersBaseDto(callerBaseService.create(callersBase));
     }
 
     @PutMapping("{id}")
-    @ApiParam("Update exists callers base. Can add exists callers")
+    @ApiOperation("Update exists callers base. Can add exists callers")
     public CallersBaseDto update(@ApiParam("Callers base data") @RequestBody CallersBaseDto callersBaseDto,
                                  @ApiParam("Callers base id") @PathVariable("id") Long id) {
         CallersBase callersBase = callersBaseMapper.callersBaseDtoToCallersBase(callersBaseDto);
@@ -54,8 +55,16 @@ public class CallerBaseController {
     }
 
     @DeleteMapping("{id}")
-    @ApiParam("Delete callers base")
+    @ApiOperation("Delete callers base")
     public void delete(@ApiParam("Callers base id") @PathVariable("id") Long id) {
         callerBaseService.deleteCallersBase(id);
+    }
+
+    @PostMapping("upload/exel")
+    @ApiOperation("Upload callers base from exel file")
+    public CallersBaseDto uploadFromExel(@ApiParam("Callers base in exel file") @RequestParam("file") MultipartFile multipartFile,
+                                         @ApiParam("Name base") @RequestParam("name") String name) {
+        CallersBase callersBase = callerBaseService.uploadFromExelFile(multipartFile, name);
+        return callersBaseMapper.callersBaseToCallersBaseDto(callersBase);
     }
 }

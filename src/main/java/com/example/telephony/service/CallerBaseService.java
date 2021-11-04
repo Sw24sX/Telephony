@@ -3,12 +3,18 @@ package com.example.telephony.service;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
 import com.example.telephony.repository.CallerRepository;
+import com.example.telephony.service.file.FileParseService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import javax.swing.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,12 +22,14 @@ public class CallerBaseService {
     private final CallerBaseRepository callerBaseRepository;
     private final CallerService callerService;
     private final CallerRepository callerRepository;
+    private final FileParseService fileParseService;
 
-    public CallerBaseService(CallerBaseRepository callerBaseRepository,
-                             CallerService callerService, CallerRepository callerRepository) {
+    public CallerBaseService(CallerBaseRepository callerBaseRepository, CallerService callerService,
+                             CallerRepository callerRepository, FileParseService fileParseService) {
         this.callerBaseRepository = callerBaseRepository;
         this.callerService = callerService;
         this.callerRepository = callerRepository;
+        this.fileParseService = fileParseService;
     }
 
     public List<CallersBase> getAll() {
@@ -29,7 +37,11 @@ public class CallerBaseService {
     }
 
     public CallersBase getById(Long id) {
-        return callerBaseRepository.findById(id).orElse(null);
+        CallersBase callersBase = callerBaseRepository.findById(id).orElse(null);
+        if (callersBase == null) {
+            throw new EntityNotFoundException(String.format(ExceptionMessage.CALLERS_BASE_NOT_FOUND.getMessage(), id));
+        }
+        return callersBase;
     }
 
     public CallersBase create(CallersBase callersBase) {
@@ -62,5 +74,20 @@ public class CallerBaseService {
     public void deleteCallersBase(Long id) {
         CallersBase callersBase = getById(id);
         callerBaseRepository.delete(callersBase);
+    }
+
+    public CallersBase uploadFromExelFile(MultipartFile multipartFile, String name){
+        CallersBase callersBase = fileParseService.parseExelToCallersBase(getInputStream(multipartFile));
+        callersBase.setCallers(callerRepository.saveAll(callersBase.getCallers()));
+        callersBase.setName(name);
+        return callerBaseRepository.save(callersBase);
+    }
+
+    private InputStream getInputStream(MultipartFile multipartFile) {
+        try {
+            return multipartFile.getInputStream();
+        } catch (IOException e) {
+            throw new TelephonyException(e.getMessage());
+        }
     }
 }
