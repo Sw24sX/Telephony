@@ -41,13 +41,17 @@ public class FileParseService {
         int firstRowNum = sheet.getFirstRowNum();
         int lastRowNum = sheet.getLastRowNum();
         if (lastRowNum - firstRowNum + 1 < 2) {
-            throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
+            throwNotCorrectFormat(FileParsingExceptionMessage.EMPTY_DATA.getMessage());
         }
     }
 
     private List<String> getCorrectColumnsName(Sheet sheet) {
         List<String> result = new ArrayList<>();
-        for (Cell cell : sheet.getRow(sheet.getFirstRowNum())) {
+        Row firstRow = sheet.getRow(sheet.getFirstRowNum());
+        int firstCellNum = 0;
+        int lastCellNum= firstRow.getLastCellNum();
+        for (int i = firstCellNum; i < lastCellNum; i++) {
+            Cell cell = firstRow.getCell(i);
             result.add(getColumnCellName(cell));
         }
 
@@ -56,12 +60,15 @@ public class FileParseService {
     }
 
     private String getColumnCellName(Cell cell) {
+        if (cell == null) {
+            throwNotCorrectFormat(FileParsingExceptionMessage.EMPTY_CELL_IN_HEADER.getMessage());
+        }
         if (cell.getCellType() != CellType.STRING) {
-            throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
+            throwErrorInCell(cell);
         }
         String cellValue = cell.getStringCellValue().trim();
-        if (!cellValueIsValid(cellValue)) {
-            throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
+        if (cellValueIsInvalid(cellValue)) {
+            throwErrorInCell(cell);
         }
 
         return cellValue;
@@ -69,7 +76,12 @@ public class FileParseService {
 
     private void checkCorrectColumnNames(List<String> columns) {
         if (columns.isEmpty()) {
-            throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
+            throwNotCorrectFormat(FileParsingExceptionMessage.EMPTY_LIST_COLUMNS_NAME.getMessage());
+        }
+
+        Set<String> columnsSet = new HashSet<>(columns);
+        if(columnsSet.size() != columns.size()) {
+            throwNotCorrectFormat(FileParsingExceptionMessage.HEADER_CONTAINS_NOT_UNIQUE_COLUMN.getMessage());
         }
     }
 
@@ -85,7 +97,7 @@ public class FileParseService {
         List<Caller> result = new ArrayList<>();
 
         String columnPhoneNumber = findUniqueColumnWithPhoneNumber(columnsNames);
-        int startDataNumberRow = sheet.getFirstRowNum() + 1;
+        int startDataNumberRow = 1;
 
         for(int i = startDataNumberRow; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
@@ -131,13 +143,15 @@ public class FileParseService {
         boolean isValid = true;
         int countCellsInRow = row.getLastCellNum();
         if(countCellsInRow > columnsNames.size()) {
-            throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
+            throwErrorInCell(row.getCell(countCellsInRow - 1));
         }
-        for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
+
+        int firstCellNum = 0;
+        for (int i = firstCellNum; i < columnsNames.size(); i++) {
             Cell cell = row.getCell(i);
             String cellValue = getValueCell(cell);
             variables.put(columnsNames.get(i), cellValue);
-            if(!cellValueIsValid(cellValue)) {
+            if(cellValueIsInvalid(cellValue)) {
                 isValid = false;
             }
         }
@@ -148,7 +162,7 @@ public class FileParseService {
         if (cell == null) {
             return NOT_VALID_VALUE;
         }
-
+        CellType type = cell.getCellType();
         switch (cell.getCellType()) {
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
@@ -161,7 +175,18 @@ public class FileParseService {
         }
     }
 
-    private boolean cellValueIsValid(String value) {
-        return value != null && !value.isEmpty() && !value.equals(NOT_VALID_VALUE);
+    private boolean cellValueIsInvalid(String value) {
+        return value == null || value.isEmpty() || value.equals(NOT_VALID_VALUE);
+    }
+
+    private void throwNotCorrectFormat(String message) {
+        throw new FileParsingException(
+                String.format(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage(), message));
+    }
+
+    private void throwErrorInCell(Cell cell) {
+        throwNotCorrectFormat(String.format(FileParsingExceptionMessage.ERROR_IN_CELL.getMessage(),
+                cell.getRow().getRowNum(),
+                cell.getColumnIndex()));
     }
 }

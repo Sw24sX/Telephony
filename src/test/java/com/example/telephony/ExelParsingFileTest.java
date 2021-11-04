@@ -132,11 +132,6 @@ public class ExelParsingFileTest {
     }
 
     @Test
-    public void notCorrectTypeCellsInData_Wrong() {
-        executeWrongTest("not_correct_type_cells_in_data.xlsx");
-    }
-
-    @Test
     public void onlyOneRowInFile_Wrong() {
         executeWrongTest("one_row.xlsx");
     }
