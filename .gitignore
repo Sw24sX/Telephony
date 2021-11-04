@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 file/storage/**
+file/generated/**
 src/main/resources/environment.properties
 
 ### STS ###

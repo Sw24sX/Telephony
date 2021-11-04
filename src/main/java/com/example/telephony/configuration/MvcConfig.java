@@ -22,11 +22,17 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        Path path = Paths.get(Properties.getProperty(environment, "file.storage.path"));
-        String pattern = Properties.getProperty(environment, "file.storage.pattern");
+        Path uploadFiles = Paths.get(Properties.getProperty(environment, "file.storage.path"));
+        String uploadFilesPattern = Properties.getProperty(environment, "file.storage.pattern");
         registry
-                .addResourceHandler(pattern)
-                .addResourceLocations(path.toUri().toString());
+                .addResourceHandler(uploadFilesPattern)
+                .addResourceLocations(uploadFiles.toUri().toString());
+
+        Path generatedFiles = Paths.get(Properties.getProperty(environment, "file.generated.path"));
+        String generatedFilesPattern = Properties.getProperty(environment, "file.generated.pattern");
+        registry
+                .addResourceHandler(generatedFilesPattern)
+                .addResourceLocations(generatedFiles.toUri().toString());
 
         registry
                 .addResourceHandler("/docApi/swagger-ui.html**")
@@ -40,8 +46,10 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addRedirectViewController("/docApi/v2/api-docs", "/v2/api-docs");
-        registry.addRedirectViewController("/docApi/swagger-resources/configuration/ui", "/swagger-resources/configuration/ui");
-        registry.addRedirectViewController("/docApi/swagger-resources/configuration/security", "/swagger-resources/configuration/security");
+        registry.addRedirectViewController("/docApi/swagger-resources/configuration/ui",
+                "/swagger-resources/configuration/ui");
+        registry.addRedirectViewController("/docApi/swagger-resources/configuration/security",
+                "/swagger-resources/configuration/security");
         registry.addRedirectViewController("/docApi/swagger-resources", "/swagger-resources");
     }
 }
