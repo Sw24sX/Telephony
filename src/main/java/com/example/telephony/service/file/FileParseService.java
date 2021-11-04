@@ -162,7 +162,6 @@ public class FileParseService {
         if (cell == null) {
             return NOT_VALID_VALUE;
         }
-        CellType type = cell.getCellType();
         switch (cell.getCellType()) {
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
