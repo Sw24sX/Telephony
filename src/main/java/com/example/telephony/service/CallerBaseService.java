@@ -3,6 +3,7 @@ package com.example.telephony.service;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
 import com.example.telephony.repository.CallerRepository;
@@ -10,6 +11,7 @@ import com.example.telephony.service.file.FileParseService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -35,7 +37,11 @@ public class CallerBaseService {
     }
 
     public CallersBase getById(Long id) {
-        return callerBaseRepository.findById(id).orElse(null);
+        CallersBase callersBase = callerBaseRepository.findById(id).orElse(null);
+        if (callersBase == null) {
+            throw new EntityNotFoundException(String.format(ExceptionMessage.CALLERS_BASE_NOT_FOUND.getMessage(), id));
+        }
+        return callersBase;
     }
 
     public CallersBase create(CallersBase callersBase) {
