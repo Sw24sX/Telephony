@@ -79,6 +79,19 @@ public class ExelParsingFileTest {
         Assertions.assertEquals(expected, actual);
     }
 
+    @Test
+    public void emptyRow_Ok() {
+        InputStream inputStream = getCorrectFile("empty_row.xlsx");
+        CallersBase actual = fileParseService.parseExelToCallersBase(inputStream);
+
+        CallersBase expected = new CallersBaseBuilder(Arrays.asList("phone", "test", "test_1"))
+                .addPhoneColumnName("phone")
+                .addCallerRow(Arrays.asList("test", "test", "test"), true)
+                .build();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
     private InputStream getCorrectFile(String fileName) {
         try {
             Path path = correctFiles.resolve(fileName);
@@ -146,6 +159,54 @@ public class ExelParsingFileTest {
     private InputStream getWrongFile(String fileName) {
         try {
             Path path = wrongFiles.resolve(fileName);
+            return Files.newInputStream(path);
+        } catch (IOException e) {
+            throw new FileParsingException(e.getMessage());
+        }
+    }
+
+    @Test
+    public void oneLeftCellIsEmpty_Ok() {
+        InputStream inputStream = getNotValidFile("one_cell_empty_in_left.xlsx");
+        CallersBase actual = fileParseService.parseExelToCallersBase(inputStream);
+
+        CallersBase expected = new CallersBaseBuilder(Arrays.asList("phone", "test", "test_1"))
+                .addPhoneColumnName("phone")
+                .addCallerRow(Arrays.asList(fileParseService.NOT_VALID_VALUE, "test", "test"), false)
+                .build();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void oneMiddleCellIsEmpty_Ok() {
+        InputStream inputStream = getNotValidFile("one_cell_empty_in_middle.xlsx");
+        CallersBase actual = fileParseService.parseExelToCallersBase(inputStream);
+
+        CallersBase expected = new CallersBaseBuilder(Arrays.asList("phone", "test", "test_1"))
+                .addPhoneColumnName("phone")
+                .addCallerRow(Arrays.asList("test", fileParseService.NOT_VALID_VALUE, "test"), false)
+                .build();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void oneRightCellIsEmpty_Ok() {
+        InputStream inputStream = getNotValidFile("one_cell_empty_in_right.xlsx");
+        CallersBase actual = fileParseService.parseExelToCallersBase(inputStream);
+
+        CallersBase expected = new CallersBaseBuilder(Arrays.asList("phone", "test", "test_1"))
+                .addPhoneColumnName("phone")
+                .addCallerRow(Arrays.asList("test", "test", fileParseService.NOT_VALID_VALUE), false)
+                .build();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    private InputStream getNotValidFile(String fileName) {
+        try {
+            Path path = notValidFiles.resolve(fileName);
             return Files.newInputStream(path);
         } catch (IOException e) {
             throw new FileParsingException(e.getMessage());

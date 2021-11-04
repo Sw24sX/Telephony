@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,8 +38,9 @@ public class FileParseService {
     }
 
     private void checkFormatCorrected(Sheet sheet) {
+        int firstRowNum = sheet.getFirstRowNum();
         int lastRowNum = sheet.getLastRowNum();
-        if (lastRowNum < 2) {
+        if (lastRowNum - firstRowNum + 1 < 2) {
             throw new FileParsingException(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage());
         }
     }
@@ -88,7 +88,10 @@ public class FileParseService {
         int startDataNumberRow = sheet.getFirstRowNum() + 1;
 
         for(int i = startDataNumberRow; i <= sheet.getLastRowNum(); i++) {
-            result.add(createCaller(sheet.getRow(i), columnsNames, columnPhoneNumber));
+            Row row = sheet.getRow(i);
+            if(row != null ) {
+                result.add(createCaller(sheet.getRow(i), columnsNames, columnPhoneNumber));
+            }
         }
 
         return result;

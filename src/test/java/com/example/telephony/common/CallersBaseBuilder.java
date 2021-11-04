@@ -31,7 +31,7 @@ public class CallersBaseBuilder {
         Caller caller = new Caller();
         caller.setNumber(variables.get(phoneColumnName));
         caller.setVariables(variables);
-        caller.setValid(true);
+        caller.setValid(isValid);
         callers.add(caller);
         return this;
     }
