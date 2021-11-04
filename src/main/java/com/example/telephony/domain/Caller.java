@@ -25,7 +25,7 @@ public class Caller extends BaseEntity {
     @ManyToMany(mappedBy = "callers")
     private List<CallersBase> callersBases;
 
-    @OneToMany(mappedBy = "caller")
+    @OneToMany(mappedBy = "caller", cascade = CascadeType.REMOVE)
     private List<CallStatistic> callStatistics;
 
     @Type(type = "jsonb")
