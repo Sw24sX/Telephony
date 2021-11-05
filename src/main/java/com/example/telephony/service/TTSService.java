@@ -6,7 +6,7 @@ import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.enums.SpeechVoice;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.GeneratedSoundRepository;
-import com.example.telephony.service.espeak.Espeak;
+import com.example.telephony.service.tts.MicrosoftTextToSpeech;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
@@ -18,18 +18,18 @@ import java.util.List;
 
 @Service
 public class TTSService {
-    private final Espeak espeak;
+    private final MicrosoftTextToSpeech microsoftTextToSpeech;
     private final Environment environment;
     private final GeneratedSoundRepository generatedSoundRepository;
 
-    public TTSService(Espeak espeak, Environment environment, GeneratedSoundRepository generatedSoundRepository) {
-        this.espeak = espeak;
+    public TTSService(MicrosoftTextToSpeech microsoftTextToSpeech, Environment environment, GeneratedSoundRepository generatedSoundRepository) {
+        this.microsoftTextToSpeech = microsoftTextToSpeech;
         this.environment = environment;
         this.generatedSoundRepository = generatedSoundRepository;
     }
 
     public GeneratedSound textToFile(String text, SpeechVoice voice) {
-        String fileName = espeak.textToFile(text, voice);
+        String fileName = microsoftTextToSpeech.textToFile(text, voice);
         GeneratedSound generatedSound = new GeneratedSound();
         generatedSound.setPath(getFilePath(fileName).toString());
         generatedSound.setUri(buildFileUri(fileName));

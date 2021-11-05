@@ -1,4 +1,4 @@
-package com.example.telephony.service.espeak;
+package com.example.telephony.service.tts;
 
 import com.example.telephony.enums.SpeechVoice;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SpeechCommandLineScriptBuilder {
-    private List<String> commands;
+    private final List<String> commands;
     private String voice;
     private String path;
     private String text;
@@ -31,9 +31,7 @@ public class SpeechCommandLineScriptBuilder {
     }
 
     public SpeechCommandLineScriptBuilder setVoice(SpeechVoice speechVoice) {
-        String fullVoiceCommand = String.format(this.voice, speechVoice.getValue());
-
-        this.voice = fullVoiceCommand;
+        this.voice = String.format(this.voice, speechVoice.getValue());
         return this;
     }
 

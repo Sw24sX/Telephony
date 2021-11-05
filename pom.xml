@@ -113,19 +113,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.profesorfalken</groupId>
-            <artifactId>jPowerShell</artifactId>
-            <version>3.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.harium.hci</groupId>
-            <artifactId>espeak</artifactId>
-            <version>1.0.3</version>
-        </dependency>
-
-
     </dependencies>
 
     <build>

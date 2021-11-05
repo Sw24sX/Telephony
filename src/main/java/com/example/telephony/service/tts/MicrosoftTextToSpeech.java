@@ -1,32 +1,30 @@
-package com.example.telephony.service.espeak;
+package com.example.telephony.service.tts;
 
 import com.example.telephony.common.Properties;
 import com.example.telephony.enums.SpeechVoice;
-import com.profesorfalken.jpowershell.PowerShell;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 @Component
-public class Espeak {
+public class MicrosoftTextToSpeech {
     private final Path path;
 
-    public Espeak(Environment environment) {
+    public MicrosoftTextToSpeech(Environment environment) {
         this.path = Paths.get(Properties.getProperty(environment, "file.generated.path"));
     }
 
     public String textToFile(String text, SpeechVoice speechVoice) {
         String uniqueFileName = getUniqueFileName();
         Path pathToNewFile = path.resolve(uniqueFileName);
+
         List<String> commandLineScript = new SpeechCommandLineScriptBuilder()
                 .setText(text)
                 .setPath(pathToNewFile)
@@ -47,20 +45,16 @@ public class Espeak {
 
         new Thread(new Runnable() {
             public void run() {
-                ProcessBuilder b = new ProcessBuilder(command);
-                b.redirectErrorStream(true);
+                ProcessBuilder processBuilder = new ProcessBuilder(command);
+                processBuilder.redirectErrorStream(true);
                 try {
-                    Process process = b.start();
-
+                    Process process = processBuilder.start();
                     readErrors(process);
                     process.waitFor();
                     process.destroy();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
-
             }
 
             private void readErrors(Process process) throws IOException {
