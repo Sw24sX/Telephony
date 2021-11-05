@@ -16,7 +16,6 @@ public class SpeechCommandLineScriptBuilder {
     public SpeechCommandLineScriptBuilder() {
         commands = new ArrayList<>(Arrays.asList(
                 "powershell.exe",
-//                "-Command",
                 "Add-Type -AssemblyName System.speech;",
                 "$speech = New-Object System.Speech.Synthesis.SpeechSynthesizer;"
         ));
