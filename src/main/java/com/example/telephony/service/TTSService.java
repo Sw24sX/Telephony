@@ -1,65 +1,64 @@
 package com.example.telephony.service;
 
+import com.example.telephony.common.Properties;
+import com.example.telephony.domain.GeneratedSound;
+import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.exception.EntityNotFoundException;
+import com.example.telephony.repository.GeneratedSoundRepository;
+import com.example.telephony.service.espeak.Espeak;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class TTSService {
-    private static final String RU = "ru-RU";
-    private static final String EN = "en-US";
-    private static final String COMMAND_ESPEAK = "espeak";
+    private final Espeak espeak;
+    private final Environment environment;
+    private final GeneratedSoundRepository generatedSoundRepository;
 
-    public void tts(String text) {
-//        try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()){
-//
-//        } catch (Exception e) {
-//            throw new TelephonyException(e.getMessage());
-//        }
-
-//        freeTTS(text);
-        espeak(text);
+    public TTSService(Espeak espeak, Environment environment, GeneratedSoundRepository generatedSoundRepository) {
+        this.espeak = espeak;
+        this.environment = environment;
+        this.generatedSoundRepository = generatedSoundRepository;
     }
 
-    private void espeak(String text) {
-//        Espeak espeak = new Espeak();
-//        espeak.speak(text);
-        Path path = Paths.get("file\\generate");
-        execute(COMMAND_ESPEAK, "-w", path.toAbsolutePath().resolve("text.wav").toString(), text);
+    public GeneratedSound textToFile(String text) {
+        String fileName = espeak.textToFile(text);
+        GeneratedSound generatedSound = new GeneratedSound();
+        generatedSound.setPath(getFilePath(fileName).toString());
+        generatedSound.setUri(buildFileUri(fileName));
+        return generatedSoundRepository.save(generatedSound);
     }
 
-    private static void execute(final String ... command) {
-        String threadName = "espeak";
+    private String buildFileUri(String fileName) {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host(Properties.getProperty(environment, "server.address"))
+                .port(Properties.getProperty(environment, "server.port"))
+                .path(Properties.getProperty(environment, "file.generated.url") + fileName).build();
+        return uriComponents.toString();
+    }
 
-        new Thread(new Runnable() {
-            public void run() {
-                ProcessBuilder b = new ProcessBuilder(command);
-                b.redirectErrorStream(true);
-                try {
-                    Process process = b.start();
+    private Path getFilePath(String fileName) {
+        return Paths.get(Properties.getProperty(environment, "file.generated.path")).resolve(fileName);
+    }
 
-                    readErrors(process);
-                    process.waitFor();
-                    process.destroy();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+    public List<GeneratedSound> getAll() {
+        return generatedSoundRepository.findAll();
+    }
 
-            }
+    public GeneratedSound getById(Long id) {
+        return generatedSoundRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(String.format(ExceptionMessage.GENERATED_FILE_NOT_FOUND.getMessage(), id)));
+    }
 
-            private void readErrors(Process process) throws IOException {
-                BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                String line;
-                while ((line = in.readLine()) != null) {
-                    System.err.println(line);
-                }
-            }
-        }, threadName).start();
+    public void delete(Long id) {
+        GeneratedSound generatedSound = getById(id);
+        generatedSoundRepository.delete(generatedSound);
     }
 }
