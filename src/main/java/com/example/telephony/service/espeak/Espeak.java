@@ -32,13 +32,6 @@ public class Espeak {
                 .setPath(pathToNewFile)
                 .setVoice(speechVoice)
                 .build();
-//        PowerShell powerShell = PowerShell.openSession();
-//        powerShell.executeCommand(commandLineScript.get(0));
-//        powerShell.executeCommand(commandLineScript.get(1));
-//        powerShell.executeCommand(commandLineScript.get(2));
-//        powerShell.executeCommand(commandLineScript.get(3));
-//        powerShell.executeCommand(commandLineScript.get(4));
-//        powerShell.close();
 
         String[] list = commandLineScript.toArray(new String[0]);
         execute(list);

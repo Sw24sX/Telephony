@@ -1,5 +1,6 @@
 package com.example.telephony.controller;
 
+import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.dto.GeneratedSoundDto;
 import com.example.telephony.enums.SpeechVoice;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("text-to-file")
+@RequestMapping(GlobalMapping.API + "text-to-file")
 public class TTSController {
     private final TTSService ttsService;
     private final GeneratedSoundMapper generatedSoundMapper;

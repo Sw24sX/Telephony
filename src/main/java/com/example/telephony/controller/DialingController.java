@@ -1,5 +1,6 @@
 package com.example.telephony.controller;
 
+import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.service.DialingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("dialing")
+@RequestMapping(GlobalMapping.API + "dialing")
 @Api("Operations pertaining to dialing to caller or callers base")
 public class DialingController {
     private final DialingService dialingService;

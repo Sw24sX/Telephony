@@ -1,5 +1,6 @@
 package com.example.telephony.controller;
 
+import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.dto.CallersBaseDto;
 import com.example.telephony.mapper.CallersBaseMapper;
@@ -15,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("callers-base")
+@RequestMapping(GlobalMapping.API + "callers-base")
 @Api("Operations pertaining to callers bases")
 public class CallerBaseController {
     private final CallerBaseService callerBaseService;
