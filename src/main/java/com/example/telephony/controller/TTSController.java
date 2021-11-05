@@ -2,6 +2,7 @@ package com.example.telephony.controller;
 
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.dto.GeneratedSoundDto;
+import com.example.telephony.enums.SpeechVoice;
 import com.example.telephony.mapper.GeneratedSoundMapper;
 import com.example.telephony.service.TTSService;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,9 @@ public class TTSController {
     }
 
     @PostMapping
-    public GeneratedSoundDto textToFile(@RequestParam("text") String text) {
-        GeneratedSound generatedSound = ttsService.textToFile(text);
+    public GeneratedSoundDto textToFile(@RequestParam("text") String text,
+                                        @RequestParam("voice") SpeechVoice voice) {
+        GeneratedSound generatedSound = ttsService.textToFile(text, voice);
         return generatedSoundMapper.generatedSoundDtoToGeneratedSound(generatedSound);
     }
 

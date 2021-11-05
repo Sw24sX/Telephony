@@ -3,6 +3,7 @@ package com.example.telephony.service;
 import com.example.telephony.common.Properties;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.enums.SpeechVoice;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.GeneratedSoundRepository;
 import com.example.telephony.service.espeak.Espeak;
@@ -27,8 +28,8 @@ public class TTSService {
         this.generatedSoundRepository = generatedSoundRepository;
     }
 
-    public GeneratedSound textToFile(String text) {
-        String fileName = espeak.textToFile(text);
+    public GeneratedSound textToFile(String text, SpeechVoice voice) {
+        String fileName = espeak.textToFile(text, voice);
         GeneratedSound generatedSound = new GeneratedSound();
         generatedSound.setPath(getFilePath(fileName).toString());
         generatedSound.setUri(buildFileUri(fileName));
