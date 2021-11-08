@@ -1,8 +1,6 @@
 package com.example.telephony.configuration;
 
-import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.common.Properties;
-import com.example.telephony.logger.RequestLogger;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.*;
@@ -14,17 +12,9 @@ import java.nio.file.Paths;
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
     private final Environment environment;
-    private final RequestLogger requestLogger;
 
-    public MvcConfig(Environment environment, RequestLogger requestLogger) {
+    public MvcConfig(Environment environment) {
         this.environment = environment;
-        this.requestLogger = requestLogger;
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(requestLogger)
-                .addPathPatterns(GlobalMapping.API + "/*/");
     }
 
     @Override
