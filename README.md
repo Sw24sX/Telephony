@@ -98,6 +98,7 @@
 - `asterisk.url` - ввести в формате `http://*ip-адрес-астериска*:*порт-астериска*/` 
 - `asterisk.username` и `asterisk.password` - логин и пароль для доступа к ARI (swagger) сервера asterisk
 - `server.address` - необходимо указать основной IPv4-адрес. Узнать его можно введя в консоль (Win+R -> cmd) команду `ipconfig /all`
+- `server.input.url` - необходимо указать url, с которого будут приходить запросы на сервер. Например: `http://localhost:3000`
 
 Если была установка с параметрами НЕ по умолчанию (в файле `application.properties`):
 - `spring.datasource.url` - путь к базе данных. Если была создана база данных `telephony`, то менять нет необхоимости
