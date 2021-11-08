@@ -49,7 +49,7 @@ public class SoundService {
     private Sound createFile(MultipartFile multipartFile) throws IOException {
         String originalFileName = getFileName(multipartFile);
 //        String uniqueFileName = UUID.randomUUID().toString();
-        String pathToFile = fileStorageService.save(multipartFile, originalFileName);
+        String pathToFile = fileStorageService.saveUpload(multipartFile, originalFileName);
         Sound sound = new Sound();
         sound.setName(originalFileName);
         sound.setPath(pathToFile);

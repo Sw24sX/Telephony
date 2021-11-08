@@ -1,5 +1,6 @@
 package com.example.telephony.controller;
 
+import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.dto.CallerDto;
 import com.example.telephony.mapper.CallerMapper;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("callers")
+@RequestMapping(GlobalMapping.API + "callers")
 @Api("Operations pertaining to caller")
 public class CallerController {
     private final CallerService callerService;

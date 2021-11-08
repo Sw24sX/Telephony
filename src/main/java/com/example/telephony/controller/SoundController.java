@@ -1,5 +1,6 @@
 package com.example.telephony.controller;
 
+import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.Sound;
 import com.example.telephony.dto.SoundDto;
 import com.example.telephony.mapper.SoundMapper;
@@ -15,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("sound")
+@RequestMapping(GlobalMapping.API + "sound")
 public class SoundController {
     private final SoundService soundService;
     private final SoundMapper soundMapper;

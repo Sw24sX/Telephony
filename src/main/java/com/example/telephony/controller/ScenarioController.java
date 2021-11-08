@@ -1,5 +1,6 @@
 package com.example.telephony.controller;
 
+import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.Scenario;
 import com.example.telephony.dto.ScenarioDto;
 import com.example.telephony.mapper.ScenarioMapper;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("scenario")
+@RequestMapping(GlobalMapping.API + "scenario")
 public class ScenarioController {
     private final ScenarioMapper scenarioMapper;
     private final ScenarioService scenarioService;

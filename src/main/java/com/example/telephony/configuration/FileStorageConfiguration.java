@@ -5,10 +5,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FileUploadConfiguration implements CommandLineRunner {
+public class FileStorageConfiguration implements CommandLineRunner {
     private final FileStorageService fileStorageService;
 
-    public FileUploadConfiguration(FileStorageService fileStorageService) {
+    public FileStorageConfiguration(FileStorageService fileStorageService) {
         this.fileStorageService = fileStorageService;
     }
 

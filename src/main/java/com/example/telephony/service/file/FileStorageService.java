@@ -15,10 +15,12 @@ import java.nio.file.Paths;
 
 @Service
 public class FileStorageService {
-    private final Path path;
+    private final Path uploadFiles;
+    private final Path generatedFiles;
 
     public FileStorageService(Environment environment) {
-        path = Paths.get(Properties.getProperty(environment, "file.storage.path"));
+        uploadFiles = Paths.get(Properties.getProperty(environment, "file.storage.path"));
+        generatedFiles = Paths.get(Properties.getProperty(environment, "file.generated.path"));
     }
 
     public void init() {
@@ -30,13 +32,17 @@ public class FileStorageService {
     }
 
     private void createDirectoriesIfNotExist() throws IOException {
-        if(!Files.exists(path.toAbsolutePath())) {
-            Files.createDirectories(path.toAbsolutePath());
+        if(!Files.exists(uploadFiles.toAbsolutePath())) {
+            Files.createDirectories(uploadFiles.toAbsolutePath());
+        }
+
+        if (!Files.exists(generatedFiles.toAbsolutePath())) {
+            Files.createDirectories(generatedFiles.toAbsolutePath());
         }
     }
 
-    public String save(MultipartFile multipartFile, String fileName) {
-        Path filePath = path.resolve(fileName);
+    public String saveUpload(MultipartFile multipartFile, String fileName) {
+        Path filePath = uploadFiles.resolve(fileName);
         try {
             multipartFile.transferTo(filePath);
         } catch (IOException e) {
