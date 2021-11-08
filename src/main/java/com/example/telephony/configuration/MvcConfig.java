@@ -1,12 +1,11 @@
 package com.example.telephony.configuration;
 
+import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.common.Properties;
+import com.example.telephony.logger.RequestLogger;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,9 +14,17 @@ import java.nio.file.Paths;
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
     private final Environment environment;
+    private final RequestLogger requestLogger;
 
-    public MvcConfig(Environment environment) {
+    public MvcConfig(Environment environment, RequestLogger requestLogger) {
         this.environment = environment;
+        this.requestLogger = requestLogger;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(requestLogger)
+                .addPathPatterns(GlobalMapping.API + "/*/");
     }
 
     @Override
@@ -51,5 +58,12 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addRedirectViewController("/docApi/swagger-resources/configuration/security",
                 "/swagger-resources/configuration/security");
         registry.addRedirectViewController("/docApi/swagger-resources", "/swagger-resources");
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("http://localhost:3000");
     }
 }
