@@ -13,4 +13,11 @@ import java.util.List;
 public class Scenario extends BaseEntity {
     @Column(name = "name")
     private String name;
+
+    @OneToOne()
+    @JoinColumn(name = "first_step")
+    private ScenarioStepEntity scenarioStep;
+
+    @OneToMany(mappedBy = "scenario")
+    private List<ScenarioStepEntity> scenarioStepEntities;
 }
