@@ -28,9 +28,9 @@ public class ScenarioBuilder {
 
     public static ScenarioStep build(Scenario scenario, ARI ari) {
         ScenarioBuilder scenarioBuilder = new ScenarioBuilder();
-        for(Sound sound : scenario.getSounds()) {
-            scenarioBuilder.addScenarioStep(new ScenarioStepImpl(ari, sound));
-        }
+//        for(Sound sound : scenario.getSounds()) {
+//            scenarioBuilder.addScenarioStep(new ScenarioStepImpl(ari, sound));
+//        }
         return scenarioBuilder.firstStep;
     }
 }

@@ -13,9 +13,4 @@ import java.util.List;
 public class Scenario extends BaseEntity {
     @Column(name = "name")
     private String name;
-
-    @ManyToMany
-    @JoinTable(name = "scenario_sound", joinColumns = @JoinColumn(name = "scenario_id"),
-            inverseJoinColumns = @JoinColumn(name = "sound_id"))
-    private List<Sound> sounds;
 }

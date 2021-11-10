@@ -21,7 +21,7 @@ public abstract class ScenarioMapper {
     @Autowired
     protected SoundService soundService;
 
-    @Mapping(target = "sounds", source = "sounds", resultType = SoundDto.class)
+//    @Mapping(target = "sounds", source = "sounds", resultType = SoundDto.class)
     public abstract ScenarioDto scenarioToScenarioDto(Scenario scenario);
 
     public abstract List<ScenarioDto> listScenarioToListScenarioDt(List<Scenario> scenarios);
@@ -31,15 +31,15 @@ public abstract class ScenarioMapper {
             return null;
         }
         Scenario scenario = new Scenario();
-        scenario.setName(scenarioDto.getName());
-        List<Sound> sounds = scenarioDto.getSounds().stream()
-                .map(soundDto -> {
-                    Sound sound = soundService.getById(soundDto.getId());
-                    sound.getScenarios().add(scenario);
-                    return sound;
-                })
-                .collect(Collectors.toList());
-        scenario.setSounds(sounds);
+//        scenario.setName(scenarioDto.getName());
+//        List<Sound> sounds = scenarioDto.getSounds().stream()
+//                .map(soundDto -> {
+//                    Sound sound = soundService.getById(soundDto.getId());
+//                    sound.getScenarios().add(scenario);
+//                    return sound;
+//                })
+//                .collect(Collectors.toList());
+//        scenario.setSounds(sounds);
 
         return scenario;
     }
