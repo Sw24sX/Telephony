@@ -1,12 +1,10 @@
 package com.example.telephony.mapper;
 
-import com.example.telephony.domain.Scenario;
 import com.example.telephony.domain.ScenarioStepEntity;
 import com.example.telephony.dto.ScenarioStepDto;
 import com.example.telephony.enums.ExceptionMessage;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.springframework.data.mapping.MappingException;
 
 import java.util.List;
