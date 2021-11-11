@@ -1,11 +1,10 @@
 create table "scenario_step" (
     "id" int8 not null primary key,
     "creation_date" timestamp not null default now(),
-    "next_positive" int8 not null references "scenario_step" ("id"),
-    "next_negative" int8 not null references "scenario_step" ("id"),
+    "parent_id" int8 references "scenario_step" ("id") ON DELETE CASCADE,
     "sound_path" varchar,
     "question" varchar,
-    "scenario_id" int8 not null references "scenario" ("id")
+    "positive_way" boolean not null default false
 );
 
 alter table "scenario"

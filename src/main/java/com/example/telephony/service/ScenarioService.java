@@ -1,25 +1,25 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.Scenario;
-import com.example.telephony.domain.Sound;
-import com.example.telephony.dto.SoundDto;
+import com.example.telephony.domain.ScenarioStepEntity;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.ScenarioRepository;
-import com.example.telephony.repository.SoundRepository;
+import com.example.telephony.repository.ScenarioStepEntityRepository;
+import com.example.telephony.service.scenario.ScenarioTreeBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ScenarioService {
     private final ScenarioRepository scenarioRepository;
+    private final ScenarioStepEntityRepository scenarioStepEntityRepository;
 
-
-    public ScenarioService(ScenarioRepository scenarioRepository) {
+    public ScenarioService(ScenarioRepository scenarioRepository,
+                           ScenarioStepEntityRepository scenarioStepEntityRepository) {
         this.scenarioRepository = scenarioRepository;
+        this.scenarioStepEntityRepository = scenarioStepEntityRepository;
     }
 
     public List<Scenario> getAll() {
@@ -35,8 +35,12 @@ public class ScenarioService {
         return scenario;
     }
 
-    public Scenario create(Scenario scenario) {
-        return scenarioRepository.save(scenario);
+    public Scenario create(Scenario scenario, List<ScenarioStepEntity> scenarioStepEntities) {
+        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository)
+                .buildAndSaveTree(scenarioStepEntities);
+        scenario.setFirstStep(root);
+        Scenario scenarioDb = scenarioRepository.save(scenario);
+        return getById(scenarioDb.getId());
     }
 
     public Scenario update(Scenario scenario, Long id) {

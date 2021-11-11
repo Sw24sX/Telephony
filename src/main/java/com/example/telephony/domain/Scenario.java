@@ -16,8 +16,5 @@ public class Scenario extends BaseEntity {
 
     @OneToOne()
     @JoinColumn(name = "first_step")
-    private ScenarioStepEntity scenarioStep;
-
-    @OneToMany(mappedBy = "scenario")
-    private List<ScenarioStepEntity> scenarioStepEntities;
+    private ScenarioStepEntity firstStep;
 }

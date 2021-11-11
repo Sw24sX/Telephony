@@ -1,18 +1,23 @@
 package com.example.telephony.domain;
 
-import javax.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
+import java.util.List;
+
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "scenario_step")
+@Data
 public class ScenarioStepEntity extends BaseEntity {
 
-    @OneToOne()
-    @JoinColumn(name = "next_positive")
-    private ScenarioStepEntity nextPositive;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private ScenarioStepEntity parent;
 
-    @OneToOne()
-    @JoinColumn(name = "next_negative")
-    private ScenarioStepEntity nextNegative;
+    @OneToMany(mappedBy = "parent")
+    private List<ScenarioStepEntity> children;
 
     @Column(name = "sound_path")
     private String soundPath;
@@ -20,7 +25,6 @@ public class ScenarioStepEntity extends BaseEntity {
     @Column(name = "question")
     private String question;
 
-    @ManyToOne()
-    @JoinColumn(name = "scenario_id")
-    private Scenario scenario;
+    @Column(name = "positive_way")
+    private boolean isPositive;
 }

@@ -13,7 +13,11 @@ public enum ExceptionMessage {
     CALLERS_NOT_CREATED("Абоненты не записаны в базу данных"),
     CALLERS_BASE_NOT_CONTAINS_CALLER("База абонентов %s не содержит абонента %s"),
     CALLERS_BASE_NOT_FOUND("База клиентов %s не найдена"),
-    GENERATED_FILE_NOT_FOUND("Сгенерированный файл %s не найден");
+    GENERATED_FILE_NOT_FOUND("Сгенерированный файл %s не найден"),
+    NOT_CONCRETE_WAY("Не указано, к какому ответу относится шаг"),
+    NOT_ANY_SCENARIO_STEP("Нет ни одного шага сценария"),
+    NO_FIRST_STEP_SCENARIO("Нет первого шага сценария"),
+    SCENARIO_IS_NO_TREE("Структура сценария не является деревом");
 
     private final String message;
 
