@@ -6,7 +6,7 @@ import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.ScenarioRepository;
 import com.example.telephony.repository.ScenarioStepEntityRepository;
-import com.example.telephony.service.scenario.ScenarioTreeBuilder;
+import com.example.telephony.service.scenario.database.ScenarioTreeBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

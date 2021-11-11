@@ -1,11 +1,7 @@
-package com.example.telephony.service.scenario;
+package com.example.telephony.service.scenario.dialing;
 
 import ch.loway.oss.ari4java.ARI;
-import com.example.telephony.TelephonyApplication;
 import com.example.telephony.domain.Scenario;
-import com.example.telephony.domain.Sound;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
 
 public class ScenarioBuilder {
     private ScenarioStep firstStep;

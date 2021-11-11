@@ -1,6 +1,6 @@
 package com.example.telephony.configuration;
 
-import com.example.telephony.service.scenario.ScenarioManager;
+import com.example.telephony.service.scenario.dialing.ScenarioManager;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

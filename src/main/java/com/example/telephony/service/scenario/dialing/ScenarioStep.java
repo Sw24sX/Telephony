@@ -1,4 +1,4 @@
-package com.example.telephony.service.scenario;
+package com.example.telephony.service.scenario.dialing;
 
 import ch.loway.oss.ari4java.generated.models.Channel;
 import ch.loway.oss.ari4java.generated.models.Playback;

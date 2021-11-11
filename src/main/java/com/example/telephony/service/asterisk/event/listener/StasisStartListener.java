@@ -6,8 +6,8 @@ import ch.loway.oss.ari4java.generated.models.Playback;
 import ch.loway.oss.ari4java.generated.models.StasisStart;
 import com.example.telephony.service.asterisk.ARIService;
 import com.example.telephony.service.asterisk.AsteriskEvent;
-import com.example.telephony.service.scenario.ScenarioManager;
-import com.example.telephony.service.scenario.ScenarioStep;
+import com.example.telephony.service.scenario.dialing.ScenarioManager;
+import com.example.telephony.service.scenario.dialing.ScenarioStep;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 

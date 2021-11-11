@@ -1,4 +1,4 @@
-package com.example.telephony.service.scenario;
+package com.example.telephony.service.scenario.dialing;
 
 import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Channel;
@@ -6,7 +6,6 @@ import ch.loway.oss.ari4java.generated.models.Playback;
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.Sound;
 import com.example.telephony.exception.TelephonyException;
-import lombok.var;
 
 public class ScenarioStepImpl implements ScenarioStep{
     private final ARI ari;

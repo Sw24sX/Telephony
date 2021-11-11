@@ -1,4 +1,4 @@
-package com.example.telephony.service.scenario;
+package com.example.telephony.service.scenario.database;
 
 import com.example.telephony.domain.ScenarioStepEntity;
 import com.example.telephony.enums.ExceptionMessage;
