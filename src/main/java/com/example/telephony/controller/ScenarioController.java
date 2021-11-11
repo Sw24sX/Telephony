@@ -4,9 +4,11 @@ import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.Scenario;
 import com.example.telephony.domain.ScenarioStepEntity;
 import com.example.telephony.dto.ScenarioDto;
+import com.example.telephony.dto.ScenarioStepDto;
 import com.example.telephony.mapper.ScenarioMapper;
 import com.example.telephony.mapper.ScenarioStepEntityMapper;
 import com.example.telephony.service.ScenarioService;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,17 +38,27 @@ public class ScenarioController {
         return scenarioMapper.scenarioToScenarioDto(scenario);
     }
 
+    @GetMapping("{id}/steps")
+    public List<ScenarioStepDto> getListStepsDto(@PathVariable("id") Long id) {
+        Scenario scenario = scenarioService.getById(id);
+        return scenarioStepEntityMapper.scenarioStepToScenarioStepDtoList(scenario.getFirstStep());
+    }
+
     @PostMapping
     public ScenarioDto create(@RequestBody ScenarioDto scenarioDto) {
         Scenario scenario = scenarioMapper.scenarioDtoToScenario(scenarioDto);
-        List<ScenarioStepEntity> scenarioStepEntities = scenarioStepEntityMapper.scenarioStepDtoToScenarioStepEntity(scenarioDto.getScenarioStepDtos());
+        List<ScenarioStepEntity> scenarioStepEntities = scenarioStepEntityMapper
+                .scenarioStepDtoToScenarioStepEntity(scenarioDto.getScenarioStepDtos());
         return scenarioMapper.scenarioToScenarioDto(scenarioService.create(scenario, scenarioStepEntities));
     }
 
     @PutMapping("{id}")
     public ScenarioDto update(@RequestBody ScenarioDto scenarioDto, @PathVariable("id") Long id) {
-        Scenario scenario = scenarioMapper.scenarioDtoToScenario(scenarioDto);
-        return scenarioMapper.scenarioToScenarioDto(scenarioService.update(scenario, id));
+        //todo
+        throw new NotImplementedException();
+
+//        Scenario scenario = scenarioMapper.scenarioDtoToScenario(scenarioDto);
+//        return scenarioMapper.scenarioToScenarioDto(scenarioService.update(scenario, id));
     }
 
     @DeleteMapping("{id}")

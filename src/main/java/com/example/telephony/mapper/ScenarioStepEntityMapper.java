@@ -5,9 +5,12 @@ import com.example.telephony.domain.ScenarioStepEntity;
 import com.example.telephony.dto.ScenarioStepDto;
 import com.example.telephony.enums.ExceptionMessage;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.data.mapping.MappingException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class ScenarioStepEntityMapper {
@@ -28,4 +31,14 @@ public abstract class ScenarioStepEntityMapper {
     }
 
     public abstract List<ScenarioStepEntity> scenarioStepDtoToScenarioStepEntity(List<ScenarioStepDto> scenarioStepDtos);
+
+    @Mapping(target = "isPositive", source = "positive")
+    public abstract ScenarioStepDto scenarioStepEntityToScenarioStepDto(ScenarioStepEntity scenarioStep);
+
+    public List<ScenarioStepDto> scenarioStepToScenarioStepDtoList(ScenarioStepEntity scenarioStep) {
+        List<ScenarioStepEntity> scenarioStepEntities = new ScenarioStepDtoListBuilder().buildListScenario(scenarioStep);
+        return scenarioStepEntities.stream()
+                .map(this::scenarioStepEntityToScenarioStepDto)
+                .collect(Collectors.toList());
+    }
 }

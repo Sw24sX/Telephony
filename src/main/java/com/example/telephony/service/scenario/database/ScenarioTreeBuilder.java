@@ -23,13 +23,15 @@ public class ScenarioTreeBuilder {
         saveNode(root);
         for (int rowNumber = 2; rowNumber <= getHeightTree(scenarioStepEntities); rowNumber++) {
             for(int i = 0; i < getCountNodesInRow(rowNumber); i++) {
-                ScenarioStepEntity currentNode = scenarioStepEntities.get(getIndexNodeInList(rowNumber, i));
+                int indexNodeInList = getIndexNodeInList(rowNumber, i);
+                ScenarioStepEntity currentNode = scenarioStepEntities.get(indexNodeInList);
                 if(currentNode == null) {
                     parents.add(null);
                     continue;
                 }
 
                 currentNode.setParent(getParent(rowNumber, i));
+                currentNode.setIndexInList(indexNodeInList);
                 parents.add(scenarioStepEntityRepository.save(currentNode));
             }
         }

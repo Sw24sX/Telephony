@@ -24,19 +24,11 @@ public abstract class ScenarioMapper {
     @Autowired
     protected SoundService soundService;
 
+    @Mapping(target = "scenarioStepDtos", ignore = true)
     public abstract ScenarioDto scenarioToScenarioDto(Scenario scenario);
 
     public abstract List<ScenarioDto> listScenarioToListScenarioDt(List<Scenario> scenarios);
 
-    public Scenario scenarioDtoToScenario(ScenarioDto scenarioDto) {
-        if (scenarioDto == null) {
-            return null;
-        }
-        Scenario scenario = new Scenario();
-        scenario.setName(scenarioDto.getName());
-
-        return scenario;
-    }
-
-
+    @Mapping(target = "id", ignore = true)
+    public abstract Scenario scenarioDtoToScenario(ScenarioDto scenarioDto);
 }

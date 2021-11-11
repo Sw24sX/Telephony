@@ -27,4 +27,7 @@ public class ScenarioStepEntity extends BaseEntity {
 
     @Column(name = "positive_way")
     private boolean isPositive;
+
+    @Column(name = "index_in_list")
+    private int indexInList;
 }
