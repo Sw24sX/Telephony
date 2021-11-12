@@ -9,6 +9,6 @@ create table "scenario_step" (
 );
 
 alter table "scenario"
-    add column "first_step" int8 not null references "scenario_step" ("id");
+    add column "first_step" int8 not null references "scenario_step" ("id") ON DELETE CASCADE;
 
 drop table "scenario_sound";

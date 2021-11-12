@@ -54,11 +54,10 @@ public class ScenarioController {
 
     @PutMapping("{id}")
     public ScenarioDto update(@RequestBody ScenarioDto scenarioDto, @PathVariable("id") Long id) {
-        //todo
-        throw new NotImplementedException();
-
-//        Scenario scenario = scenarioMapper.scenarioDtoToScenario(scenarioDto);
-//        return scenarioMapper.scenarioToScenarioDto(scenarioService.update(scenario, id));
+        Scenario scenario = scenarioMapper.scenarioDtoToScenario(scenarioDto);
+        List<ScenarioStepEntity> scenarioStepEntities = scenarioStepEntityMapper
+                .scenarioStepDtoToScenarioStepEntity(scenarioDto.getScenarioStepDtos());
+        return scenarioMapper.scenarioToScenarioDto(scenarioService.update(scenario, scenarioStepEntities, id));
     }
 
     @DeleteMapping("{id}")
