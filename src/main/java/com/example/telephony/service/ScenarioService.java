@@ -15,11 +15,13 @@ import java.util.List;
 public class ScenarioService {
     private final ScenarioRepository scenarioRepository;
     private final ScenarioStepEntityRepository scenarioStepEntityRepository;
+    private final TTSService ttsService;
 
     public ScenarioService(ScenarioRepository scenarioRepository,
-                           ScenarioStepEntityRepository scenarioStepEntityRepository) {
+                           ScenarioStepEntityRepository scenarioStepEntityRepository, TTSService ttsService) {
         this.scenarioRepository = scenarioRepository;
         this.scenarioStepEntityRepository = scenarioStepEntityRepository;
+        this.ttsService = ttsService;
     }
 
     public List<Scenario> getAll() {
@@ -36,7 +38,7 @@ public class ScenarioService {
     }
 
     public Scenario create(Scenario scenario, List<ScenarioStepEntity> scenarioStepEntities) {
-        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository)
+        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository, ttsService)
                 .buildAndSaveTree(scenarioStepEntities);
         scenario.setFirstStep(root);
         return scenarioRepository.save(scenario);
@@ -45,7 +47,7 @@ public class ScenarioService {
     public Scenario update(Scenario scenario, List<ScenarioStepEntity> scenarioStepEntities, Long id) {
         Scenario scenarioDb = getById(id);
         ScenarioStepEntity oldScenario = scenarioDb.getFirstStep();
-        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository)
+        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository, ttsService)
                 .buildAndSaveTree(scenarioStepEntities);
         scenario.setId(scenarioDb.getId());
         scenario.setFirstStep(root);

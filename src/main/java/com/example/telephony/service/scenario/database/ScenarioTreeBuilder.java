@@ -5,16 +5,19 @@ import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.MappingException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.ScenarioStepEntityRepository;
+import com.example.telephony.service.TTSService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScenarioTreeBuilder {
     private final ScenarioStepEntityRepository scenarioStepEntityRepository;
+    private final TTSService ttsService;
     private final List<ScenarioStepEntity> parents;
 
-    public ScenarioTreeBuilder(ScenarioStepEntityRepository scenarioStepEntityRepository) {
+    public ScenarioTreeBuilder(ScenarioStepEntityRepository scenarioStepEntityRepository, TTSService ttsService) {
         this.scenarioStepEntityRepository = scenarioStepEntityRepository;
+        this.ttsService = ttsService;
         parents = new ArrayList<>();
     }
 
