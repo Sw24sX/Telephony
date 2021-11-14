@@ -5,6 +5,7 @@ import com.example.telephony.domain.Scenario;
 import com.example.telephony.domain.ScenarioStepEntity;
 import com.example.telephony.dto.ScenarioDto;
 import com.example.telephony.dto.ScenarioStepDto;
+import com.example.telephony.dto.scenario.ScenarioTestDto;
 import com.example.telephony.mapper.ScenarioMapper;
 import com.example.telephony.mapper.ScenarioStepEntityMapper;
 import com.example.telephony.service.ScenarioService;
@@ -45,11 +46,12 @@ public class ScenarioController {
     }
 
     @PostMapping
-    public ScenarioDto create(@RequestBody ScenarioDto scenarioDto) {
+    public ScenarioTestDto create(@RequestBody ScenarioDto scenarioDto) {
         Scenario scenario = scenarioMapper.scenarioDtoToScenario(scenarioDto);
         List<ScenarioStepEntity> scenarioStepEntities = scenarioStepEntityMapper
                 .scenarioStepDtoToScenarioStepEntity(scenarioDto.getScenarioStepDtos());
-        return scenarioMapper.scenarioToScenarioDto(scenarioService.create(scenario, scenarioStepEntities));
+//        return scenarioMapper.scenarioToScenarioDto(scenarioService.create(scenario, scenarioStepEntities));
+        return null;
     }
 
     @PutMapping("{id}")
