@@ -3,6 +3,8 @@ package com.example.telephony.controller;
 import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.dto.CallersBaseDto;
+import com.example.telephony.dto.VariablesTypeDto;
+import com.example.telephony.enums.VariablesType;
 import com.example.telephony.mapper.CallersBaseMapper;
 import com.example.telephony.service.CallerBaseService;
 import io.swagger.annotations.Api;
@@ -13,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(GlobalMapping.API + "callers-base")
@@ -67,5 +71,13 @@ public class CallerBaseController {
                                          @ApiParam("Name base") @RequestParam("name") String name) {
         CallersBase callersBase = callerBaseService.uploadFromExelFile(multipartFile, name);
         return callersBaseMapper.callersBaseToCallersBaseDto(callersBase);
+    }
+
+    @GetMapping("variables/types")
+    @ApiOperation("Get all variables types")
+    public List<VariablesTypeDto> getVariablesType() {
+        return Arrays.stream(VariablesType.values())
+                .map(variablesType -> new VariablesTypeDto(variablesType.name(), variablesType.getDescription()))
+                .collect(Collectors.toList());
     }
 }
