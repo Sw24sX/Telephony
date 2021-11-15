@@ -34,4 +34,8 @@ public class Caller extends BaseEntity {
 
     @OneToMany(mappedBy = "caller")
     private List<CallerVariable> variables;
+
+    @ManyToOne()
+    @JoinColumn(name = "not_valid_column")
+    private VariablesTypeName notValidVariable;
 }

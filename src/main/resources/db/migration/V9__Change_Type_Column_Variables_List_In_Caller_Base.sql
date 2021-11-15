@@ -18,3 +18,7 @@ create table "caller_variables" (
     "value" varchar not null,
     "creation_date" timestamp not null default now()
 );
+
+alter table "caller"
+    add column "not_valid_column" int8 references "variables_type_name" ("id"),
+    drop column "variables";
