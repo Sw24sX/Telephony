@@ -11,11 +11,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {CallerMapper.class})
 public interface CallersBaseMapper {
-    @Mapping(target = "callers", source = "callers", resultType = CallerDto.class)
-    CallersBaseDto callersBaseToCallersBaseDto(CallersBase callersBase);
+//    @Mapping(target = "callers", source = "callers", resultType = CallerDto.class)
+//    CallersBaseDto callersBaseToCallersBaseDto(CallersBase callersBase);
 
-    @Mapping(target = "callers", source = "callers", resultType = Caller.class)
-    CallersBase callersBaseDtoToCallersBase(CallersBaseDto callersBaseDto);
+//    @Mapping(target = "callers", source = "callers", resultType = Caller.class)
+//    CallersBase callersBaseDtoToCallersBase(CallersBaseDto callersBaseDto);
 
-    List<CallersBaseDto> listCallersBaseToListCallersBaseDto(List<CallersBase> callersBases);
+//    List<CallersBaseDto> listCallersBaseToListCallersBaseDto(List<CallersBase> callersBases);
 }

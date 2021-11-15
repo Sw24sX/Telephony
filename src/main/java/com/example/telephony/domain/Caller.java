@@ -28,7 +28,10 @@ public class Caller extends BaseEntity {
     @OneToMany(mappedBy = "caller", cascade = CascadeType.REMOVE)
     private List<CallStatistic> callStatistics;
 
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", name = "variables")
-    private Map<String, String> variables;
+//    @Type(type = "jsonb")
+//    @Column(columnDefinition = "jsonb", name = "variables")
+//    private Map<String, String> variables;
+
+    @OneToMany(mappedBy = "caller")
+    private List<CallerVariable> variables;
 }

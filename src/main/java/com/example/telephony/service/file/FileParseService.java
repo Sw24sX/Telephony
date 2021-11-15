@@ -88,7 +88,7 @@ public class FileParseService {
     private CallersBase getCallersBase(Sheet sheet, List<String> columns) {
         List<Caller> callers = getCallers(sheet, columns);
         CallersBase callersBase = new CallersBase();
-        callersBase.setVariablesList(columns.toArray(new String[0]));
+//        callersBase.setVariablesList(columns.toArray(new String[0]));
         callersBase.setCallers(callers);
         return callersBase;
     }
@@ -133,7 +133,7 @@ public class FileParseService {
         String number = variables.get(phoneNumberColumnName);
         Caller caller = new Caller();
         caller.setNumber(number);
-        caller.setVariables(variables);
+//        caller.setVariables(variables);
         caller.setValid(rowParseResult.isValid());
         return caller;
     }

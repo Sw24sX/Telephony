@@ -31,7 +31,13 @@ public class CallersBase extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "caller_id"))
     private List<Caller> callers;
 
-    @Type(type = "string-array")
-    @Column(name = "variables_list", columnDefinition = "text[]")
-    private String[] variablesList;
+//    @Type(type = "string-array")
+//    @Column(name = "variables_list", columnDefinition = "text[]")
+//    private String[] variablesList;
+
+    @OneToMany(mappedBy = "callersBase")
+    List<VariablesTypeName> variablesList;
+
+    @Column(name = "is_confirmed")
+    private boolean isConfirmed;
 }

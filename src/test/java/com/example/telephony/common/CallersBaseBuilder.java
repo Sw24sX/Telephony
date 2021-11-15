@@ -30,7 +30,7 @@ public class CallersBaseBuilder {
         }
         Caller caller = new Caller();
         caller.setNumber(variables.get(phoneColumnName));
-        caller.setVariables(variables);
+//        caller.setVariables(variables);
         caller.setValid(isValid);
         callers.add(caller);
         return this;
@@ -38,7 +38,7 @@ public class CallersBaseBuilder {
 
     public CallersBase build() {
         CallersBase result = new CallersBase();
-        result.setVariablesList(columnNames.toArray(new String[0]));
+//        result.setVariablesList(columnNames.toArray(new String[0]));
         result.setCallers(callers);
         return result;
     }

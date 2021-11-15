@@ -29,34 +29,39 @@ public class CallerController {
     @GetMapping()
     @ApiOperation("Get all callers")
     public List<CallerDto> getAll() {
-        return callerMapper.listCallerToCallerDto(callerService.getAll());
+//        return callerMapper.listCallerToCallerDto(callerService.getAll());
+        return null;
     }
 
     @GetMapping("{id}")
     @ApiOperation("Get caller by id")
     public CallerDto getById(@ApiParam("Caller id") @PathVariable("id") Long id) {
-        return callerMapper.callerToCallerDto(callerService.getById(id));
+//        return callerMapper.callerToCallerDto(callerService.getById(id));
+        return null;
     }
 
     @PostMapping()
     @ApiOperation("Create caller")
     public CallerDto create(@ApiParam("Caller data") @RequestBody CallerDto callerDto) {
-        return callerMapper.callerToCallerDto(callerService.create(callerMapper.callerToCallerDto(callerDto)));
+//        return callerMapper.callerToCallerDto(callerService.create(callerMapper.callerToCallerDto(callerDto)));
+        return null;
     }
 
     @PostMapping("list")
     @ApiOperation("Create caller list")
     public List<CallerDto> create(@ApiParam("List callers") @RequestBody List<CallerDto> callerDtos) {
-        List<Caller> callers = callerMapper.listCallerDtoToCaller(callerDtos);
-        return callerMapper.listCallerToCallerDto(callerService.create(callers));
+//        List<Caller> callers = callerMapper.listCallerDtoToCaller(callerDtos);
+//        return callerMapper.listCallerToCallerDto(callerService.create(callers));
+        return null;
     }
 
     @PutMapping("{id}")
     @ApiOperation("Update caller")
     public CallerDto update(@ApiParam("Updated caller data") @RequestBody CallerDto callerDto,
                             @ApiParam("Caller id") @PathVariable("id") Long id) {
-        Caller caller = callerMapper.callerToCallerDto(callerDto);
-        return callerMapper.callerToCallerDto(callerService.update(id, caller));
+//        Caller caller = callerMapper.callerToCallerDto(callerDto);
+//        return callerMapper.callerToCallerDto(callerService.update(id, caller));
+        return null;
     }
 
     @DeleteMapping("{id}")

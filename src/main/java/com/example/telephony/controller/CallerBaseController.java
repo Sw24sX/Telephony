@@ -35,28 +35,32 @@ public class CallerBaseController {
     @GetMapping
     @ApiOperation("Get all callers bases")
     public List<CallersBaseDto> getAll() {
-        return callersBaseMapper.listCallersBaseToListCallersBaseDto(callerBaseService.getAll());
+//        return callersBaseMapper.listCallersBaseToListCallersBaseDto(callerBaseService.getAll());
+        return null;
     }
 
     @GetMapping("{id}")
     @ApiOperation("Get callers base by id")
     public CallersBaseDto getById(@ApiParam("Callers base id") @PathVariable("id") Long id) {
-        return callersBaseMapper.callersBaseToCallersBaseDto(callerBaseService.getById(id));
+//        return callersBaseMapper.callersBaseToCallersBaseDto(callerBaseService.getById(id));
+        return null;
     }
 
     @PostMapping
     @ApiOperation("Create new callers base with new callers only")
     public CallersBaseDto create(@ApiParam("Callers base data") @RequestBody CallersBaseDto callersBaseDto) {
-        CallersBase callersBase = callersBaseMapper.callersBaseDtoToCallersBase(callersBaseDto);
-        return callersBaseMapper.callersBaseToCallersBaseDto(callerBaseService.create(callersBase));
+//        CallersBase callersBase = callersBaseMapper.callersBaseDtoToCallersBase(callersBaseDto);
+//        return callersBaseMapper.callersBaseToCallersBaseDto(callerBaseService.create(callersBase));
+        return null;
     }
 
     @PutMapping("{id}")
     @ApiOperation("Update exists callers base. Can add exists callers")
     public CallersBaseDto update(@ApiParam("Callers base data") @RequestBody CallersBaseDto callersBaseDto,
                                  @ApiParam("Callers base id") @PathVariable("id") Long id) {
-        CallersBase callersBase = callersBaseMapper.callersBaseDtoToCallersBase(callersBaseDto);
-        return callersBaseMapper.callersBaseToCallersBaseDto(callerBaseService.update(id, callersBase));
+//        CallersBase callersBase = callersBaseMapper.callersBaseDtoToCallersBase(callersBaseDto);
+//        return callersBaseMapper.callersBaseToCallersBaseDto(callerBaseService.update(id, callersBase));
+        return null;
     }
 
     @DeleteMapping("{id}")
@@ -69,8 +73,9 @@ public class CallerBaseController {
     @ApiOperation("Upload callers base from exel file")
     public CallersBaseDto uploadFromExel(@ApiParam("Callers base in exel file") @RequestParam("file") MultipartFile multipartFile,
                                          @ApiParam("Name base") @RequestParam("name") String name) {
-        CallersBase callersBase = callerBaseService.uploadFromExelFile(multipartFile, name);
-        return callersBaseMapper.callersBaseToCallersBaseDto(callersBase);
+//        CallersBase callersBase = callerBaseService.uploadFromExelFile(multipartFile, name);
+//        return callersBaseMapper.callersBaseToCallersBaseDto(callersBase);
+        return null;
     }
 
     @GetMapping("variables/types")

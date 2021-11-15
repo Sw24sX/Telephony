@@ -13,7 +13,8 @@ public enum ExceptionMessage {
     CALLERS_NOT_CREATED("Абоненты не записаны в базу данных"),
     CALLERS_BASE_NOT_CONTAINS_CALLER("База абонентов %s не содержит абонента %s"),
     CALLERS_BASE_NOT_FOUND("База клиентов %s не найдена"),
-    GENERATED_FILE_NOT_FOUND("Сгенерированный файл %s не найден");
+    GENERATED_FILE_NOT_FOUND("Сгенерированный файл %s не найден"),
+    WRONG_ENUM_CODE("Код перечисления %s не найден");
 
     private final String message;
 
