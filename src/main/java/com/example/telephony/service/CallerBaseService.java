@@ -58,7 +58,9 @@ public class CallerBaseService {
     }
 
     public CallersBase uploadFromExelFile(MultipartFile multipartFile, String name){
-        return callersBaseParseService.parseExelToCallersBase(getInputStream(multipartFile), name);
+        CallersBase callersBase = callersBaseParseService.parseExelToCallersBase(getInputStream(multipartFile), name);
+        CallersBase a = callerBaseRepository.findById(callersBase.getId()).orElse(null);
+        return callersBase;
     }
 
     private InputStream getInputStream(MultipartFile multipartFile) {

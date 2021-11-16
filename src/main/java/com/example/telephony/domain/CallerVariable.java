@@ -18,4 +18,10 @@ public class CallerVariable extends BaseEntity {
     @ManyToOne()
     @JoinColumn(name = "variable_id")
     private VariablesTypeName typeName;
+
+    @Column(name = "is_valid")
+    private boolean isValid;
+
+    @Column(name = "is_phone_variable")
+    private boolean isPhoneColumn;
 }

@@ -49,7 +49,7 @@ public class CallersBaseParseService {
         CallersBase callersBase = createCallersBase(name);
         List<VariablesTypeName> columns = createColumnVariables(sheet, callersBase);
         callersBase.setVariablesList(columns);
-        return setPhoneColumn(saveCallersData(sheet, columns, callersBase));
+        return saveCallersData(sheet, columns, callersBase);
     }
 
     private Workbook createWorkbook(InputStream inputStream) {
@@ -165,37 +165,47 @@ public class CallersBaseParseService {
         List<Caller> result = new ArrayList<>();
 
         int startDataNumberRow = 1;
+        int phoneColumnIndex = findIndexColumnPhoneNumber(typeNames);
 
         for(int i = startDataNumberRow; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             if(row != null ) {
-                createCaller(sheet.getRow(i), typeNames, callersBase);
+                Caller caller = createCaller(sheet.getRow(i), typeNames, callersBase, phoneColumnIndex);
+                result.add(callerRepository.save(caller));
             }
         }
 
         return result;
     }
 
-    private Caller createCaller(Row row, List<VariablesTypeName> columnNames, CallersBase callersBase) {
+    private int findIndexColumnPhoneNumber(List<VariablesTypeName> columns) {
+        for (int i = 0; i < columns.size(); i++) {
+            if (PHONE_COLUMN_NAME.contains(columns.get(i).getTableName())) {
+                return i;
+            }
+        }
+
+        throw new FileParsingException(FileParsingExceptionMessage.PHONE_NUMBER_COLUMN_NOT_FOUND.getMessage());
+    }
+
+    private Caller createCaller(Row row, List<VariablesTypeName> columnNames, CallersBase callersBase, int phoneColumnIndex) {
         Caller caller = new Caller();
         caller.setCallersBase(callersBase);
         caller = callerRepository.save(caller);
-        return fillCaller(row, columnNames, caller);
+        return fillCaller(row, columnNames, caller, phoneColumnIndex);
     }
 
-    private Caller fillCaller(Row row, List<VariablesTypeName> columnsNames, Caller caller) {
-        List<CallerVariable> invalidCallerVariables = new ArrayList<>();
-
+    private Caller fillCaller(Row row, List<VariablesTypeName> columnsNames, Caller caller, int phoneColumnIndex) {
+        caller.setVariables(new ArrayList<>());
         for (int i = 0; i < columnsNames.size(); i++) {
             Cell cell = row.getCell(i);
             VariablesTypeName currentVariablesTypeName = columnsNames.get(i);
             String cellValue = getValueCell(cell);
-            CallerVariable callerVariable = createCallerVariable(cellValue, caller, currentVariablesTypeName);
-            if(cellValueIsInvalid(callerVariable.getValue()) || callerVariable.getTypeName().getType() == VariablesType.INDEFINITE) {
-                invalidCallerVariables.add(callerVariable);
-            }
+            boolean isPhoneValue = i == phoneColumnIndex;
+            CallerVariable callerVariable = createCallerVariable(cellValue, currentVariablesTypeName, isPhoneValue, caller);
+            caller.getVariables().add(callerVariable);
         }
-        caller.setInvalidVariables(invalidCallerVariables);
+
         return callerRepository.save(caller);
     }
 
@@ -216,11 +226,16 @@ public class CallersBaseParseService {
         }
     }
 
-    private CallerVariable createCallerVariable(String value, Caller caller, VariablesTypeName variablesTypeName) {
+    private CallerVariable createCallerVariable(String value, VariablesTypeName variablesTypeName, boolean isPhoneValue, Caller caller) {
         CallerVariable callerVariable = new CallerVariable();
-        callerVariable.setCaller(caller);
         callerVariable.setValue(value);
         callerVariable.setTypeName(variablesTypeName);
+        callerVariable.setValid(true);
+        callerVariable.setPhoneColumn(isPhoneValue);
+        callerVariable.setCaller(caller);
+        if(cellValueIsInvalid(value) || variablesTypeName.getType() == VariablesType.INDEFINITE) {
+            callerVariable.setValid(false);
+        }
         return callerVariableRepository.save(callerVariable);
     }
 
@@ -237,36 +252,5 @@ public class CallersBaseParseService {
         throwNotCorrectFormat(String.format(FileParsingExceptionMessage.ERROR_IN_CELL.getMessage(),
                 cell.getRow().getRowNum(),
                 cell.getColumnIndex()));
-    }
-
-    private CallersBase setPhoneColumn(CallersBase callersBase) {
-        VariablesTypeName phoneColumn = null;
-        for (VariablesTypeName column : callersBase.getVariablesList()) {
-            if (PHONE_COLUMN_NAME.contains(column.getCurrentName())) {
-                phoneColumn = column;
-            }
-        }
-
-        if (phoneColumn == null) {
-            throw new FileParsingException(FileParsingExceptionMessage.PHONE_NUMBER_COLUMN_NOT_FOUND.getMessage());
-        }
-
-        callersBase.setNumber(phoneColumn);
-        return callerBaseRepository.save(callersBase);
-    }
-
-    private VariablesTypeName findVariablesType(List<VariablesTypeName> variablesTypeNames) {
-        VariablesTypeName result = null;
-        for(VariablesTypeName typeName : variablesTypeNames) {
-            if (PHONE_COLUMN_NAME.contains(typeName.getTableName())) {
-                result = typeName;
-            }
-        }
-
-        if (result == null) {
-            throw new FileParsingException(FileParsingExceptionMessage.PHONE_NUMBER_COLUMN_NOT_FOUND.getMessage());
-        }
-
-        return result;
     }
 }

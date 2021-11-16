@@ -1,14 +1,10 @@
 package com.example.telephony.domain;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -24,10 +20,4 @@ public class Caller extends BaseEntity {
 
     @OneToMany(mappedBy = "caller")
     private List<CallerVariable> variables;
-
-    @ManyToMany()
-    @JoinTable(name = "invalid_variables_caller",
-            joinColumns = @JoinColumn(name = "caller_id"),
-            inverseJoinColumns = @JoinColumn(name = "caller_variables_id"))
-    private List<CallerVariable> invalidVariables;
 }

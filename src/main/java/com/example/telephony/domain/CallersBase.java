@@ -24,8 +24,4 @@ public class CallersBase extends BaseEntity {
 
     @Column(name = "is_confirmed")
     private boolean isConfirmed;
-
-    @OneToOne()
-    @JoinColumn(name = "number_id")
-    private VariablesTypeName number;
 }
