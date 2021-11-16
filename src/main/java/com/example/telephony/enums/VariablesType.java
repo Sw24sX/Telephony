@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public enum VariablesType {
+    INDEFINITE("Неопределенный", (short) 0),
     STRING("Строка", (short) 1),
     NUMBER("Число", (short) 2),
     DATA("Дата", (short) 3),

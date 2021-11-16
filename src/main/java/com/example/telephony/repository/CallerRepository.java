@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface CallerRepository extends JpaRepository<Caller, Long> {
-    List<Caller> findAllByNumberIn(Collection<String> number);
+//    List<Caller> findAllByNumberIn(Collection<String> number);
 
 //    @Query("select u from Caller u where u.number in :callers.number")
 //    List<Caller> findAllByNumberIn(Collection<Caller> callers);

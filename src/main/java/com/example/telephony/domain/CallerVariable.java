@@ -14,4 +14,8 @@ public class CallerVariable extends BaseEntity {
     @ManyToOne()
     @JoinColumn(name = "caller_id")
     private Caller caller;
+
+    @ManyToOne()
+    @JoinColumn(name = "variable_id")
+    private VariablesTypeName typeName;
 }

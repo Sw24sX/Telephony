@@ -7,29 +7,26 @@ import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
 import com.example.telephony.repository.CallerRepository;
-import com.example.telephony.service.file.FileParseService;
+import com.example.telephony.service.file.CallersBaseParseService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CallerBaseService {
     private final CallerBaseRepository callerBaseRepository;
-    private final CallerService callerService;
     private final CallerRepository callerRepository;
-    private final FileParseService fileParseService;
+    private final CallersBaseParseService callersBaseParseService;
 
-    public CallerBaseService(CallerBaseRepository callerBaseRepository, CallerService callerService,
-                             CallerRepository callerRepository, FileParseService fileParseService) {
+    public CallerBaseService(CallerBaseRepository callerBaseRepository, CallerRepository callerRepository,
+                             CallersBaseParseService callersBaseParseService) {
         this.callerBaseRepository = callerBaseRepository;
-        this.callerService = callerService;
         this.callerRepository = callerRepository;
-        this.fileParseService = fileParseService;
+        this.callersBaseParseService = callersBaseParseService;
     }
 
     public List<CallersBase> getAll() {
@@ -45,29 +42,13 @@ public class CallerBaseService {
     }
 
     public CallersBase create(CallersBase callersBase) {
-        List<Caller> alreadyCreates = callerRepository.findAllByNumberIn(
-                getNumbersFromCallers(callersBase.getCallers()));
-        if (!alreadyCreates.isEmpty()) {
-            throw new TelephonyException(ExceptionMessage.CALLERS_ALREADY_CREATED.getMessage());
-        }
         callersBase.setCallers(callerRepository.saveAll(callersBase.getCallers()));
         return callerBaseRepository.save(callersBase);
     }
 
-    private List<String> getNumbersFromCallers(List<Caller> callers) {
-        return callers.stream().map(Caller::getNumber).collect(Collectors.toList());
-    }
-
     public CallersBase update(Long id, CallersBase callersBase) {
         CallersBase callersBaseDb = getById(id);
-
-        List<Caller> alreadyCreates = callerRepository.findAllByNumberIn(
-                getNumbersFromCallers(callersBase.getCallers()));
-        if (alreadyCreates.size() != callersBase.getCallers().size()) {
-            throw new TelephonyException(ExceptionMessage.CALLERS_NOT_CREATED.getMessage());
-        }
         callersBase.setId(callersBaseDb.getId());
-        callersBase.setCallers(alreadyCreates);
         return callerBaseRepository.save(callersBase);
     }
 
@@ -77,10 +58,7 @@ public class CallerBaseService {
     }
 
     public CallersBase uploadFromExelFile(MultipartFile multipartFile, String name){
-        CallersBase callersBase = fileParseService.parseExelToCallersBase(getInputStream(multipartFile));
-        callersBase.setCallers(callerRepository.saveAll(callersBase.getCallers()));
-        callersBase.setName(name);
-        return callerBaseRepository.save(callersBase);
+        return callersBaseParseService.parseExelToCallersBase(getInputStream(multipartFile), name);
     }
 
     private InputStream getInputStream(MultipartFile multipartFile) {

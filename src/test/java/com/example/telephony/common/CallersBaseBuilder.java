@@ -29,9 +29,9 @@ public class CallersBaseBuilder {
             variables.put(columnNames.get(i), data.get(i));
         }
         Caller caller = new Caller();
-        caller.setNumber(variables.get(phoneColumnName));
+//        caller.setNumber(variables.get(phoneColumnName));
 //        caller.setVariables(variables);
-        caller.setValid(isValid);
+//        caller.setValid(isValid);
         callers.add(caller);
         return this;
     }
