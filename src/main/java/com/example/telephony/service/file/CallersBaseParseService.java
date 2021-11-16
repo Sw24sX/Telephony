@@ -48,6 +48,7 @@ public class CallersBaseParseService {
         checkFormatCorrected(sheet);
         CallersBase callersBase = createCallersBase(name);
         List<VariablesTypeName> columns = createColumnVariables(sheet, callersBase);
+        callersBase.setVariablesList(columns);
         return setPhoneColumn(saveCallersData(sheet, columns, callersBase));
     }
 
@@ -84,6 +85,7 @@ public class CallersBaseParseService {
         for (int i = firstCellNum; i < lastCellNum; i++) {
             VariablesTypeName variablesTypeName = createVariablesTypeFromCell(i, firstRow, secondRow);
             variablesTypeName.setCallersBase(callersBase);
+            result.add(variablesTypeName);
         }
 
         checkCorrectColumnNames(result);
