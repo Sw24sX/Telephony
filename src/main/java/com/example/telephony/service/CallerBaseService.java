@@ -12,6 +12,7 @@ import com.example.telephony.repository.CallerBaseRepository;
 import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.repository.VariablesTypeNameRepository;
 import com.example.telephony.service.file.CallersBaseParseService;
+import com.example.telephony.service.file.CallersBaseParser;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,17 +24,9 @@ import java.util.List;
 @Service
 public class CallerBaseService {
     private final CallerBaseRepository callerBaseRepository;
-    private final CallerRepository callerRepository;
-    private final CallersBaseParseService callersBaseParseService;
-    private final VariablesTypeNameRepository variablesTypeNameRepository;
 
-    public CallerBaseService(CallerBaseRepository callerBaseRepository, CallerRepository callerRepository,
-                             CallersBaseParseService callersBaseParseService,
-                             VariablesTypeNameRepository variablesTypeNameRepository) {
+    public CallerBaseService(CallerBaseRepository callerBaseRepository) {
         this.callerBaseRepository = callerBaseRepository;
-        this.callerRepository = callerRepository;
-        this.callersBaseParseService = callersBaseParseService;
-        this.variablesTypeNameRepository = variablesTypeNameRepository;
     }
 
     public List<CallersBase> getAll() {
@@ -90,15 +83,16 @@ public class CallerBaseService {
 
     public void deleteCallersBase(Long id) {
         CallersBase callersBase = getById(id);
-//        callerRepository.deleteAll(callersBase.getCallers());
-//        variablesTypeNameRepository.deleteAll(callersBase.getVariablesList());
         callerBaseRepository.delete(callersBase);
     }
 
-    public CallersBase uploadFromExelFile(MultipartFile multipartFile, String name){
-        CallersBase callersBase = callersBaseParseService.parseExelToCallersBase(getInputStream(multipartFile), name);
-        CallersBase a = callerBaseRepository.findById(callersBase.getId()).orElse(null);
-        return callersBase;
+    public CallersBase uploadFromExelFile(MultipartFile multipartFile, String name) {
+        CallersBaseParser callersBaseParser = new CallersBaseParser(getInputStream(multipartFile));
+        CallersBase callersBase = callersBaseParser.parseExelToCallersBase();
+        callersBase.setName(name);
+
+        CallersBase result = callerBaseRepository.save(callersBase);
+        return result;
     }
 
     private InputStream getInputStream(MultipartFile multipartFile) {
