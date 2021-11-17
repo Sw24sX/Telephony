@@ -117,7 +117,7 @@ public class CallersBaseParser {
                 break;
             case NUMERIC:
                 typeVariable.setType(VariablesType.NUMBER);
-                name = String.valueOf(firstRowCell.getNumericCellValue());
+                name = String.valueOf(firstRowCell.getStringCellValue());
                 setNameInTypeVariable(typeVariable, name, firstRowCell);
                 break;
             default:
