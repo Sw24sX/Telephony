@@ -1,32 +1,27 @@
 package com.example.telephony.service;
 
-import com.example.telephony.domain.Caller;
-import com.example.telephony.domain.CallerVariable;
 import com.example.telephony.domain.CallersBase;
-import com.example.telephony.domain.VariablesTypeName;
 import com.example.telephony.enums.ExceptionMessage;
-import com.example.telephony.enums.VariablesType;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
 import com.example.telephony.repository.CallerRepository;
-import com.example.telephony.repository.VariablesTypeNameRepository;
-import com.example.telephony.service.file.CallersBaseParseService;
 import com.example.telephony.service.file.CallersBaseParser;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class CallerBaseService {
     private final CallerBaseRepository callerBaseRepository;
+    private final CallerRepository callerRepository;
 
-    public CallerBaseService(CallerBaseRepository callerBaseRepository) {
+    public CallerBaseService(CallerBaseRepository callerBaseRepository, CallerRepository callerRepository) {
         this.callerBaseRepository = callerBaseRepository;
+        this.callerRepository = callerRepository;
     }
 
     public List<CallersBase> getAll() {
@@ -50,8 +45,10 @@ public class CallerBaseService {
     }
 
     public void deleteCallersBase(Long id) {
-        CallersBase callersBase = getById(id);
-        callerBaseRepository.delete(callersBase);
+        //todo
+//        CallersBase callersBase = getById(id);
+//        callerRepository.deleteAll(callersBase.getCallers());
+//        callerBaseRepository.deleteById(id);
     }
 
     public CallersBase uploadFromExelFile(MultipartFile multipartFile, String name) {

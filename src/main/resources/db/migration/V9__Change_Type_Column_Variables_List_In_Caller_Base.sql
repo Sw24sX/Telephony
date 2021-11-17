@@ -24,7 +24,7 @@ create table "caller_variables" (
 alter table "caller"
     drop column "variables",
     drop column "number",
-    add column "callers_base_id" int8 not null references "caller_base" ("id") on delete cascade,
+    add column "callers_base_id" int8 references "caller_base" ("id"),
     drop column "valid";
 
 drop table "caller_base_callers";
