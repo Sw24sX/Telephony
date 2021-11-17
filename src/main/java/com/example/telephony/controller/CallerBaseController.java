@@ -30,17 +30,14 @@ import java.util.stream.Collectors;
 @Api("Operations pertaining to callers bases")
 public class CallerBaseController {
     private final CallerBaseService callerBaseService;
-    private final CallersBaseMapper callersBaseMapper;
     private final CallersBaseHeaderMapper callersBaseHeaderMapper;
     private final CallerService callerService;
     private final CallerMapper callerMapper;
 
     @Autowired
-    public CallerBaseController(CallerBaseService callerBaseService, CallersBaseMapper callersBaseMapper,
-                                CallersBaseHeaderMapper callersBaseHeaderMapper, CallerService callerService,
-                                CallerMapper callerMapper) {
+    public CallerBaseController(CallerBaseService callerBaseService, CallersBaseHeaderMapper callersBaseHeaderMapper,
+                                CallerService callerService, CallerMapper callerMapper) {
         this.callerBaseService = callerBaseService;
-        this.callersBaseMapper = callersBaseMapper;
         this.callersBaseHeaderMapper = callersBaseHeaderMapper;
         this.callerService = callerService;
         this.callerMapper = callerMapper;
@@ -60,13 +57,12 @@ public class CallerBaseController {
         return callersBaseHeaderMapper.fromCallersBase(callersBase);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("header/{id}")
     @ApiOperation("Update exists callers base. Can add exists callers")
-    public CallersBaseDto update(@ApiParam("Callers base data") @RequestBody CallersBaseDto callersBaseDto,
-                                 @ApiParam("Callers base id") @PathVariable("id") Long id) {
-//        CallersBase callersBase = callersBaseMapper.callersBaseDtoToCallersBase(callersBaseDto);
-//        return callersBaseMapper.callersBaseToCallersBaseDto(callerBaseService.update(id, callersBase));
-        return null;
+    public CallersBaseHeaderDto update(@ApiParam("Callers base data") @RequestBody CallersBaseHeaderDto callersBaseHeaderDto,
+                                       @ApiParam("Callers base id") @PathVariable("id") Long id) {
+        CallersBase callersBase = callersBaseHeaderMapper.fromCallersBaseHeaderDto(callersBaseHeaderDto);
+        return callersBaseHeaderMapper.fromCallersBase(callerBaseService.update(id, callersBase));
     }
 
     @DeleteMapping("{id}")
@@ -93,9 +89,9 @@ public class CallerBaseController {
 
     @GetMapping("data/{id}")
     @ApiOperation("Get page of callers")
-    public Page<CallerDto> getCallersPage(@PathVariable("id") Long callersBaseId,
-                                          @RequestParam("page") Integer page,
-                                          @RequestParam("size") Integer size) {
+    public Page<CallerDto> getCallersPage(@ApiParam("Callers base id") @PathVariable("id") Long callersBaseId,
+                                          @ApiParam("Page number. Start with 0") @RequestParam("page") Integer page,
+                                          @ApiParam("Page size") @RequestParam("size") Integer size) {
         Page<Caller> callers = callerService.getPageCallerByCallerBaseId(callersBaseId, page, size);
         return callers.map(callerMapper::fromCaller);
     }

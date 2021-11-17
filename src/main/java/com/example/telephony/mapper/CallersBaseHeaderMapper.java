@@ -2,7 +2,6 @@ package com.example.telephony.mapper;
 
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.dto.CallersBaseHeaderDto;
-import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.service.CallerService;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public abstract class CallersBaseHeaderMapper {
         result.setId(callersBase.getId());
         result.setCreated(callersBase.getCreated());
         result.setConfirmed(callersBase.isConfirmed());
-        result.setCountCallers(callersBase.getCallers().size());
+        result.setCountCallers(callersBase.getCallers() == null ? 0 : callersBase.getCallers().size());
         result.setCountInvalidCallers(callerService.getCountInvalidCallers(callersBase.getId()));
         result.setColumns(callersBaseColumnMapper.fromVariablesTypeName(callersBase.getVariablesList()));
         result.setName(callersBase.getName());
@@ -43,6 +42,7 @@ public abstract class CallersBaseHeaderMapper {
         CallersBase callersBase = new CallersBase();
         callersBase.setName(callersBaseHeaderDto.getName());
         callersBase.setConfirmed(callersBaseHeaderDto.isConfirmed());
+        callersBase.setVariablesList(callersBaseColumnMapper.fromCallersBaseColumnDto(callersBaseHeaderDto.getColumns()));
         return callersBase;
     }
 }

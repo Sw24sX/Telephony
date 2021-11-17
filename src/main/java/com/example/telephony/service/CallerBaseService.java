@@ -8,6 +8,7 @@ import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
 import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.service.file.CallersBaseParseService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,8 +49,10 @@ public class CallerBaseService {
 
     public CallersBase update(Long id, CallersBase callersBase) {
         CallersBase callersBaseDb = getById(id);
-        callersBase.setId(callersBaseDb.getId());
-        return callerBaseRepository.save(callersBase);
+        callersBaseDb.setName(callersBase.getName());
+        callersBaseDb.setConfirmed(callersBase.isConfirmed() || callersBaseDb.isConfirmed());
+        callersBaseDb.setVariablesList(callersBase.getVariablesList());
+        return callerBaseRepository.save(callersBaseDb);
     }
 
     public void deleteCallersBase(Long id) {
