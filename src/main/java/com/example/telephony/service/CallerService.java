@@ -5,6 +5,9 @@ import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.CallerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +47,11 @@ public class CallerService {
     public void delete(Long id) {
         Caller caller = getById(id);
         callerRepository.delete(caller);
+    }
+
+    public Page<Caller> getPageCallerByCallerBaseId(Long callerBaseId, int number, int size) {
+        Pageable pageable = PageRequest.of(number, size);
+        List<Caller> t = callerRepository.findAllByCallersBase_id(callerBaseId);
+        return callerRepository.findAllByCallersBase_id(callerBaseId, pageable);
     }
 }

@@ -1,6 +1,9 @@
 package com.example.telephony.repository;
 
 import com.example.telephony.domain.Caller;
+import org.aspectj.weaver.ast.Call;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -24,4 +27,8 @@ public interface CallerRepository extends JpaRepository<Caller, Long> {
             ") as inv;",
             nativeQuery = true)
     int getCountInvalidCallers(Long callersBaseId);
+
+    Page<Caller> findAllByCallersBase_id(Long callersBase_id, Pageable pageable);
+
+    List<Caller> findAllByCallersBase_id(Long callersBase_id);
 }
