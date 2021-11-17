@@ -41,38 +41,6 @@ public class CallerBaseService {
         return callersBase;
     }
 
-    public CallersBase create(CallersBase callersBase1) {
-//        callersBase.setCallers(callerRepository.saveAll(callersBase.getCallers()));
-//        return callerBaseRepository.save(callersBase);
-
-        CallersBase callersBase = new CallersBase();
-        callersBase.setName("test");
-
-        VariablesTypeName variablesTypeName = new VariablesTypeName();
-        variablesTypeName.setType(VariablesType.BOOLEAN);
-        variablesTypeName.setCallersBase(callersBase);
-        variablesTypeName.setTableName("test");
-        variablesTypeName.setCurrentName("test");
-
-        callersBase.setVariablesList(List.of(variablesTypeName));
-
-        Caller caller = new Caller();
-        caller.setCallersBase(callersBase);
-
-        CallerVariable callerVariable = new CallerVariable();
-        callerVariable.setCaller(caller);
-        callerVariable.setValid(true);
-        callerVariable.setPhoneColumn(true);
-        callerVariable.setTypeName(variablesTypeName);
-        callerVariable.setValue("test");
-
-        caller.setVariables(List.of(callerVariable));
-
-        callersBase.setCallers(List.of(caller));
-
-        return callerBaseRepository.save(callersBase);
-    }
-
     public CallersBase update(Long id, CallersBase callersBase) {
         CallersBase callersBaseDb = getById(id);
         callersBaseDb.setName(callersBase.getName());

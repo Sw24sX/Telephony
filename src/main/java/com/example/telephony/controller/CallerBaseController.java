@@ -93,9 +93,4 @@ public class CallerBaseController {
         Page<Caller> callers = callerService.getPageCallerByCallerBaseId(callersBaseId, page, size);
         return callers.map(callerMapper::fromCaller);
     }
-
-    @PostMapping("create")
-    public CallersBaseHeaderDto create() {
-        return callersBaseHeaderMapper.fromCallersBase(callerBaseService.create(null));
-    }
 }
