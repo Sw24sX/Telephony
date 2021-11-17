@@ -1,39 +1,31 @@
 package com.example.telephony.service;
 
-import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
 import com.example.telephony.repository.CallerRepository;
-import com.example.telephony.service.file.FileParseService;
+import com.example.telephony.service.file.CallersBaseParser;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 public class CallerBaseService {
     private final CallerBaseRepository callerBaseRepository;
-    private final CallerService callerService;
     private final CallerRepository callerRepository;
-    private final FileParseService fileParseService;
 
-    public CallerBaseService(CallerBaseRepository callerBaseRepository, CallerService callerService,
-                             CallerRepository callerRepository, FileParseService fileParseService) {
+    public CallerBaseService(CallerBaseRepository callerBaseRepository, CallerRepository callerRepository) {
         this.callerBaseRepository = callerBaseRepository;
-        this.callerService = callerService;
         this.callerRepository = callerRepository;
-        this.fileParseService = fileParseService;
     }
 
     public List<CallersBase> getAll() {
-        return callerBaseRepository.findAll();
+        return callerBaseRepository.findAllByConfirmedIs(true);
     }
 
     public CallersBase getById(Long id) {
@@ -44,43 +36,28 @@ public class CallerBaseService {
         return callersBase;
     }
 
-    public CallersBase create(CallersBase callersBase) {
-        List<Caller> alreadyCreates = callerRepository.findAllByNumberIn(
-                getNumbersFromCallers(callersBase.getCallers()));
-        if (!alreadyCreates.isEmpty()) {
-            throw new TelephonyException(ExceptionMessage.CALLERS_ALREADY_CREATED.getMessage());
-        }
-        callersBase.setCallers(callerRepository.saveAll(callersBase.getCallers()));
-        return callerBaseRepository.save(callersBase);
-    }
-
-    private List<String> getNumbersFromCallers(List<Caller> callers) {
-        return callers.stream().map(Caller::getNumber).collect(Collectors.toList());
-    }
-
     public CallersBase update(Long id, CallersBase callersBase) {
         CallersBase callersBaseDb = getById(id);
-
-        List<Caller> alreadyCreates = callerRepository.findAllByNumberIn(
-                getNumbersFromCallers(callersBase.getCallers()));
-        if (alreadyCreates.size() != callersBase.getCallers().size()) {
-            throw new TelephonyException(ExceptionMessage.CALLERS_NOT_CREATED.getMessage());
-        }
-        callersBase.setId(callersBaseDb.getId());
-        callersBase.setCallers(alreadyCreates);
-        return callerBaseRepository.save(callersBase);
+        callersBaseDb.setName(callersBase.getName());
+        callersBaseDb.setConfirmed(callersBase.isConfirmed() || callersBaseDb.isConfirmed());
+        callersBaseDb.setVariablesList(callersBase.getVariablesList());
+        return callerBaseRepository.save(callersBaseDb);
     }
 
     public void deleteCallersBase(Long id) {
-        CallersBase callersBase = getById(id);
-        callerBaseRepository.delete(callersBase);
+        //todo
+//        CallersBase callersBase = getById(id);
+//        callerRepository.deleteAll(callersBase.getCallers());
+//        callerBaseRepository.deleteById(id);
     }
 
-    public CallersBase uploadFromExelFile(MultipartFile multipartFile, String name){
-        CallersBase callersBase = fileParseService.parseExelToCallersBase(getInputStream(multipartFile));
-        callersBase.setCallers(callerRepository.saveAll(callersBase.getCallers()));
+    public CallersBase uploadFromExelFile(MultipartFile multipartFile, String name) {
+        CallersBaseParser callersBaseParser = new CallersBaseParser(getInputStream(multipartFile));
+        CallersBase callersBase = callersBaseParser.parseExelToCallersBase();
         callersBase.setName(name);
-        return callerBaseRepository.save(callersBase);
+
+        CallersBase result = callerBaseRepository.save(callersBase);
+        return result;
     }
 
     private InputStream getInputStream(MultipartFile multipartFile) {

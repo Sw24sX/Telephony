@@ -57,7 +57,8 @@ public class ARIService {
     }
 
     private void addCallerToScenarioExecute(Caller caller, ScenarioStep scenarioStep) {
-        Channel channel = createChannel(caller.getNumber());
+//        Channel channel = createChannel(caller.getNumber());
+        Channel channel = null;
         scenarioManager.addCallScenario(channel, scenarioStep);
     }
 

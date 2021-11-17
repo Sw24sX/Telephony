@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "call_statistic")
 @Data
 public class CallStatistic extends BaseEntity {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "caller_id")
     private Caller caller;
 
