@@ -14,7 +14,5 @@ public interface CallerMapper {
     @Mappings({
             @Mapping(target = "variables", source = "variables", resultType = CallerVariablesDto.class)
     })
-    public abstract CallerDto fromCaller(Caller callers);
-
-    public abstract List<CallerDto> fromCaller(List<Caller> callers);
+    CallerDto fromCaller(Caller callers);
 }

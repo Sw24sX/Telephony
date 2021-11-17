@@ -12,4 +12,5 @@ public class CallersBaseHeaderDto extends BaseDto {
     private int countCallers;
     private int countInvalidCallers;
     private List<CallersBaseColumnDto> columns;
+    private String name;
 }

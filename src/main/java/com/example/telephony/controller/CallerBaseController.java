@@ -48,9 +48,9 @@ public class CallerBaseController {
 
     @GetMapping
     @ApiOperation("Get all callers bases")
-    public List<CallersBaseDto> getAll() {
-//        return callersBaseMapper.listCallersBaseToListCallersBaseDto(callerBaseService.getAll());
-        return null;
+    public List<CallersBaseHeaderDto> getAll() {
+        List<CallersBase> callersBases = callerBaseService.getAll();
+        return callersBaseHeaderMapper.fromCallersBase(callersBases);
     }
 
     @GetMapping("header/{id}")
@@ -80,7 +80,6 @@ public class CallerBaseController {
     public CallersBaseHeaderDto uploadFromExel(@ApiParam("Callers base in exel file") @RequestParam("file") MultipartFile multipartFile,
                                                @ApiParam("Name base") @RequestParam("name") String name) {
         CallersBase callersBase = callerBaseService.uploadFromExelFile(multipartFile, name);
-//        return callersBaseMapper.callersBaseToCallersBaseDto(callersBase);
         return callersBaseHeaderMapper.fromCallersBase(callersBase);
     }
 
