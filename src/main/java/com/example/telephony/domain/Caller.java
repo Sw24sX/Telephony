@@ -11,13 +11,13 @@ import java.util.List;
 @Table(name = "caller")
 @Data
 public class Caller extends BaseEntity {
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "callers_base_id")
     private CallersBase callersBase;
 
-    @OneToMany(mappedBy = "caller", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "caller", cascade = CascadeType.ALL)
     private List<CallStatistic> callStatistics;
 
-    @OneToMany(mappedBy = "caller")
+    @OneToMany(mappedBy = "caller", cascade = CascadeType.ALL)
     private List<CallerVariable> variables;
 }

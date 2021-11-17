@@ -22,7 +22,7 @@ public class VariablesTypeName extends BaseEntity {
     @Convert(converter = VariablesTypeCodeConverter.class)
     private VariablesType type;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "caller_base_id")
     private CallersBase callersBase;
 }

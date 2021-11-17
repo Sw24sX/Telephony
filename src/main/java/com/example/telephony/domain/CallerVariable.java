@@ -11,11 +11,11 @@ public class CallerVariable extends BaseEntity {
     @Column(name = "value")
     private String value;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "caller_id")
     private Caller caller;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "variable_id")
     private VariablesTypeName typeName;
 

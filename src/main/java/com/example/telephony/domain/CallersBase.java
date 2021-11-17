@@ -16,10 +16,10 @@ public class CallersBase extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "callersBase")
+    @OneToMany(mappedBy = "callersBase", cascade = CascadeType.ALL)
     private List<Caller> callers;
 
-    @OneToMany(mappedBy = "callersBase")
+    @OneToMany(mappedBy = "callersBase", cascade = CascadeType.ALL)
     List<VariablesTypeName> variablesList;
 
     @Column(name = "is_confirmed")

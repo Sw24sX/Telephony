@@ -4,13 +4,11 @@ import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.dto.CallerDto;
-import com.example.telephony.dto.CallersBaseDto;
 import com.example.telephony.dto.CallersBaseHeaderDto;
 import com.example.telephony.dto.VariablesTypeDto;
 import com.example.telephony.enums.VariablesType;
 import com.example.telephony.mapper.CallerMapper;
 import com.example.telephony.mapper.CallersBaseHeaderMapper;
-import com.example.telephony.mapper.CallersBaseMapper;
 import com.example.telephony.service.CallerBaseService;
 import com.example.telephony.service.CallerService;
 import io.swagger.annotations.Api;
@@ -94,5 +92,10 @@ public class CallerBaseController {
                                           @ApiParam("Page size") @RequestParam("size") Integer size) {
         Page<Caller> callers = callerService.getPageCallerByCallerBaseId(callersBaseId, page, size);
         return callers.map(callerMapper::fromCaller);
+    }
+
+    @PostMapping("create")
+    public CallersBaseHeaderDto create() {
+        return callersBaseHeaderMapper.fromCallersBase(callerBaseService.create(null));
     }
 }
