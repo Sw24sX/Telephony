@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CallerBaseRepository extends JpaRepository<CallersBase, Long> {
-
+    @Query("select cb from CallersBase cb where cb.isConfirmed = ?1")
+    List<CallersBase> findAllByConfirmedIs(boolean confirmed);
 }

@@ -41,8 +41,8 @@ public class CallerBaseController {
         this.callerMapper = callerMapper;
     }
 
-    @GetMapping
-    @ApiOperation("Get all callers bases")
+    @GetMapping("header")
+    @ApiOperation("Get all confirmed callers bases")
     public List<CallersBaseHeaderDto> getAll() {
         List<CallersBase> callersBases = callerBaseService.getAll();
         return callersBaseHeaderMapper.fromCallersBase(callersBases);

@@ -25,7 +25,7 @@ public class CallerBaseService {
     }
 
     public List<CallersBase> getAll() {
-        return callerBaseRepository.findAll();
+        return callerBaseRepository.findAllByConfirmedIs(true);
     }
 
     public CallersBase getById(Long id) {
