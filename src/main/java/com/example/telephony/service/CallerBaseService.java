@@ -33,10 +33,11 @@ public class CallerBaseService {
         return callerBaseRepository.findAllByConfirmedIs(true);
     }
 
-    public Page<CallersBase> getPage(int number, int size, CallersBasePageSort callersBasePageSort, Sort.Direction direction) {
+    public Page<CallersBase> getPage(int number, int size, CallersBasePageSort callersBasePageSort,
+                                     Sort.Direction direction, String name) {
         Sort sort = Sort.by(direction, callersBasePageSort.getFieldName());
         Pageable pageable = PageRequest.of(number, size, sort);
-        return callerBaseRepository.findAllByConfirmedIs(true, pageable);
+        return callerBaseRepository.findAllByConfirmedIs(true, "%" + name + "%", pageable);
     }
 
     public CallersBase getById(Long id) {

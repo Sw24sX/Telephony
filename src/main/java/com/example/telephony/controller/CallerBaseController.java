@@ -47,10 +47,10 @@ public class CallerBaseController {
     @ApiOperation("Get all confirmed callers bases")
     public Page<CallersBaseHeaderDto> getAll(@RequestParam("page") int page,
                                              @RequestParam("size") int size,
-                                             @RequestParam(value = "direction", required = false) Sort.Direction direction,
-                                             @RequestParam(value = "sort_by", required = false) CallersBasePageSort sort) {
-
-        Page<CallersBase> callersBases = callerBaseService.getPage(page, size, sort, direction);
+                                             @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
+                                             @RequestParam(value = "sort_by", required = false, defaultValue = "NAME") CallersBasePageSort sort,
+                                             @RequestParam(value = "name", required = false, defaultValue = "") String searchedName) {
+        Page<CallersBase> callersBases = callerBaseService.getPage(page, size, sort, direction, searchedName);
         return callersBases.map(callersBaseHeaderMapper::fromCallersBase);
     }
 
