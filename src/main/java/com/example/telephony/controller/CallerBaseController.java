@@ -6,6 +6,7 @@ import com.example.telephony.domain.CallersBase;
 import com.example.telephony.dto.CallerDto;
 import com.example.telephony.dto.CallersBaseHeaderDto;
 import com.example.telephony.dto.VariablesTypeDto;
+import com.example.telephony.enums.CallersBasePageSort;
 import com.example.telephony.enums.VariablesType;
 import com.example.telephony.mapper.CallerMapper;
 import com.example.telephony.mapper.CallersBaseHeaderMapper;
@@ -16,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,9 +45,13 @@ public class CallerBaseController {
 
     @GetMapping("header")
     @ApiOperation("Get all confirmed callers bases")
-    public List<CallersBaseHeaderDto> getAll() {
-        List<CallersBase> callersBases = callerBaseService.getAll();
-        return callersBaseHeaderMapper.fromCallersBase(callersBases);
+    public Page<CallersBaseHeaderDto> getAll(@RequestParam("page") int page,
+                                             @RequestParam("size") int size,
+                                             @RequestParam(value = "direction", required = false) Sort.Direction direction,
+                                             @RequestParam(value = "sort_by", required = false) CallersBasePageSort sort) {
+
+        Page<CallersBase> callersBases = callerBaseService.getPage(page, size, sort, direction);
+        return callersBases.map(callersBaseHeaderMapper::fromCallersBase);
     }
 
     @GetMapping("header/{id}")

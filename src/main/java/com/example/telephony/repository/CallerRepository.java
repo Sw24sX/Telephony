@@ -11,11 +11,6 @@ import java.util.Collection;
 import java.util.List;
 
 public interface CallerRepository extends JpaRepository<Caller, Long> {
-//    List<Caller> findAllByNumberIn(Collection<String> number);
-
-//    @Query("select u from Caller u where u.number in :callers.number")
-//    List<Caller> findAllByNumberIn(Collection<Caller> callers);
-
     @Query(value = "select count(*) from (\n" +
             "\tselect \n" +
             "\t\tc.id\n" +
@@ -30,5 +25,6 @@ public interface CallerRepository extends JpaRepository<Caller, Long> {
 
     Page<Caller> findAllByCallersBase_id(Long callersBase_id, Pageable pageable);
 
+    @Query("select cb from CallersBase cb order by cb.variablesList.size")
     List<Caller> findAllByCallersBase_id(Long callersBase_id);
 }

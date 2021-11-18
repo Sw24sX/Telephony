@@ -1,12 +1,17 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.CallersBase;
+import com.example.telephony.enums.CallersBasePageSort;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
 import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.service.file.CallersBaseParser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +33,12 @@ public class CallerBaseService {
         return callerBaseRepository.findAllByConfirmedIs(true);
     }
 
+    public Page<CallersBase> getPage(int number, int size, CallersBasePageSort callersBasePageSort, Sort.Direction direction) {
+        Sort sort = Sort.by(direction, callersBasePageSort.getFieldName());
+        Pageable pageable = PageRequest.of(number, size, sort);
+        return callerBaseRepository.findAllByConfirmedIs(true, pageable);
+    }
+
     public CallersBase getById(Long id) {
         CallersBase callersBase = callerBaseRepository.findById(id).orElse(null);
         if (callersBase == null) {
@@ -46,9 +57,6 @@ public class CallerBaseService {
 
     public void deleteCallersBase(Long id) {
         //todo
-//        CallersBase callersBase = getById(id);
-//        callerRepository.deleteAll(callersBase.getCallers());
-//        callerBaseRepository.deleteById(id);
     }
 
     public CallersBase uploadFromExelFile(MultipartFile multipartFile, String name) {
