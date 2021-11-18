@@ -29,16 +29,16 @@ public class CallersBaseBuilder {
             variables.put(columnNames.get(i), data.get(i));
         }
         Caller caller = new Caller();
-        caller.setNumber(variables.get(phoneColumnName));
-        caller.setVariables(variables);
-        caller.setValid(isValid);
+//        caller.setNumber(variables.get(phoneColumnName));
+//        caller.setVariables(variables);
+//        caller.setValid(isValid);
         callers.add(caller);
         return this;
     }
 
     public CallersBase build() {
         CallersBase result = new CallersBase();
-        result.setVariablesList(columnNames.toArray(new String[0]));
+//        result.setVariablesList(columnNames.toArray(new String[0]));
         result.setCallers(callers);
         return result;
     }

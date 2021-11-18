@@ -5,6 +5,9 @@ import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.CallerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,31 +21,22 @@ public class CallerService {
         this.callerRepository = callerRepository;
     }
 
-    public List<Caller> getAll() {
-        return callerRepository.findAll();
-    }
-
     public Caller getById(Long id) {
         return callerRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format(ExceptionMessage.CALLER_NOT_FOUND.getMessage(), id)));
     }
 
-    public Caller create(Caller caller) {
-        return callerRepository.save(caller);
-    }
-
-    public List<Caller> create(List<Caller> callers) {
-        return callerRepository.saveAll(callers);
-    }
-
-    public Caller update(Long id, Caller caller) {
-        Caller callerDb = getById(id);
-        caller.setId(callerDb.getId());
-        return callerRepository.save(caller);
-    }
-
     public void delete(Long id) {
         Caller caller = getById(id);
         callerRepository.delete(caller);
+    }
+
+    public Page<Caller> getPageCallerByCallerBaseId(Long callerBaseId, int number, int size) {
+        Pageable pageable = PageRequest.of(number, size);
+        return callerRepository.findAllByCallersBase_id(callerBaseId, pageable);
+    }
+
+    public int getCountInvalidCallers(Long id) {
+        return callerRepository.getCountInvalidCallers(id);
     }
 }

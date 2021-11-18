@@ -17,7 +17,8 @@ public enum ExceptionMessage {
     NOT_CONCRETE_WAY("Не указано, к какому ответу относится шаг"),
     NOT_ANY_SCENARIO_STEP("Нет ни одного шага сценария"),
     NO_FIRST_STEP_SCENARIO("Нет первого шага сценария"),
-    SCENARIO_IS_NO_TREE("Структура сценария не является деревом");
+    SCENARIO_IS_NO_TREE("Структура сценария не является деревом"),
+    WRONG_ENUM_CODE("Код перечисления %s не найден");
 
     private final String message;
 
