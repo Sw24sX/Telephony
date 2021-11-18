@@ -55,7 +55,6 @@ public class CallersBaseParser {
         }
     }
 
-
     public CallersBase parseExelToCallersBase() {
         checkFormatCorrected();
         createColumnVariables();
