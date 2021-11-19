@@ -6,6 +6,7 @@ import com.example.telephony.dto.ScenarioDto;
 import com.example.telephony.dto.ScenarioNodeDto;
 import com.example.telephony.mapper.ScenarioMapper;
 import com.example.telephony.service.ScenarioService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,12 +33,6 @@ public class ScenarioController {
         return scenarioMapper.fromScenario(scenario);
     }
 
-    @GetMapping("{id}/steps")
-    public List<ScenarioNodeDto> getListStepsDto(@PathVariable("id") Long id) {
-        Scenario scenario = scenarioService.getById(id);
-        return null;
-    }
-
     @PostMapping
     public ScenarioDto create(@RequestBody ScenarioDto scenarioDto) {
         Scenario scenario = scenarioService.create(scenarioMapper.fromScenarioDto(scenarioDto));
@@ -45,8 +40,10 @@ public class ScenarioController {
     }
 
     @PutMapping("{id}")
+    @ApiOperation("Update scenario. Id retention is not guaranteed")
     public ScenarioDto update(@RequestBody ScenarioDto scenarioDto, @PathVariable("id") Long id) {
-        return null;
+        Scenario scenario = scenarioService.update(scenarioMapper.fromScenarioDto(scenarioDto), id);
+        return scenarioMapper.fromScenario(scenario);
     }
 
     @DeleteMapping("{id}")

@@ -36,15 +36,8 @@ public class ScenarioService {
     }
 
     public Scenario update(Scenario scenario, Long id) {
-//        Scenario scenarioDb = getById(id);
-////        ScenarioStepEntity oldScenario = scenarioDb.getFirstStep();
-//        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository, ttsService)
-//                .buildAndSaveTree(scenarioStepEntities);
-//        scenario.setId(scenarioDb.getId());
-////        scenario.setFirstStep(root);
-//        scenario = scenarioRepository.save(scenario);
-////        scenarioStepEntityRepository.delete(oldScenario);
-        return null;
+        delete(id);
+        return create(scenario);
     }
 
     public void delete(Long id) {
