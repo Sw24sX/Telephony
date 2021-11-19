@@ -32,11 +32,7 @@ public class ScenarioService {
     }
 
     public Scenario create(Scenario scenario) {
-//        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository, ttsService)
-//                .buildAndSaveTree(scenarioStepEntities);
-//        scenario.setFirstStep(root);
-//        return scenarioRepository.save(scenario);
-        return null;
+        return scenarioRepository.save(scenario);
     }
 
     public Scenario update(Scenario scenario, Long id) {

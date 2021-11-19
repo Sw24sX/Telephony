@@ -1,6 +1,7 @@
 package com.example.telephony.mapper;
 
 import com.example.telephony.domain.ScenarioNode;
+import com.example.telephony.domain.ScenarioNodeExtraData;
 import com.example.telephony.dto.ScenarioNodeDto;
 import com.example.telephony.enums.ScenarioNodeTypes;
 import org.mapstruct.Mapper;
@@ -23,6 +24,8 @@ public abstract class ScenarioNodeMapper {
         scenarioNode.setChildren(new ArrayList<>());
         scenarioNode.setType(ScenarioNodeTypes.getByExtraName(dto.getType()));
         scenarioNode.setData(scenarioNodeDataMapper.fromScenarioNodeDataDto(dto.getData()));
+        //TODO
+        scenarioNode.setExtraData(new ScenarioNodeExtraData());
         return scenarioNode;
     }
 }

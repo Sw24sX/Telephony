@@ -14,7 +14,7 @@ public class Scenario extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "root_node")
     private ScenarioNode root;
 }

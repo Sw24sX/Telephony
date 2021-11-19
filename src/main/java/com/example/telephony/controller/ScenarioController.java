@@ -36,13 +36,12 @@ public class ScenarioController {
     @GetMapping("{id}/steps")
     public List<ScenarioNodeDto> getListStepsDto(@PathVariable("id") Long id) {
         Scenario scenario = scenarioService.getById(id);
-//        return scenarioStepEntityMapper.scenarioStepToScenarioStepDtoList(scenario.getFirstStep());
         return null;
     }
 
     @PostMapping
     public ScenarioDto create(@RequestBody ScenarioDto scenarioDto) {
-        Scenario scenario = scenarioMapper.fromScenarioDto(scenarioDto);
+        Scenario scenario = scenarioService.create(scenarioMapper.fromScenarioDto(scenarioDto));
         return null;
     }
 
