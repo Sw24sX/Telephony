@@ -5,6 +5,7 @@ import com.example.telephony.domain.Scenario;
 import com.example.telephony.domain.ScenarioStepEntity;
 import com.example.telephony.dto.ScenarioDto;
 import com.example.telephony.dto.ScenarioStepDto;
+import com.example.telephony.dto.scenario.Node;
 import com.example.telephony.dto.scenario.ScenarioTestDto;
 import com.example.telephony.mapper.ScenarioMapper;
 import com.example.telephony.mapper.ScenarioStepEntityMapper;
@@ -34,9 +35,10 @@ public class ScenarioController {
     }
 
     @GetMapping("{id}")
-    public ScenarioDto getById(@PathVariable("id") Long id) {
+    public Node getById(@PathVariable("id") Long id) {
         Scenario scenario = scenarioService.getById(id);
-        return scenarioMapper.scenarioToScenarioDto(scenario);
+//        return scenarioMapper.scenarioToScenarioDto(scenario);
+        return null;
     }
 
     @GetMapping("{id}/steps")
