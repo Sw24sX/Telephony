@@ -15,6 +15,6 @@ public class Scenario extends BaseEntity {
     private String name;
 
     @OneToOne()
-    @JoinColumn(name = "first_step")
-    private ScenarioStepEntity firstStep;
+    @JoinColumn(name = "root_node")
+    private ScenarioNode root;
 }

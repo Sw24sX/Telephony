@@ -1,12 +1,9 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.Scenario;
-import com.example.telephony.domain.ScenarioStepEntity;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.ScenarioRepository;
-import com.example.telephony.repository.ScenarioStepEntityRepository;
-import com.example.telephony.service.scenario.database.ScenarioTreeBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,13 +11,10 @@ import java.util.List;
 @Service
 public class ScenarioService {
     private final ScenarioRepository scenarioRepository;
-    private final ScenarioStepEntityRepository scenarioStepEntityRepository;
     private final TTSService ttsService;
 
-    public ScenarioService(ScenarioRepository scenarioRepository,
-                           ScenarioStepEntityRepository scenarioStepEntityRepository, TTSService ttsService) {
+    public ScenarioService(ScenarioRepository scenarioRepository, TTSService ttsService) {
         this.scenarioRepository = scenarioRepository;
-        this.scenarioStepEntityRepository = scenarioStepEntityRepository;
         this.ttsService = ttsService;
     }
 
@@ -37,23 +31,24 @@ public class ScenarioService {
         return scenario;
     }
 
-    public Scenario create(Scenario scenario, List<ScenarioStepEntity> scenarioStepEntities) {
-        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository, ttsService)
-                .buildAndSaveTree(scenarioStepEntities);
-        scenario.setFirstStep(root);
-        return scenarioRepository.save(scenario);
+    public Scenario create(Scenario scenario) {
+//        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository, ttsService)
+//                .buildAndSaveTree(scenarioStepEntities);
+//        scenario.setFirstStep(root);
+//        return scenarioRepository.save(scenario);
+        return null;
     }
 
-    public Scenario update(Scenario scenario, List<ScenarioStepEntity> scenarioStepEntities, Long id) {
-        Scenario scenarioDb = getById(id);
-        ScenarioStepEntity oldScenario = scenarioDb.getFirstStep();
-        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository, ttsService)
-                .buildAndSaveTree(scenarioStepEntities);
-        scenario.setId(scenarioDb.getId());
-        scenario.setFirstStep(root);
-        scenario = scenarioRepository.save(scenario);
-        scenarioStepEntityRepository.delete(oldScenario);
-        return scenario;
+    public Scenario update(Scenario scenario, Long id) {
+//        Scenario scenarioDb = getById(id);
+////        ScenarioStepEntity oldScenario = scenarioDb.getFirstStep();
+//        ScenarioStepEntity root = new ScenarioTreeBuilder(scenarioStepEntityRepository, ttsService)
+//                .buildAndSaveTree(scenarioStepEntities);
+//        scenario.setId(scenarioDb.getId());
+////        scenario.setFirstStep(root);
+//        scenario = scenarioRepository.save(scenario);
+////        scenarioStepEntityRepository.delete(oldScenario);
+        return null;
     }
 
     public void delete(Long id) {
