@@ -3,9 +3,8 @@ package com.example.telephony.controller;
 import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.Scenario;
 import com.example.telephony.dto.ScenarioDto;
-import com.example.telephony.dto.ScenarioStepDto;
-import com.example.telephony.dto.scenario.Node;
-import com.example.telephony.dto.scenario.ScenarioTestDto;
+import com.example.telephony.dto.ScenarioNodeDto;
+import com.example.telephony.mapper.ScenarioMapper;
 import com.example.telephony.service.ScenarioService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +14,11 @@ import java.util.List;
 @RequestMapping(GlobalMapping.API + "scenario")
 public class ScenarioController {
     private final ScenarioService scenarioService;
+    private final ScenarioMapper scenarioMapper;
 
-    public ScenarioController(ScenarioService scenarioService) {
+    public ScenarioController(ScenarioService scenarioService, ScenarioMapper scenarioMapper) {
         this.scenarioService = scenarioService;
+        this.scenarioMapper = scenarioMapper;
     }
 
     @GetMapping
@@ -26,21 +27,22 @@ public class ScenarioController {
     }
 
     @GetMapping("{id}")
-    public Node getById(@PathVariable("id") Long id) {
+    public ScenarioDto getById(@PathVariable("id") Long id) {
         Scenario scenario = scenarioService.getById(id);
 //        return scenarioMapper.scenarioToScenarioDto(scenario);
         return null;
     }
 
     @GetMapping("{id}/steps")
-    public List<ScenarioStepDto> getListStepsDto(@PathVariable("id") Long id) {
+    public List<ScenarioNodeDto> getListStepsDto(@PathVariable("id") Long id) {
         Scenario scenario = scenarioService.getById(id);
 //        return scenarioStepEntityMapper.scenarioStepToScenarioStepDtoList(scenario.getFirstStep());
         return null;
     }
 
     @PostMapping
-    public ScenarioTestDto create(@RequestBody ScenarioDto scenarioDto) {
+    public ScenarioDto create(@RequestBody ScenarioDto scenarioDto) {
+        Scenario scenario = scenarioMapper.fromScenarioDto(scenarioDto);
         return null;
     }
 
