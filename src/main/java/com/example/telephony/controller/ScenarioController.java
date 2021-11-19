@@ -29,8 +29,7 @@ public class ScenarioController {
     @GetMapping("{id}")
     public ScenarioDto getById(@PathVariable("id") Long id) {
         Scenario scenario = scenarioService.getById(id);
-//        return scenarioMapper.scenarioToScenarioDto(scenario);
-        return null;
+        return scenarioMapper.fromScenario(scenario);
     }
 
     @GetMapping("{id}/steps")
@@ -42,7 +41,7 @@ public class ScenarioController {
     @PostMapping
     public ScenarioDto create(@RequestBody ScenarioDto scenarioDto) {
         Scenario scenario = scenarioService.create(scenarioMapper.fromScenarioDto(scenarioDto));
-        return null;
+        return scenarioMapper.fromScenario(scenario);
     }
 
     @PutMapping("{id}")

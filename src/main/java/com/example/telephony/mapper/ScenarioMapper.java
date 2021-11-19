@@ -10,14 +10,51 @@ import com.example.telephony.exception.ScenarioMappingException;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Mapper(componentModel = "spring")
 public abstract class ScenarioMapper {
     @Autowired
     protected ScenarioNodeMapper scenarioNodeMapper;
+
+    public ScenarioDto fromScenario(Scenario scenario) {
+        if (scenario == null) {
+            return null;
+        }
+
+        ScenarioDto dto = new ScenarioDto();
+        dto.setId(scenario.getId());
+        dto.setCreated(scenario.getCreated());
+        dto.setName(scenario.getName());
+        dto.setRootId(scenario.getRoot().getId());
+        return addNodesAndEdges(scenario.getRoot(), dto);
+    }
+
+    private ScenarioDto addNodesAndEdges(ScenarioNode root, ScenarioDto scenarioDto) {
+        List<ScenarioNodeDto> nodes = new ArrayList<>();
+        List<ScenarioEdgeDto> edges = new ArrayList<>();
+
+        Queue<ScenarioNode> children = new LinkedList<>();
+        children.add(root);
+        while(!children.isEmpty()) {
+            ScenarioNode currentNode = children.poll();
+            for (ScenarioNode child : currentNode.getChildren()) {
+                children.add(child);
+
+                ScenarioEdgeDto edge = new ScenarioEdgeDto();
+                edge.setId(String.format("e%s-%s", currentNode.getId(), child.getId()));
+                edge.setSource(currentNode.getId());
+                edge.setTarget(child.getId());
+                edges.add(edge);
+            }
+
+            nodes.add(scenarioNodeMapper.fromScenarioNode(currentNode));
+        }
+
+        scenarioDto.setNodes(nodes);
+        scenarioDto.setEdges(edges);
+        return scenarioDto;
+    }
 
     public Scenario fromScenarioDto(ScenarioDto dto) {
         if (dto == null) {
