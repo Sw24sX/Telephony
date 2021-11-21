@@ -29,8 +29,8 @@ public class ChannelHangupRequestListener implements ApplicationListener<Asteris
     }
 
     private void execute(ChannelHangupRequest channelHangupRequest) {
-        if (scenarioManager.isFinished(channelHangupRequest.getChannel())) {
-
-        }
+//        if (scenarioManager.isFinished(channelHangupRequest.getChannel())) {
+//
+//        }
     }
 }

@@ -26,6 +26,6 @@ public class PlaybackFinishListener implements ApplicationListener<AsteriskEvent
     }
 
     private void execute(PlaybackFinished playbackFinished) {
-        Channel channel = scenarioManager.endPlayback(playbackFinished.getPlayback());
+        String channelId = scenarioManager.endPlayback(playbackFinished.getPlayback().getId());
     }
 }

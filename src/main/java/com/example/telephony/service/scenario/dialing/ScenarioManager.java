@@ -10,64 +10,70 @@ import java.util.Map;
 
 public class ScenarioManager {
     private final Map<String, StateScenarioStep> scenariosByChannelId;
-    private final Map<String, StateScenarioStep> scenariosByPlaybackId;
+    private final Map<String, String> channelIdByPlaybackId;
 
     public ScenarioManager() {
         this.scenariosByChannelId = new HashMap<>();
-        this.scenariosByPlaybackId = new HashMap<>();
+        this.channelIdByPlaybackId = new HashMap<>();
     }
 
     public void addCallScenario(String channelId, ScenarioStep scenarioStep) {
-        StateScenarioStep stateScenarioStep = new StateScenarioStep(scenarioStep, channel);
-        scenariosByChannelId.put(channel.getId(), stateScenarioStep);
+        StateScenarioStep stateScenarioStep = new StateScenarioStep(scenarioStep, channelId);
+        scenariosByChannelId.put(channelId, stateScenarioStep);
     }
 
-    public void addPlayback(Channel channel, Playback playback) {
-        checkContainsKeyChannelId(channel.getId());
-        StateScenarioStep stateScenarioStep = scenariosByChannelId.get(channel.getId());
-        stateScenarioStep.setPlayback(playback);
-        scenariosByPlaybackId.put(playback.getId(), stateScenarioStep);
+    public void addPlayback(String channelId, String playbackId) {
+        checkContainsKeyChannelId(channelId);
+        StateScenarioStep stateScenarioStep = scenariosByChannelId.get(channelId);
+        stateScenarioStep.setPlaybackId(playbackId);
+        channelIdByPlaybackId.put(playbackId, channelId);
     }
 
-    public Channel endPlayback(Playback playback) {
-        checkContainsKeyPlaybackId(playback.getId());
-        StateScenarioStep stateScenarioStep = scenariosByPlaybackId.get(playback.getId());
+    public String endPlayback(String playbackId) {
+        checkContainsKeyPlaybackId(playbackId);
+        String channelId = channelIdByPlaybackId.get(playbackId);
+        checkContainsKeyChannelId(channelId);
+        StateScenarioStep stateScenarioStep = scenariosByChannelId.get(channelId);
         stateScenarioStep.setFinished(true);
-        stateScenarioStep.setPlayback(null);
-        scenariosByPlaybackId.remove(playback.getId());
-        return stateScenarioStep.getChannel();
+        stateScenarioStep.setPlaybackId(null);
+        channelIdByPlaybackId.remove(playbackId);
+        return stateScenarioStep.getChannelId();
     }
 
-    public ScenarioStep getNextStep(Channel channel) {
-        checkContainsKeyChannelId(channel.getId());
-        StateScenarioStep currentState = scenariosByChannelId.get(channel.getId());
+    public ScenarioStep getNextStep(String channelId) {
+        checkContainsKeyChannelId(channelId);
+        StateScenarioStep currentState = scenariosByChannelId.get(channelId);
+        if(!currentState.isFinished()) {
+            throw new TelephonyException(ExceptionMessage.SCENARIO_STEP_NOT_FINISHED.getMessage());
+        }
+
         ScenarioStep currentStep = currentState.getScenarioStep();
-        StateScenarioStep nextState = new StateScenarioStep(currentStep.getNext(), channel);
-        scenariosByChannelId.put(channel.getId(), nextState);
+        StateScenarioStep nextState = new StateScenarioStep(currentStep.getNext(), channelId);
+        scenariosByChannelId.put(channelId, nextState);
         return nextState.getScenarioStep();
     }
 
-    public ScenarioStep getCurrentStep(Channel channel) {
-        checkContainsKeyChannelId(channel.getId());
-        return scenariosByChannelId.get(channel.getId()).getScenarioStep();
+    public ScenarioStep getCurrentStep(String channelId) {
+        checkContainsKeyChannelId(channelId);
+        return scenariosByChannelId.get(channelId).getScenarioStep();
     }
 
-    public boolean isFinished(Channel channel) {
-        checkContainsKeyChannelId(channel.getId());
-        return scenariosByChannelId.get(channel.getId()).isFinished();
+    public boolean isFinished(String channelId) {
+        checkContainsKeyChannelId(channelId);
+        return scenariosByChannelId.get(channelId).isFinished();
     }
 
     private void checkContainsKeyChannelId(String channelId) {
         if(!scenariosByChannelId.containsKey(channelId)) {
             throw new TelephonyException(String.format(
-                    ExceptionMessage.SCENARIO_MANAGER_NOT_FOUND_CHANNEL_ID.getMessage(), channelId));
+                    ExceptionMessage.SCENARIO_MANAGER_NOT_FOUND_ID.getMessage(), channelId));
         }
     }
 
     private void checkContainsKeyPlaybackId(String playbackId) {
-        if(!scenariosByPlaybackId.containsKey(playbackId)) {
+        if(!channelIdByPlaybackId.containsKey(playbackId)) {
             throw new TelephonyException(String.format(
-                    ExceptionMessage.SCENARIO_MANAGER_NOT_FOUND_CHANNEL_ID.getMessage(), playbackId));
+                    ExceptionMessage.SCENARIO_MANAGER_NOT_FOUND_ID.getMessage(), playbackId));
         }
     }
 }

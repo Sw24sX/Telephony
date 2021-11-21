@@ -15,9 +15,9 @@ public class EndStep extends BaseScenarioStep {
     }
 
     @Override
-    public Playback execute(Channel channel) {
+    public Playback execute(String channelId) {
         try {
-            ari.channels().hangup(channel.getId()).execute();
+            ari.channels().hangup(channelId).execute();
         } catch (RestException e) {
             throw new TelephonyException(e.getMessage());
         }

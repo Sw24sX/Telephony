@@ -15,10 +15,10 @@ public class SoundStep extends BaseScenarioStep {
     }
 
     @Override
-    public Playback execute(Channel channel) {
+    public Playback execute(String channelId) {
         String mediaUrl = String.format("sound:%s", scenarioNode.getData().getSoundPath());
         try {
-            return ari.channels().play(channel.getId(), mediaUrl).execute();
+            return ari.channels().play(channelId, mediaUrl).execute();
         } catch (RestException e) {
             throw new TelephonyException(e.getMessage());
         }

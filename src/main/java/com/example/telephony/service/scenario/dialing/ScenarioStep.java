@@ -6,7 +6,7 @@ import ch.loway.oss.ari4java.generated.models.Playback;
 import com.example.telephony.service.asterisk.AsteriskEvent;
 
 public interface ScenarioStep {
-    Playback execute(Channel channel);
+    Playback execute(String channelId);
     void setNext(ScenarioStep next);
     ScenarioStep getNext();
 }

@@ -34,7 +34,7 @@ public class ChannelDtmfReceivedListener implements ApplicationListener<Asterisk
     }
 
     private void execute(ChannelDtmfReceived channelDtmfReceived) {
-        if (scenarioManager.isFinished(channelDtmfReceived.getChannel())) {
+        if (scenarioManager.isFinished(channelDtmfReceived.getChannel().getId())) {
             saveNumber(channelDtmfReceived);
             startNextScenarioStep(channelDtmfReceived);
         }
@@ -46,7 +46,7 @@ public class ChannelDtmfReceivedListener implements ApplicationListener<Asterisk
 
     private void startNextScenarioStep(ChannelDtmfReceived channelDtmfReceived) {
         Channel channel = channelDtmfReceived.getChannel();
-        ScenarioStep nextStep = scenarioManager.getNextStep(channel);
+        ScenarioStep nextStep = scenarioManager.getNextStep(channel.getId());
         if (nextStep == null) {
             try {
                 ari.channels().hangup(channel.getId()).execute();
@@ -55,7 +55,7 @@ public class ChannelDtmfReceivedListener implements ApplicationListener<Asterisk
             }
             return;
         }
-        Playback playback = nextStep.execute(channel);
-        scenarioManager.addPlayback(channel, playback);
+        Playback playback = nextStep.execute(channel.getId());
+        scenarioManager.addPlayback(channel.getId(), playback.getId());
     }
 }
