@@ -2,8 +2,7 @@ package com.example.telephony.enums;
 
 public enum CallersBasePageSort {
     NAME("Имя", "name"),
-    CREATION_DATE("Дата создания", "created"),
-    COUNT_VARIABLES("Количество переменных", "variablesList.size");
+    CREATION_DATE("Дата создания", "created");
 
     private final String name;
     private final String fieldName;

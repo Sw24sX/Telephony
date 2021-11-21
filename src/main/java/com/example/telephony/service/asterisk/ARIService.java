@@ -9,6 +9,7 @@ import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.Scenario;
 import com.example.telephony.exception.TelephonyException;
+import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.service.scenario.dialing.ScenarioBuilder;
 import com.example.telephony.service.scenario.dialing.ScenarioManager;
 import com.example.telephony.service.scenario.dialing.ScenarioStep;
@@ -17,17 +18,20 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ARIService {
     private final String app;
     private final ARI ari;
     private final ScenarioManager scenarioManager;
+    private final CallerRepository callerRepository;
 
     @Autowired
     public ARIService(Environment environment, MessageCallBack messageCallBack,
-                      ScenarioManager scenarioManager) throws ARIException {
+                      ScenarioManager scenarioManager, CallerRepository callerRepository) throws ARIException {
         this.scenarioManager = scenarioManager;
+        this.callerRepository = callerRepository;
         String url = environment.getProperty("asterisk.url");
         String username = environment.getProperty("asterisk.username");
         String password = environment.getProperty("asterisk.password");
@@ -57,9 +61,16 @@ public class ARIService {
     }
 
     private void addCallerToScenarioExecute(Caller caller, ScenarioStep scenarioStep) {
-//        Channel channel = createChannel(caller.getNumber());
-        Channel channel = null;
+        Channel channel = createChannel(callerRepository.getCallerNumber(caller.getId()));
         scenarioManager.addCallScenario(channel, scenarioStep);
+    }
+
+    public Channel createChannel(String number, String channelId) {
+        try {
+            return ari.channels().originate(number).setChannelId(channelId).setExtension(number).setApp(app).execute();
+        } catch (RestException e) {
+            throw new TelephonyException(e.getMessage());
+        }
     }
 
     public Channel createChannel(String number) {

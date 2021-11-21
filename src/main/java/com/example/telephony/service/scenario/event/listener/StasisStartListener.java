@@ -1,4 +1,4 @@
-package com.example.telephony.service.asterisk.event.listener;
+package com.example.telephony.service.scenario.event.listener;
 
 import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Channel;
@@ -30,10 +30,9 @@ public class StasisStartListener implements ApplicationListener<AsteriskEvent> {
     }
 
     private void execute(StasisStart stasisStart) {
-//        System.out.println("StasisStart started in listener, channel-id: " + stasisStart.getChannel().getId());
         Channel channel = stasisStart.getChannel();
         ScenarioStep scenarioStep = scenarioManager.getCurrentStep(channel);
-        Playback playback = scenarioStep.execute(channel);
+        Playback playback = scenarioStep.execute(channel, stasisStart);
         scenarioManager.addPlayback(channel, playback);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.telephony.service.asterisk.event.listener;
+package com.example.telephony.service.scenario.event.listener;
 
 import ch.loway.oss.ari4java.generated.models.Event;
 import ch.loway.oss.ari4java.generated.models.StasisEnd;

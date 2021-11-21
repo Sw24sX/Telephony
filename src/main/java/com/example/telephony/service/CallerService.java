@@ -39,4 +39,8 @@ public class CallerService {
     public int getCountInvalidCallers(Long id) {
         return callerRepository.getCountInvalidCallers(id);
     }
+
+    public String getCallerNumber(Long callerId) {
+        return callerRepository.getCallerNumber(callerId);
+    }
 }

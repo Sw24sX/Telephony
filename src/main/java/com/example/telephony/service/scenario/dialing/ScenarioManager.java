@@ -17,7 +17,7 @@ public class ScenarioManager {
         this.scenariosByPlaybackId = new HashMap<>();
     }
 
-    public void addCallScenario(Channel channel, ScenarioStep scenarioStep) {
+    public void addCallScenario(String channelId, ScenarioStep scenarioStep) {
         StateScenarioStep stateScenarioStep = new StateScenarioStep(scenarioStep, channel);
         scenariosByChannelId.put(channel.getId(), stateScenarioStep);
     }
@@ -60,14 +60,14 @@ public class ScenarioManager {
     private void checkContainsKeyChannelId(String channelId) {
         if(!scenariosByChannelId.containsKey(channelId)) {
             throw new TelephonyException(String.format(
-                    ExceptionMessage.NOT_INITIALIZE_FOLDER_FOR_UPLOAD.getMessage(), channelId));
+                    ExceptionMessage.SCENARIO_MANAGER_NOT_FOUND_CHANNEL_ID.getMessage(), channelId));
         }
     }
 
     private void checkContainsKeyPlaybackId(String playbackId) {
         if(!scenariosByPlaybackId.containsKey(playbackId)) {
             throw new TelephonyException(String.format(
-                    ExceptionMessage.NOT_INITIALIZE_FOLDER_FOR_UPLOAD.getMessage(), playbackId));
+                    ExceptionMessage.SCENARIO_MANAGER_NOT_FOUND_CHANNEL_ID.getMessage(), playbackId));
         }
     }
 }

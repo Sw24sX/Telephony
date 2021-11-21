@@ -27,4 +27,7 @@ public interface CallerRepository extends JpaRepository<Caller, Long> {
 
     @Query("select cb from CallersBase cb order by cb.variablesList.size")
     List<Caller> findAllByCallersBase_id(Long callersBase_id);
+
+    @Query("select c.value from CallerVariable c where c.caller.id = ?1 and c.isPhoneColumn = true")
+    String getCallerNumber(Long caller_id);
 }
