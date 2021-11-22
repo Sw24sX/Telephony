@@ -10,6 +10,8 @@ import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.service.scenario.dialing.ScenarioStep;
 
 public class SoundStep extends BaseScenarioStep {
+    private ScenarioStep next;
+
     public SoundStep(ScenarioNode scenarioNode, ARI ari) {
         super(scenarioNode, ari);
     }
@@ -26,11 +28,11 @@ public class SoundStep extends BaseScenarioStep {
 
     @Override
     public void setNext(ScenarioStep next) {
-
+        this.next = next;
     }
 
     @Override
     public ScenarioStep getNext() {
-        return null;
+        return next;
     }
 }

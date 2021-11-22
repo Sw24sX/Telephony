@@ -10,6 +10,7 @@ import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.Scenario;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerRepository;
+import com.example.telephony.service.TTSService;
 import com.example.telephony.service.scenario.dialing.ScenarioBuilder;
 import com.example.telephony.service.scenario.dialing.ScenarioManager;
 import com.example.telephony.service.scenario.dialing.ScenarioStep;
@@ -26,12 +27,15 @@ public class ARIService {
     private final ARI ari;
     private final ScenarioManager scenarioManager;
     private final CallerRepository callerRepository;
+    private final TTSService ttsService;
 
     @Autowired
     public ARIService(Environment environment, MessageCallBack messageCallBack,
-                      ScenarioManager scenarioManager, CallerRepository callerRepository) throws ARIException {
+                      ScenarioManager scenarioManager, CallerRepository callerRepository,
+                      TTSService ttsService) throws ARIException {
         this.scenarioManager = scenarioManager;
         this.callerRepository = callerRepository;
+        this.ttsService = ttsService;
         String url = environment.getProperty("asterisk.url");
         String username = environment.getProperty("asterisk.username");
         String password = environment.getProperty("asterisk.password");
@@ -49,35 +53,30 @@ public class ARIService {
     }
 
     public void startScenarioExecute(List<Caller> callers, Scenario scenario) {
-        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ari);
+        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ari, ttsService);
         for(Caller caller : callers) {
             addCallerToScenarioExecute(caller, scenarioStep);
         }
     }
 
     public void startScenarioExecute(Caller caller, Scenario scenario) {
-        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ari);
+        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ari, ttsService);
         addCallerToScenarioExecute(caller, scenarioStep);
     }
 
     private void addCallerToScenarioExecute(Caller caller, ScenarioStep scenarioStep) {
-        Channel channel = createChannel(callerRepository.getCallerNumber(caller.getId()));
-        scenarioManager.addCallScenario(channel, scenarioStep);
+        String channelId = UUID.randomUUID().toString();
+        scenarioManager.addCallScenario(channelId, scenarioStep);
+        createChannel(callerRepository.getCallerNumber(caller.getId()), channelId);
     }
 
     public Channel createChannel(String number, String channelId) {
         try {
             return ari.channels().originate(number).setChannelId(channelId).setExtension(number).setApp(app).execute();
         } catch (RestException e) {
-            throw new TelephonyException(e.getMessage());
+//            throw new TelephonyException(e.getMessage());
+            System.out.println(e.getMessage());
         }
-    }
-
-    public Channel createChannel(String number) {
-        try {
-            return ari.channels().originate(number).setExtension(number).setApp(app).execute();
-        } catch (RestException e) {
-            throw new TelephonyException(e.getMessage());
-        }
+        return null;
     }
 }

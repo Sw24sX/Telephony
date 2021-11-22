@@ -1,9 +1,12 @@
 package com.example.telephony.service.scenario.dialing;
 
 import ch.loway.oss.ari4java.ARI;
+import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.Scenario;
 import com.example.telephony.domain.ScenarioNode;
 import com.example.telephony.enums.ScenarioNodeTypes;
+import com.example.telephony.enums.SpeechVoice;
+import com.example.telephony.service.TTSService;
 import com.example.telephony.service.scenario.dialing.steps.EndStep;
 import com.example.telephony.service.scenario.dialing.steps.SoundStep;
 
@@ -26,7 +29,7 @@ public class ScenarioBuilder {
         }
     }
 
-    public static ScenarioStep build(Scenario scenario, ARI ari) {
+    public static ScenarioStep build(Scenario scenario, ARI ari, TTSService ttsService) {
         ScenarioBuilder scenarioBuilder = new ScenarioBuilder();
         //todo: may be not only one children
 
@@ -37,6 +40,11 @@ public class ScenarioBuilder {
                     current = getNextNode(current);
                     break;
                 case QUESTION:
+                    String soundPath = current.getData().getSoundPath();
+                    if (soundPath == null || soundPath.isEmpty()) {
+                        GeneratedSound generatedSound = ttsService.textToFile(current.getData().getQuestion(), SpeechVoice.IRINA);
+                        current.getData().setSoundPath(generatedSound.getUri());
+                    }
                     scenarioBuilder.addScenarioStep(new SoundStep(current, ari));
                     current = getNextNode(current);
                     break;
