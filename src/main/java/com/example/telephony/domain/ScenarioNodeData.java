@@ -16,6 +16,9 @@ public class ScenarioNodeData extends BaseEntity {
     @Column(name = "question")
     private String question;
 
-    @Column(name = "is_positive")
-    private boolean isPositive;
+    @Column(name = "answer_key")
+    private String answerKey;
+
+    @Column(name = "need_answer")
+    private boolean needAnswer;
 }

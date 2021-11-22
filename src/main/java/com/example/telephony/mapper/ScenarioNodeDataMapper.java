@@ -11,10 +11,10 @@ public interface ScenarioNodeDataMapper {
 
     @Mappings({
             @Mapping(target = "id", ignore = true),
-            @Mapping(target = "positive", source = "isPositive")
+            @Mapping(target = "answerKey", source = "answerKey")
     })
     ScenarioNodeData fromScenarioNodeDataDto(ScenarioNodeDataDto dto);
 
-    @Mapping(target = "isPositive", source = "positive")
+    @Mapping(target = "answerKey", source = "answerKey")
     ScenarioNodeDataDto fromScenarioNodeData(ScenarioNodeData data);
 }
