@@ -6,5 +6,6 @@ import lombok.Data;
 public class ScenarioNodeDataDto {
     private String question;
     private String soundPath;
-    private Boolean isPositive;
+    private String answerKey;
+    private boolean needAnswer;
 }
