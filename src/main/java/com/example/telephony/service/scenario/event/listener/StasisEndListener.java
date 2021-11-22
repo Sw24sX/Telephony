@@ -19,7 +19,11 @@ public class StasisEndListener implements ApplicationListener<AsteriskEvent> {
     public void onApplicationEvent(AsteriskEvent asteriskEvent) {
         Event event = asteriskEvent.getEvent();
         if(event instanceof StasisEnd) {
-
+            execute((StasisEnd) event);
         }
+    }
+
+    private void execute(StasisEnd stasisEnd) {
+        scenarioManager.endCall(stasisEnd.getChannel().getId());
     }
 }

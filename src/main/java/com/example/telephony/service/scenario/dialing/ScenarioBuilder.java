@@ -4,10 +4,10 @@ import ch.loway.oss.ari4java.ARI;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.Scenario;
 import com.example.telephony.domain.ScenarioNode;
-import com.example.telephony.enums.ScenarioNodeTypes;
 import com.example.telephony.enums.SpeechVoice;
 import com.example.telephony.service.TTSService;
 import com.example.telephony.service.scenario.dialing.steps.EndStep;
+import com.example.telephony.service.scenario.dialing.steps.ScenarioStep;
 import com.example.telephony.service.scenario.dialing.steps.SoundStep;
 import com.example.telephony.service.scenario.dialing.steps.StartStep;
 

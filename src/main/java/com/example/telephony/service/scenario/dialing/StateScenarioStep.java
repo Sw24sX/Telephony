@@ -1,8 +1,6 @@
 package com.example.telephony.service.scenario.dialing;
 
-import ch.loway.oss.ari4java.generated.models.Channel;
-import ch.loway.oss.ari4java.generated.models.Playback;
-import lombok.AllArgsConstructor;
+import com.example.telephony.service.scenario.dialing.steps.ScenarioStep;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -15,4 +13,10 @@ public class StateScenarioStep {
     private boolean isFinished = false;
     @NonNull
     private boolean isStart;
+    private String playbackId;
+
+    public void playbackEnd() {
+        isFinished = true;
+        playbackId = null;
+    }
 }

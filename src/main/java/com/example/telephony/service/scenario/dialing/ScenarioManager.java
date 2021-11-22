@@ -3,6 +3,7 @@ package com.example.telephony.service.scenario.dialing;
 import ch.loway.oss.ari4java.generated.models.Playback;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
+import com.example.telephony.service.scenario.dialing.steps.ScenarioStep;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,18 +17,27 @@ public class ScenarioManager {
         this.channelIdByPlaybackId = new HashMap<>();
     }
 
+    public void endCall(String channelId) {
+        StateScenarioStep currentState = getCurrentState(channelId);
+        if (currentState.getPlaybackId() != null) {
+            channelIdByPlaybackId.remove(currentState.getPlaybackId());
+        }
+        scenariosByChannelId.remove(channelId);
+    }
+
     public void addCallScenario(String channelId, ScenarioStep scenarioStep) {
         StateScenarioStep stateScenarioStep = new StateScenarioStep(scenarioStep, true);
         scenariosByChannelId.put(channelId, stateScenarioStep);
     }
 
     private void addPlayback(String channelId, String playbackId) {
+        StateScenarioStep currentState = getCurrentState(channelId);
+        currentState.setPlaybackId(playbackId);
         channelIdByPlaybackId.put(playbackId, channelId);
     }
 
     public void endPlayback(String playbackId) {
-        StateScenarioStep stateScenarioStep = getCurrentState(getChannelId(playbackId));
-        stateScenarioStep.setFinished(true);
+        getCurrentState(getChannelId(playbackId)).playbackEnd();;
         channelIdByPlaybackId.remove(playbackId);
     }
 
