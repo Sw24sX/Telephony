@@ -13,4 +13,9 @@ public abstract class BaseScenarioStep implements ScenarioStep {
         this.scenarioNode = scenarioNode;
         this.ari = ari;
     }
+
+    @Override
+    public boolean needUserAnswer() {
+        return scenarioNode.getData().isNeedAnswer();
+    }
 }

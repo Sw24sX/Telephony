@@ -7,11 +7,9 @@ import com.example.telephony.service.scenario.dialing.ScenarioStep;
 
 public class StartStep extends BaseScenarioStep {
     private ScenarioStep next;
-    private final boolean needUserAnswer;
 
     public StartStep(ScenarioNode scenarioNode, ARI ari) {
         super(scenarioNode, ari);
-        needUserAnswer = false;
     }
 
     @Override
@@ -27,10 +25,5 @@ public class StartStep extends BaseScenarioStep {
     @Override
     public ScenarioStep getNext() {
         return next;
-    }
-
-    @Override
-    public boolean needUserAnswer() {
-        return needUserAnswer;
     }
 }
