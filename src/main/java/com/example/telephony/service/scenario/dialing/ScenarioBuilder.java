@@ -9,6 +9,7 @@ import com.example.telephony.enums.SpeechVoice;
 import com.example.telephony.service.TTSService;
 import com.example.telephony.service.scenario.dialing.steps.EndStep;
 import com.example.telephony.service.scenario.dialing.steps.SoundStep;
+import com.example.telephony.service.scenario.dialing.steps.StartStep;
 
 public class ScenarioBuilder {
     private ScenarioStep firstStep;
@@ -37,6 +38,7 @@ public class ScenarioBuilder {
         while(current != null) {
             switch (current.getType()){
                 case INPUT:
+                    scenarioBuilder.addScenarioStep(new StartStep(current, ari));
                     current = getNextNode(current);
                     break;
                 case QUESTION:

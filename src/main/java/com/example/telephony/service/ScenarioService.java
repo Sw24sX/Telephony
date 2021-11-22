@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service()
 public class ScenarioService {
     private final ScenarioRepository scenarioRepository;
     private final TTSService ttsService;

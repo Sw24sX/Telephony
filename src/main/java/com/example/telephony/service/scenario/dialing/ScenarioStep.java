@@ -9,4 +9,5 @@ public interface ScenarioStep {
     Playback execute(String channelId);
     void setNext(ScenarioStep next);
     ScenarioStep getNext();
+    boolean needUserAnswer();
 }

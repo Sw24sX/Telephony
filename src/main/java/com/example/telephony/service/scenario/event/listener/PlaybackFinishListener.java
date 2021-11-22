@@ -1,6 +1,5 @@
 package com.example.telephony.service.scenario.event.listener;
 
-import ch.loway.oss.ari4java.generated.models.Channel;
 import ch.loway.oss.ari4java.generated.models.Event;
 import ch.loway.oss.ari4java.generated.models.PlaybackFinished;
 import com.example.telephony.service.asterisk.AsteriskEvent;
@@ -26,6 +25,8 @@ public class PlaybackFinishListener implements ApplicationListener<AsteriskEvent
     }
 
     private void execute(PlaybackFinished playbackFinished) {
-        String channelId = scenarioManager.endPlayback(playbackFinished.getPlayback().getId());
+        String channelId = scenarioManager.getChannelId(playbackFinished.getPlayback().getId());
+        scenarioManager.endPlayback(playbackFinished.getPlayback().getId());
+        scenarioManager.continueScenarioIfPossible(channelId);
     }
 }

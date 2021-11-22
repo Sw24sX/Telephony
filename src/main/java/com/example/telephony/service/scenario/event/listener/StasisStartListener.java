@@ -33,8 +33,6 @@ public class StasisStartListener implements ApplicationListener<AsteriskEvent> {
 
     private void execute(StasisStart stasisStart) {
         Channel channel = stasisStart.getChannel();
-        ScenarioStep scenarioStep = scenarioManager.getCurrentStep(channel.getId());
-        Playback playback = scenarioStep.execute(channel.getId());
-        scenarioManager.addPlayback(channel.getId(), playback.getId());
+        scenarioManager.startScenario(channel.getId());
     }
 }
