@@ -28,7 +28,4 @@ public class Sound extends BaseEntity {
     @NonNull
     @Column(name = "uri")
     private String uri;
-
-    @ManyToMany(mappedBy = "sounds")
-    private List<Scenario> scenarios;
 }

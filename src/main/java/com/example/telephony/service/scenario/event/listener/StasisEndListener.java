@@ -1,9 +1,9 @@
-package com.example.telephony.service.asterisk.event.listener;
+package com.example.telephony.service.scenario.event.listener;
 
 import ch.loway.oss.ari4java.generated.models.Event;
 import ch.loway.oss.ari4java.generated.models.StasisEnd;
 import com.example.telephony.service.asterisk.AsteriskEvent;
-import com.example.telephony.service.scenario.ScenarioManager;
+import com.example.telephony.service.scenario.dialing.ScenarioManager;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 

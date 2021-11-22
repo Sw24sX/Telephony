@@ -1,10 +1,9 @@
-package com.example.telephony.service.asterisk.event.listener;
+package com.example.telephony.service.scenario.event.listener;
 
-import ch.loway.oss.ari4java.generated.models.Channel;
 import ch.loway.oss.ari4java.generated.models.Event;
 import ch.loway.oss.ari4java.generated.models.PlaybackFinished;
 import com.example.telephony.service.asterisk.AsteriskEvent;
-import com.example.telephony.service.scenario.ScenarioManager;
+import com.example.telephony.service.scenario.dialing.ScenarioManager;
 import lombok.NonNull;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -26,6 +25,8 @@ public class PlaybackFinishListener implements ApplicationListener<AsteriskEvent
     }
 
     private void execute(PlaybackFinished playbackFinished) {
-        Channel channel = scenarioManager.endPlayback(playbackFinished.getPlayback());
+        String channelId = scenarioManager.getChannelId(playbackFinished.getPlayback().getId());
+        scenarioManager.endPlayback(playbackFinished.getPlayback().getId());
+        scenarioManager.continueScenarioIfPossible(channelId);
     }
 }

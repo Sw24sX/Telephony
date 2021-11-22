@@ -14,8 +14,7 @@ public class Scenario extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "scenario_sound", joinColumns = @JoinColumn(name = "scenario_id"),
-            inverseJoinColumns = @JoinColumn(name = "sound_id"))
-    private List<Sound> sounds;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "root_node")
+    private ScenarioNode root;
 }

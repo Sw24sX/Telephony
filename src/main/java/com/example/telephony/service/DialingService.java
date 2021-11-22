@@ -1,5 +1,6 @@
 package com.example.telephony.service;
 
+import ch.loway.oss.ari4java.generated.models.Channel;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.domain.Scenario;
@@ -7,6 +8,8 @@ import com.example.telephony.service.asterisk.ARIService;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class DialingService {
@@ -22,6 +25,12 @@ public class DialingService {
         this.scenarioService = scenarioService;
         this.callerService = callerService;
         this.callerBaseService = callerBaseService;
+    }
+
+    public void callCaller(Long callerId) {
+        String number = callerService.getCallerNumber(callerId);
+        UUID uuid = UUID.randomUUID();
+        Channel channel = ariService.createChannel(number, uuid.toString());
     }
 
     public void startDialingCaller(Long callerId, Long scenarioId) {

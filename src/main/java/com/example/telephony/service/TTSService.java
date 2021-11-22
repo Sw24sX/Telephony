@@ -21,11 +21,13 @@ public class TTSService {
     private final MicrosoftTextToSpeech microsoftTextToSpeech;
     private final Environment environment;
     private final GeneratedSoundRepository generatedSoundRepository;
+    private final Path generatedFilePath;
 
     public TTSService(MicrosoftTextToSpeech microsoftTextToSpeech, Environment environment, GeneratedSoundRepository generatedSoundRepository) {
         this.microsoftTextToSpeech = microsoftTextToSpeech;
         this.environment = environment;
         this.generatedSoundRepository = generatedSoundRepository;
+        generatedFilePath = Paths.get(Properties.getProperty(environment, "file.generated.path"));
     }
 
     public GeneratedSound textToFile(String text, SpeechVoice voice) {
@@ -46,7 +48,7 @@ public class TTSService {
     }
 
     private Path getFilePath(String fileName) {
-        return Paths.get(Properties.getProperty(environment, "file.generated.path")).resolve(fileName);
+        return generatedFilePath.resolve(fileName);
     }
 
     public List<GeneratedSound> getAll() {

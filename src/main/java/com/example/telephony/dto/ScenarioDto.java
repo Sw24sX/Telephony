@@ -9,5 +9,7 @@ import java.util.List;
 @Data
 public class ScenarioDto extends BaseDto {
     private String name;
-    private List<SoundDto> sounds;
+    private List<ScenarioNodeDto> nodes;
+    private List<ScenarioEdgeDto> edges;
+    private Long rootId;
 }

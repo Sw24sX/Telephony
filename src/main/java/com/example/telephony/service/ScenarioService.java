@@ -1,25 +1,21 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.Scenario;
-import com.example.telephony.domain.Sound;
-import com.example.telephony.dto.SoundDto;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.ScenarioRepository;
-import com.example.telephony.repository.SoundRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
+@Service()
 public class ScenarioService {
     private final ScenarioRepository scenarioRepository;
+    private final TTSService ttsService;
 
-
-    public ScenarioService(ScenarioRepository scenarioRepository) {
+    public ScenarioService(ScenarioRepository scenarioRepository, TTSService ttsService) {
         this.scenarioRepository = scenarioRepository;
+        this.ttsService = ttsService;
     }
 
     public List<Scenario> getAll() {
@@ -40,9 +36,8 @@ public class ScenarioService {
     }
 
     public Scenario update(Scenario scenario, Long id) {
-        Scenario scenarioDb = getById(id);
-        scenario.setId(scenarioDb.getId());
-        return scenarioRepository.save(scenario);
+        delete(id);
+        return create(scenario);
     }
 
     public void delete(Long id) {
