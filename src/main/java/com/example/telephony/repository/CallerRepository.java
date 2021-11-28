@@ -11,16 +11,6 @@ import java.util.Collection;
 import java.util.List;
 
 public interface CallerRepository extends JpaRepository<Caller, Long> {
-//    @Query(value = "select count(*) from (\n" +
-//            "\tselect \n" +
-//            "\t\tc.id\n" +
-//            "\tfrom caller c\n" +
-//            "\t\tright join caller_variables cv on cv.caller_id = c.id\n" +
-//            "\t\twhere callers_base_id = 4\n" +
-//            "\t\tgroup by c.id\n" +
-//            "\t\thaving not bool_and(cv.is_valid)\n" +
-//            ") as inv;",
-//            nativeQuery = true)
     @Query(value = "select count(c) from Caller c where c.isValid = false and c.callersBase.id  = ?1")
     int getCountInvalidCallers(Long callersBaseId);
 
