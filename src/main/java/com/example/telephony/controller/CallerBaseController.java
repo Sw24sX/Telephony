@@ -50,7 +50,7 @@ public class CallerBaseController {
     public Page<CallersBaseHeaderDto> getAll(@ApiParam("Number page") @RequestParam("page") int page,
                                              @ApiParam("Page size") @RequestParam("size") int size,
                                              @ApiParam("Sort direction") @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
-                                             @ApiParam("Sort field") @RequestParam(value = "sort_by", required = false, defaultValue = "NAME") CallersBasePageSort sort,
+                                             @ApiParam("Sort field") @RequestParam(value = "sortBy", required = false, defaultValue = "NAME") CallersBasePageSort sort,
                                              @ApiParam("Filtering by name") @RequestParam(value = "name", required = false, defaultValue = "") String searchedName) {
         Page<CallersBase> callersBases = callerBaseService.getPage(page, size, sort, direction, searchedName);
         return callersBases.map(callersBaseHeaderMapper::fromCallersBase);
@@ -99,7 +99,7 @@ public class CallerBaseController {
                                           @ApiParam("Page number. Start with 0") @RequestParam("page") Integer page,
                                           @ApiParam("Page size") @RequestParam("size") Integer size,
                                           @ApiParam("Return only invalid callers")
-                                              @RequestParam(value = "only_invalid", required = false, defaultValue = "false")
+                                              @RequestParam(value = "onlyInvalid", required = false, defaultValue = "false")
                                               boolean onlyInvalid) {
         Page<Caller> callers = callerService.getPageCallerByCallerBaseId(callersBaseId, page, size, onlyInvalid);
         return callers.map(callerMapper::fromCaller);

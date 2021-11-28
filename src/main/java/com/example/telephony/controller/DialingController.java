@@ -22,14 +22,14 @@ public class DialingController {
 
     @PostMapping("start-dialing/caller")
     @ApiOperation("Start dialing to caller with scenario")
-    public void startDialingForCaller(@ApiParam("Caller id") @RequestParam("caller_id") Long callerId,
+    public void startDialingForCaller(@ApiParam("Caller id") @RequestParam("callerId") Long callerId,
                                       @ApiParam("Scenario id") @RequestParam("scenarioId") Long scenarioId) {
         dialingService.startDialingCaller(callerId, scenarioId);
     }
 
     @PostMapping("start-dialing/caller/only")
     @ApiOperation("Start dialing to caller with scenario")
-    public void startDialingForCallerOnly(@ApiParam("Caller id") @RequestParam("caller_id") Long callerId) {
+    public void startDialingForCallerOnly(@ApiParam("Caller id") @RequestParam("callerId") Long callerId) {
         dialingService.callCaller(callerId);
     }
 
