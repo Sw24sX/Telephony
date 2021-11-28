@@ -18,9 +18,11 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,11 +47,11 @@ public class CallerBaseController {
 
     @GetMapping("header")
     @ApiOperation("Get all confirmed callers bases")
-    public Page<CallersBaseHeaderDto> getAll(@RequestParam("page") int page,
-                                             @RequestParam("size") int size,
-                                             @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
-                                             @RequestParam(value = "sort_by", required = false, defaultValue = "NAME") CallersBasePageSort sort,
-                                             @RequestParam(value = "name", required = false, defaultValue = "") String searchedName) {
+    public Page<CallersBaseHeaderDto> getAll(@ApiParam("Number page") @RequestParam("page") int page,
+                                             @ApiParam("Page size") @RequestParam("size") int size,
+                                             @ApiParam("Sort direction") @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
+                                             @ApiParam("Sort field") @RequestParam(value = "sortBy", required = false, defaultValue = "NAME") CallersBasePageSort sort,
+                                             @ApiParam("Filtering by name") @RequestParam(value = "name", required = false, defaultValue = "") String searchedName) {
         Page<CallersBase> callersBases = callerBaseService.getPage(page, size, sort, direction, searchedName);
         return callersBases.map(callersBaseHeaderMapper::fromCallersBase);
     }
@@ -63,7 +65,7 @@ public class CallerBaseController {
 
     @PutMapping("header/{id}")
     @ApiOperation("Update exists callers base. Can add exists callers")
-    public CallersBaseHeaderDto update(@ApiParam("Callers base data") @RequestBody CallersBaseHeaderDto callersBaseHeaderDto,
+    public CallersBaseHeaderDto update(@ApiParam("Callers base data") @Valid @RequestBody CallersBaseHeaderDto callersBaseHeaderDto,
                                        @ApiParam("Callers base id") @PathVariable("id") Long id) {
         CallersBase callersBase = callersBaseHeaderMapper.fromCallersBaseHeaderDto(callersBaseHeaderDto);
         return callersBaseHeaderMapper.fromCallersBase(callerBaseService.update(id, callersBase));
@@ -95,8 +97,11 @@ public class CallerBaseController {
     @ApiOperation("Get page of callers")
     public Page<CallerDto> getCallersPage(@ApiParam("Callers base id") @PathVariable("id") Long callersBaseId,
                                           @ApiParam("Page number. Start with 0") @RequestParam("page") Integer page,
-                                          @ApiParam("Page size") @RequestParam("size") Integer size) {
-        Page<Caller> callers = callerService.getPageCallerByCallerBaseId(callersBaseId, page, size);
+                                          @ApiParam("Page size") @RequestParam("size") Integer size,
+                                          @ApiParam("Return only invalid callers")
+                                              @RequestParam(value = "onlyInvalid", required = false, defaultValue = "false")
+                                              boolean onlyInvalid) {
+        Page<Caller> callers = callerService.getPageCallerByCallerBaseId(callersBaseId, page, size, onlyInvalid);
         return callers.map(callerMapper::fromCaller);
     }
 }

@@ -182,6 +182,8 @@ public class CallersBaseParser {
         Caller caller = new Caller();
         caller.setCallersBase(callersBase);
         caller.setVariables(new ArrayList<>());
+        caller.setNumber(row.getRowNum());
+        caller.setValid(true);
 
         for (int i = 0; i < columns.size(); i++) {
             Cell cell = row.getCell(i);
@@ -190,6 +192,7 @@ public class CallersBaseParser {
             boolean isPhoneValue = i == phoneColumnIndex;
             CallerVariable callerVariable = createCallerVariable(cellValue, currentVariablesTypeName, isPhoneValue, caller);
             caller.getVariables().add(callerVariable);
+            caller.setValid(caller.isValid() && callerVariable.isValid());
         }
 
         return caller;

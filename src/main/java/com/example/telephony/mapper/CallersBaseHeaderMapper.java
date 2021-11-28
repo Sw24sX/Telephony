@@ -29,6 +29,7 @@ public abstract class CallersBaseHeaderMapper {
         result.setCountInvalidCallers(callerService.getCountInvalidCallers(callersBase.getId()));
         result.setColumns(callersBaseColumnMapper.fromVariablesTypeName(callersBase.getVariablesList()));
         result.setName(callersBase.getName());
+        result.setUpdated(callersBase.getUpdated());
         return result;
     }
 

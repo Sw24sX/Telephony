@@ -31,9 +31,10 @@ public class CallerService {
         callerRepository.delete(caller);
     }
 
-    public Page<Caller> getPageCallerByCallerBaseId(Long callerBaseId, int number, int size) {
+    public Page<Caller> getPageCallerByCallerBaseId(Long callerBaseId, int number, int size, boolean onlyInvalid) {
         Pageable pageable = PageRequest.of(number, size);
-        return callerRepository.findAllByCallersBase_id(callerBaseId, pageable);
+        boolean validColumn = !onlyInvalid;
+        return callerRepository.findAllByCallersBase_idAndAndValid(callerBaseId, validColumn, pageable);
     }
 
     public int getCountInvalidCallers(Long id) {
