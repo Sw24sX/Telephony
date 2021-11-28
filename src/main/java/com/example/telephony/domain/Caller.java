@@ -18,6 +18,10 @@ public class Caller extends BaseEntity {
     @OneToMany(mappedBy = "caller", cascade = CascadeType.ALL)
     private List<CallStatistic> callStatistics;
 
+    @OrderBy("typeName")
     @OneToMany(mappedBy = "caller", cascade = CascadeType.ALL)
     private List<CallerVariable> variables;
+
+    @Column(name = "number")
+    private int number;
 }

@@ -19,6 +19,7 @@ public class CallersBase extends BaseEntity {
     @OneToMany(mappedBy = "callersBase", cascade = CascadeType.ALL)
     private List<Caller> callers;
 
+    @OrderBy("id")
     @OneToMany(mappedBy = "callersBase", cascade = CascadeType.ALL)
     List<VariablesTypeName> variablesList;
 

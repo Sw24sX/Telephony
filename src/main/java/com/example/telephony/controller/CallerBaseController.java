@@ -18,9 +18,11 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,7 +65,7 @@ public class CallerBaseController {
 
     @PutMapping("header/{id}")
     @ApiOperation("Update exists callers base. Can add exists callers")
-    public CallersBaseHeaderDto update(@ApiParam("Callers base data") @RequestBody CallersBaseHeaderDto callersBaseHeaderDto,
+    public CallersBaseHeaderDto update(@ApiParam("Callers base data") @Valid @RequestBody CallersBaseHeaderDto callersBaseHeaderDto,
                                        @ApiParam("Callers base id") @PathVariable("id") Long id) {
         CallersBase callersBase = callersBaseHeaderMapper.fromCallersBaseHeaderDto(callersBaseHeaderDto);
         return callersBaseHeaderMapper.fromCallersBase(callerBaseService.update(id, callersBase));
