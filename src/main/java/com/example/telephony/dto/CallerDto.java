@@ -11,4 +11,5 @@ import java.util.Map;
 public class CallerDto extends BaseDto{
     private List<CallerVariablesDto> variables;
     private Integer number;
+    private boolean isValid;
 }

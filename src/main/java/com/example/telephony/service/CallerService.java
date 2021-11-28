@@ -4,6 +4,7 @@ import com.example.telephony.domain.Caller;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.CallerRepository;
+import org.aspectj.weaver.ast.Call;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +35,9 @@ public class CallerService {
     public Page<Caller> getPageCallerByCallerBaseId(Long callerBaseId, int number, int size, boolean onlyInvalid) {
         Pageable pageable = PageRequest.of(number, size);
         boolean validColumn = !onlyInvalid;
-        return callerRepository.findAllByCallersBase_idAndAndValid(callerBaseId, validColumn, pageable);
+        return onlyInvalid ?
+                callerRepository.findAllByCallersBase_idAndAndValid(callerBaseId, validColumn, pageable) :
+                callerRepository.findAllByCallersBase_id(callerBaseId, pageable);
     }
 
     public int getCountInvalidCallers(Long id) {
