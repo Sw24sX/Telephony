@@ -182,6 +182,7 @@ public class CallersBaseParser {
         Caller caller = new Caller();
         caller.setCallersBase(callersBase);
         caller.setVariables(new ArrayList<>());
+        caller.setNumber(row.getRowNum());
 
         for (int i = 0; i < columns.size(); i++) {
             Cell cell = row.getCell(i);
