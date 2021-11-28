@@ -22,11 +22,4 @@ public class BaseEntity {
     @CreationTimestamp
     @Column(name = "creation_date")
     private Date created;
-
-//    @PrePersist
-//    protected void onCreate() {
-//        created = new Date();
-//    }
-
-
 }

@@ -32,14 +32,4 @@ public class CallersBase extends BaseEntity {
     @UpdateTimestamp
     @Column(name = "updated_date")
     private Date updated;
-
-//    @PrePersist
-//    protected void onCreateCallersBase() {
-//        updated = new Date();
-//    }
-//
-//    @PreUpdate
-//    protected void onUpdate() {
-//        updated = new Date();
-//    }
 }
