@@ -24,4 +24,7 @@ public class Caller extends BaseEntity {
 
     @Column(name = "number")
     private int number;
+
+    @Column(name = "is_valid")
+    private boolean isValid;
 }
