@@ -1,0 +1,31 @@
+package com.example.telephony.domain;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import java.util.List;
+
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@Data
+@Table(name = "sound")
+@NoArgsConstructor
+public class Sound extends BaseEntity {
+    @NonNull
+    @Column(name = "name")
+    private String name;
+
+    @NonNull
+    @Column(name = "path")
+    private String path;
+
+    @NonNull
+    @Column(name = "uri")
+    private String uri;
+}

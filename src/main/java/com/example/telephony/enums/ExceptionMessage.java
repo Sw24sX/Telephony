@@ -1,0 +1,35 @@
+package com.example.telephony.enums;
+
+public enum ExceptionMessage {
+    SOUND_NOT_FOUND("Запись %s не найдена."),
+    CALLER_NOT_FOUND("Абонент %s не найден"),
+    SCENARIO_NOT_FOUND("Сценарий %s не найден"),
+    PROPERTY_NOT_FOUND("Свойство \"%s\" не указано"),
+    FILE_NAME_IS_NULL("Файл не содержит имени"),
+    COULD_NOT_STORE_FILE("Не удалось сохранить файл %s"),
+    NOT_INITIALIZE_FOLDER_FOR_UPLOAD("Не удалось создать папку для сохранения файлов"),
+    SCENARIO_MANAGER_NOT_FOUND_ID("Менеджер сценариев не обнаружил уникальный номер %s"),
+    SCENARIO_WAS_ALREADY_STARTED("Сценарий для канала %s уже был начат"),
+    SCENARIO_STEP_NOT_FINISHED("Шаг сценярия не завершился"),
+    SCENARIO_NO_MORE_STEPS("Сценарий больше нет шагов"),
+    CALLERS_ALREADY_CREATED("Абоненты уже находятся в базе данных"),
+    CALLERS_NOT_CREATED("Абоненты не записаны в базу данных"),
+    CALLERS_BASE_NOT_CONTAINS_CALLER("База абонентов %s не содержит абонента %s"),
+    CALLERS_BASE_NOT_FOUND("База клиентов %s не найдена"),
+    GENERATED_FILE_NOT_FOUND("Сгенерированный файл %s не найден"),
+    NOT_CONCRETE_WAY("Не указано, к какому ответу относится шаг"),
+    NOT_ANY_SCENARIO_STEP("Нет ни одного шага сценария"),
+    NO_FIRST_STEP_SCENARIO("Нет первого шага сценария"),
+    SCENARIO_IS_NO_TREE("Структура сценария не является деревом"),
+    WRONG_ENUM_CODE("Код перечисления %s не найден");
+
+    private final String message;
+
+    ExceptionMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+}
