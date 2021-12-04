@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Service
 public class ARIService {
@@ -53,6 +54,7 @@ public class ARIService {
 
     public void startScenarioExecute(List<Caller> callers, Scenario scenario) {
         ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ari, ttsService);
+        System.out.println("Scenario build success");
         for(Caller caller : callers) {
             addCallerToScenarioExecute(caller, scenarioStep);
         }
@@ -67,6 +69,7 @@ public class ARIService {
         String channelId = UUID.randomUUID().toString();
         scenarioManager.addCallScenario(channelId, scenarioStep);
         createChannel(callerRepository.getCallerNumber(caller.getId()), channelId);
+        System.out.println("Channel created");
     }
 
     public Channel createChannel(String number, String channelId) {

@@ -13,11 +13,13 @@ public class StartStep extends BaseScenarioStep {
 
     @Override
     public Playback execute(String channelId) {
+        System.out.println("Start step was executed");
         return null;
     }
 
     @Override
     public void setNext(ScenarioStep next) {
+        System.out.println("Next step after start");
         this.next = next;
     }
 

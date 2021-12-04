@@ -25,4 +25,4 @@ services:
       - POSTGRES_PASSWORD=123
       - POSTGRES_DB=telephony
     ports:
-      - 5432:5433
+      - 5432:5432

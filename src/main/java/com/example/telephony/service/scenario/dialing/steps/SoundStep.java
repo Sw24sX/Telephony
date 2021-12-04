@@ -16,8 +16,12 @@ public class SoundStep extends BaseScenarioStep {
     @Override
     public Playback execute(String channelId) {
         String mediaUrl = String.format("sound:%s", scenarioNode.getData().getSoundPath());
+        System.out.println(String.format("Media url: %s", mediaUrl));
         try {
-            return ari.channels().play(channelId, mediaUrl).execute();
+            System.out.println("Before playback");
+            Playback playback = ari.channels().play(channelId, mediaUrl).execute();
+            System.out.println("Playback was started");
+            return playback;
         } catch (RestException e) {
             throw new TelephonyException(e.getMessage());
         }
@@ -25,6 +29,7 @@ public class SoundStep extends BaseScenarioStep {
 
     @Override
     public void setNext(ScenarioStep next) {
+        System.out.println("Return next sound");
         this.next = next;
     }
 

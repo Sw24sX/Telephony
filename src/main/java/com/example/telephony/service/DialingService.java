@@ -6,10 +6,12 @@ import com.example.telephony.domain.CallersBase;
 import com.example.telephony.domain.Scenario;
 import com.example.telephony.service.asterisk.ARIService;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Service
 public class DialingService {
@@ -17,6 +19,7 @@ public class DialingService {
     private final ScenarioService scenarioService;
     private final CallerService callerService;
     private final CallerBaseService callerBaseService;
+    private final Logger log;
 
     @Autowired
     public DialingService(ARIService ariService, ScenarioService scenarioService, CallerService callerService,
@@ -25,6 +28,7 @@ public class DialingService {
         this.scenarioService = scenarioService;
         this.callerService = callerService;
         this.callerBaseService = callerBaseService;
+        this.log = Logger.getLogger("dialing");
     }
 
     public void callCaller(Long callerId) {
@@ -40,8 +44,11 @@ public class DialingService {
     }
 
     public void startDialingCallersBase(Long callersBaseId, Long scenarioId) {
+        System.out.println("Start work dialing");
         Scenario scenario = scenarioService.getById(scenarioId);
+        System.out.println("Find scenario");
         CallersBase callersBase = callerBaseService.getById(callersBaseId);
+        System.out.println("Find caller base");
         ariService.startScenarioExecute(callersBase.getCallers(), scenario);
     }
 
