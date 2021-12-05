@@ -2,7 +2,7 @@ version: '2'
 
 services:
   app:
-    image: 'telephony-image:latest'
+    image: 'telephony-docker:latest'
     build:
       context: .
     container_name: app
