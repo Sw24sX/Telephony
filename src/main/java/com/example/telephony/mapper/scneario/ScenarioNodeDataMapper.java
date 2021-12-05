@@ -1,7 +1,7 @@
-package com.example.telephony.mapper;
+package com.example.telephony.mapper.scneario;
 
 import com.example.telephony.domain.ScenarioNodeData;
-import com.example.telephony.dto.ScenarioNodeDataDto;
+import com.example.telephony.dto.scenario.ScenarioNodeDataDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

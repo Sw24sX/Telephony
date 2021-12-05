@@ -1,10 +1,10 @@
-package com.example.telephony.mapper;
+package com.example.telephony.mapper.scneario;
 
 import com.example.telephony.domain.Scenario;
 import com.example.telephony.domain.ScenarioNode;
-import com.example.telephony.dto.ScenarioDto;
-import com.example.telephony.dto.ScenarioEdgeDto;
-import com.example.telephony.dto.ScenarioNodeDto;
+import com.example.telephony.dto.scenario.ScenarioDto;
+import com.example.telephony.dto.scenario.ScenarioEdgeDto;
+import com.example.telephony.dto.scenario.ScenarioNodeDto;
 import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.ScenarioMappingException;
 import org.mapstruct.Mapper;
@@ -28,6 +28,26 @@ public abstract class ScenarioMapper {
         dto.setName(scenario.getName());
         dto.setRootId(scenario.getRoot().getId());
         return addNodesAndEdges(scenario.getRoot(), dto);
+    }
+
+    public Scenario fromScenarioDto(ScenarioDto dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Scenario scenario = new Scenario();
+
+        Map<Long, ScenarioNode> scenarioNodes = getMapScenarioNode(dto.getNodes());
+        ScenarioNode root = getRootNode(scenarioNodes, dto.getRootId());
+        connectNodes(scenarioNodes, dto.getEdges());
+        if (root.getChildren() == null || root.getChildren().isEmpty()) {
+            throw new ScenarioMappingException(ScenarioExceptionMessages.ROOT_NODE_HAVE_NOT_CHILD.getMessage());
+        }
+
+        scenario.setName(dto.getName());
+        scenario.setRoot(root);
+
+        return scenario;
     }
 
     private ScenarioDto addNodesAndEdges(ScenarioNode root, ScenarioDto scenarioDto) {
@@ -56,25 +76,7 @@ public abstract class ScenarioMapper {
         return scenarioDto;
     }
 
-    public Scenario fromScenarioDto(ScenarioDto dto) {
-        if (dto == null) {
-            return null;
-        }
 
-        Scenario scenario = new Scenario();
-
-        Map<Long, ScenarioNode> scenarioNodes = getMapScenarioNode(dto.getNodes());
-        ScenarioNode root = getRootNode(scenarioNodes, dto.getRootId());
-        connectNodes(scenarioNodes, dto.getEdges());
-        if (root.getChildren() == null || root.getChildren().isEmpty()) {
-            throw new ScenarioMappingException(ScenarioExceptionMessages.ROOT_NODE_HAVE_NOT_CHILD.getMessage());
-        }
-
-        scenario.setName(dto.getName());
-        scenario.setRoot(root);
-
-        return scenario;
-    }
 
     private Map<Long, ScenarioNode> getMapScenarioNode(List<ScenarioNodeDto> scenarioNodeDtos) {
         Map<Long, ScenarioNode> result = new HashMap<>();

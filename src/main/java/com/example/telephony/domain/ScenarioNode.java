@@ -25,11 +25,6 @@ public class ScenarioNode extends BaseEntity {
     @JoinColumn(name = "extra_data")
     private ScenarioNodeExtraData extraData;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "scenario_edge", joinColumns = @JoinColumn(name = "parent_node_id"),
-            inverseJoinColumns = @JoinColumn(name = "child_node_id"))
-    private List<ScenarioNode> children;
-
-    @ManyToMany(mappedBy = "children", cascade = CascadeType.ALL)
-    private List<ScenarioNode> parents;
+    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL)
+    private List<ScenarioEdge> childEdges;
 }

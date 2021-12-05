@@ -1,4 +1,4 @@
-package com.example.telephony.dto;
+package com.example.telephony.dto.scenario;
 
 import lombok.Data;
 
@@ -7,4 +7,5 @@ public class ScenarioEdgeDto {
     private String id;
     private Long source;
     private Long target;
+    private String sourceHandler;
 }
