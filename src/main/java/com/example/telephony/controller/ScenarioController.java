@@ -33,9 +33,8 @@ public class ScenarioController {
     }
 
     @PostMapping
-    public ScenarioDto create(@RequestBody ScenarioDto scenarioDto) {
-        Scenario scenario = scenarioService.create(scenarioMapper.fromScenarioDto(scenarioDto));
-        return scenarioMapper.fromScenario(scenario);
+    public ScenarioDto create(@RequestParam("name") String scenarioName) {
+        return scenarioMapper.fromScenario(scenarioService.create(scenarioName));
     }
 
     @PutMapping("{id}")
