@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ScenarioEdgeDto {
     private String id;
-    private Long source;
-    private Long target;
-    private String sourceHandler;
+    private String source;
+    private String target;
+    private String sourceHandle;
 }

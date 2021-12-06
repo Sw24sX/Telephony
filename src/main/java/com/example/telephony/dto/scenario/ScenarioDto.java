@@ -12,5 +12,5 @@ public class ScenarioDto extends BaseDto {
     private String name;
     private List<ScenarioNodeDto> nodes;
     private List<ScenarioEdgeDto> edges;
-    private Long rootId;
+    private String rootId;
 }

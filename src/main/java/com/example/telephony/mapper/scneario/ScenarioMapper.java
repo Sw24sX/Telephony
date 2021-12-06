@@ -1,12 +1,15 @@
 package com.example.telephony.mapper.scneario;
 
 import com.example.telephony.domain.Scenario;
+import com.example.telephony.domain.ScenarioEdge;
 import com.example.telephony.domain.ScenarioNode;
 import com.example.telephony.dto.scenario.ScenarioDto;
 import com.example.telephony.dto.scenario.ScenarioEdgeDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDto;
 import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.ScenarioMappingException;
+import com.example.telephony.exception.TelephonyException;
+import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +29,7 @@ public abstract class ScenarioMapper {
         dto.setId(scenario.getId());
         dto.setCreated(scenario.getCreated());
         dto.setName(scenario.getName());
-        dto.setRootId(scenario.getRoot().getId());
+        dto.setRootId(scenario.getRoot().getId().toString());
         return addNodesAndEdges(scenario.getRoot(), dto);
     }
 
@@ -37,10 +40,10 @@ public abstract class ScenarioMapper {
 
         Scenario scenario = new Scenario();
 
-        Map<Long, ScenarioNode> scenarioNodes = getMapScenarioNode(dto.getNodes());
+        Map<String, ScenarioNode> scenarioNodes = getMapScenarioNode(dto.getNodes());
         ScenarioNode root = getRootNode(scenarioNodes, dto.getRootId());
         connectNodes(scenarioNodes, dto.getEdges());
-        if (root.getChildren() == null || root.getChildren().isEmpty()) {
+        if (CollectionUtils.isEmpty(root.getChildEdges())) {
             throw new ScenarioMappingException(ScenarioExceptionMessages.ROOT_NODE_HAVE_NOT_CHILD.getMessage());
         }
 
@@ -58,15 +61,15 @@ public abstract class ScenarioMapper {
         children.add(root);
         while(!children.isEmpty()) {
             ScenarioNode currentNode = children.poll();
-            for (ScenarioNode child : currentNode.getChildren()) {
-                children.add(child);
-
-                ScenarioEdgeDto edge = new ScenarioEdgeDto();
-                edge.setId(String.format("e%s-%s", currentNode.getId(), child.getId()));
-                edge.setSource(currentNode.getId());
-                edge.setTarget(child.getId());
-                edges.add(edge);
-            }
+//            for (ScenarioNode child : currentNode.getChildren()) {
+//                children.add(child);
+//
+//                ScenarioEdgeDto edge = new ScenarioEdgeDto();
+//                edge.setId(String.format("e%s-%s", currentNode.getId(), child.getId()));
+//                edge.setSource(currentNode.getId());
+//                edge.setTarget(child.getId());
+//                edges.add(edge);
+//            }
 
             nodes.add(scenarioNodeMapper.fromScenarioNode(currentNode));
         }
@@ -78,8 +81,8 @@ public abstract class ScenarioMapper {
 
 
 
-    private Map<Long, ScenarioNode> getMapScenarioNode(List<ScenarioNodeDto> scenarioNodeDtos) {
-        Map<Long, ScenarioNode> result = new HashMap<>();
+    private Map<String, ScenarioNode> getMapScenarioNode(List<ScenarioNodeDto> scenarioNodeDtos) {
+        Map<String, ScenarioNode> result = new HashMap<>();
         for(ScenarioNodeDto node : scenarioNodeDtos) {
             result.put(node.getId(), scenarioNodeMapper.fromScenarioNodeDto(node));
         }
@@ -87,7 +90,7 @@ public abstract class ScenarioMapper {
         return result;
     }
 
-    private ScenarioNode getRootNode(Map<Long, ScenarioNode> nodeMap, Long rootId) {
+    private ScenarioNode getRootNode(Map<String, ScenarioNode> nodeMap, String rootId) {
         if(!nodeMap.containsKey(rootId)) {
             throw new ScenarioMappingException(ScenarioExceptionMessages.NO_ROOT_NODE.getMessage());
         }
@@ -95,17 +98,29 @@ public abstract class ScenarioMapper {
         return nodeMap.get(rootId);
     }
 
-    private void connectNodes(Map<Long, ScenarioNode> scenarioNodes, List<ScenarioEdgeDto> edges) {
+    private void connectNodes(Map<String, ScenarioNode> scenarioNodes, List<ScenarioEdgeDto> edges) {
         for(ScenarioEdgeDto edge : edges) {
             ScenarioNode parent = getScenarioNode(scenarioNodes, edge.getSource());
             ScenarioNode child = getScenarioNode(scenarioNodes, edge.getTarget());
+            if (parent.getData().isNeedAnswer()){
+                ScenarioEdge scenarioEdge = parent.getChildEdges().stream()
+                        .filter(parentEdge -> parentEdge.getAnswerKey().equals(edge.getSourceHandle()))
+                        .findFirst()
+                        .orElseThrow(() -> new TelephonyException(
+                                String.format(
+                                        ScenarioExceptionMessages.SOURCE_HANDLER_NOT_FOUND.getMessage(), "none", edge.getSourceHandle())));
+                scenarioEdge.setTarget(child);
+            } else {
+                ScenarioEdge scenarioEdge = new ScenarioEdge();
+                scenarioEdge.setSource(parent);
+                scenarioEdge.setTarget(child);
+                parent.getChildEdges().add(scenarioEdge);
+            }
 
-            parent.getChildren().add(child);
-            child.getParents().add(parent);
         }
     }
 
-    private ScenarioNode getScenarioNode(Map<Long, ScenarioNode> scenarioNodes, Long id) {
+    private ScenarioNode getScenarioNode(Map<String, ScenarioNode> scenarioNodes, String id) {
         if(!scenarioNodes.containsKey(id)) {
             throw new ScenarioMappingException(
                     String.format(ScenarioExceptionMessages.NODE_NOT_FOUND.getMessage(), id));

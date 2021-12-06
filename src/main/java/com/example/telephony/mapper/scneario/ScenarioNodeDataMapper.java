@@ -7,14 +7,18 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
-public interface ScenarioNodeDataMapper {
+public abstract class ScenarioNodeDataMapper {
+    public ScenarioNodeData fromScenarioNodeDataDto(ScenarioNodeDataDto dto) {
+        if (dto == null) {
+            return null;
+        }
 
-    @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "answerKey", source = "answerKey")
-    })
-    ScenarioNodeData fromScenarioNodeDataDto(ScenarioNodeDataDto dto);
+        ScenarioNodeData result = new ScenarioNodeData();
+        result.setNeedAnswer(dto.isNeedAnswer());
+        result.setQuestion(dto.getReplica());
+        return result;
+    }
 
-    @Mapping(target = "answerKey", source = "answerKey")
-    ScenarioNodeDataDto fromScenarioNodeData(ScenarioNodeData data);
+//    @Mapping(target = "answerKey", source = "answerKey")
+    public abstract ScenarioNodeDataDto fromScenarioNodeData(ScenarioNodeData data);
 }

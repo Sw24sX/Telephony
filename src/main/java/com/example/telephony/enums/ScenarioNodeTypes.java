@@ -5,10 +5,11 @@ import com.example.telephony.exception.TelephonyException;
 import java.util.Arrays;
 import java.util.Objects;
 
+
 public enum ScenarioNodeTypes {
-    INPUT("input", (short) 1),
-    OUTPUT("output", (short) 2),
-    QUESTION("question", (short) 3);
+    START("start", (short) 1),
+    FINISH("finish", (short) 2),
+    REPLICA("replica", (short) 3);
 
     private final String extraName;
     private final short code;

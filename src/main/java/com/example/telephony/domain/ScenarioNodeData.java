@@ -18,6 +18,8 @@ public class ScenarioNodeData extends BaseEntity {
     @Column(name = "question")
     private String question;
 
+    //todo: delete this
+    @Deprecated
     @Column(name = "answer_key")
     private String answerKey;
 
