@@ -1,11 +1,13 @@
-package com.example.telephony.domain;
+package com.example.telephony.domain.scenario;
 
+import com.example.telephony.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -18,11 +20,9 @@ public class ScenarioNodeData extends BaseEntity {
     @Column(name = "question")
     private String question;
 
-    //todo: delete this
-    @Deprecated
-    @Column(name = "answer_key")
-    private String answerKey;
-
     @Column(name = "need_answer")
     private boolean needAnswer;
+
+    @Column(name = "waiting_time")
+    private int waitingTime;
 }

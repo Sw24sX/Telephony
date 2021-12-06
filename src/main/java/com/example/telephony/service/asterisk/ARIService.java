@@ -7,7 +7,7 @@ import ch.loway.oss.ari4java.generated.models.Channel;
 import ch.loway.oss.ari4java.tools.ARIException;
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.Caller;
-import com.example.telephony.domain.Scenario;
+import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.service.TTSService;
 import com.example.telephony.service.scenario.dialing.ScenarioBuilder;

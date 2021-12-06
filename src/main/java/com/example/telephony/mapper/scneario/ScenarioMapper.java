@@ -1,8 +1,8 @@
 package com.example.telephony.mapper.scneario;
 
-import com.example.telephony.domain.Scenario;
-import com.example.telephony.domain.ScenarioEdge;
-import com.example.telephony.domain.ScenarioNode;
+import com.example.telephony.domain.scenario.Scenario;
+import com.example.telephony.domain.scenario.ScenarioEdge;
+import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.dto.scenario.ScenarioDto;
 import com.example.telephony.dto.scenario.ScenarioEdgeDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDto;
@@ -10,7 +10,6 @@ import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.ScenarioMappingException;
 import com.example.telephony.exception.TelephonyException;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.SetUtils;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;

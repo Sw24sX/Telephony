@@ -1,6 +1,6 @@
 package com.example.telephony.service;
 
-import com.example.telephony.domain.Scenario;
+import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.ScenarioRepository;

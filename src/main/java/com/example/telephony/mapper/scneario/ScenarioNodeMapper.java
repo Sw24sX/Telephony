@@ -1,22 +1,17 @@
 package com.example.telephony.mapper.scneario;
 
-import com.example.telephony.domain.ScenarioEdge;
-import com.example.telephony.domain.ScenarioNode;
-import com.example.telephony.domain.ScenarioNodeData;
-import com.example.telephony.domain.ScenarioNodeExtraData;
+import com.example.telephony.domain.scenario.ScenarioEdge;
+import com.example.telephony.domain.scenario.ScenarioNode;
+import com.example.telephony.domain.scenario.ScenarioNodeExtraData;
+import com.example.telephony.domain.scenario.ScenarioNodePoint;
 import com.example.telephony.dto.scenario.ScenarioNodeAnswersDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDataDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDto;
-import com.example.telephony.enums.ScenarioNodeTypes;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.ListUtils;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {ScenarioNodeDataMapper.class})
@@ -42,8 +37,9 @@ public abstract class ScenarioNodeMapper {
             }).collect(Collectors.toList()));
         }
 
-        //TODO: save position
-        scenarioNode.setExtraData(new ScenarioNodeExtraData());
+        ScenarioNodeExtraData extraData = new ScenarioNodeExtraData();
+        extraData.setPosition(new ScenarioNodePoint(dto.getPosition().x, dto.getPosition().y));
+        scenarioNode.setExtraData(extraData);
         return scenarioNode;
     }
 
@@ -60,6 +56,8 @@ public abstract class ScenarioNodeMapper {
                 .map(edge -> new ScenarioNodeAnswersDto(edge.getAnswerKey()))
                 .collect(Collectors.toList()));
         result.setData(data);
+        ScenarioNodePoint position = scenarioNode.getExtraData().getPosition();
+        result.setPosition(new Point(position.getX(), position.getY()));
         return result;
     }
 }

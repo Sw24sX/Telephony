@@ -1,10 +1,10 @@
-package com.example.telephony.domain;
+package com.example.telephony.domain.scenario;
 
+import com.example.telephony.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity

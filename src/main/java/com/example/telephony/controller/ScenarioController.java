@@ -1,7 +1,7 @@
 package com.example.telephony.controller;
 
 import com.example.telephony.common.GlobalMapping;
-import com.example.telephony.domain.Scenario;
+import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.dto.scenario.ScenarioDto;
 import com.example.telephony.mapper.scneario.ScenarioMapper;
 import com.example.telephony.service.ScenarioService;

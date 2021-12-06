@@ -1,6 +1,7 @@
-package com.example.telephony.domain;
+package com.example.telephony.domain.scenario;
 
 import com.example.telephony.converter.ScenarioNodeTypeConverter;
+import com.example.telephony.domain.BaseEntity;
 import com.example.telephony.enums.ScenarioNodeTypes;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

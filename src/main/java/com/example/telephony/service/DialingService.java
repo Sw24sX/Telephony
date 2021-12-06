@@ -3,7 +3,7 @@ package com.example.telephony.service;
 import ch.loway.oss.ari4java.generated.models.Channel;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
-import com.example.telephony.domain.Scenario;
+import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.service.asterisk.ARIService;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;

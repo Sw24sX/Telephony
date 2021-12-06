@@ -1,10 +1,12 @@
 package com.example.telephony.mapper.scneario;
 
-import com.example.telephony.domain.ScenarioNodeData;
+import com.example.telephony.domain.scenario.ScenarioNodeData;
 import com.example.telephony.dto.scenario.ScenarioNodeDataDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public abstract class ScenarioNodeDataMapper {
@@ -18,6 +20,7 @@ public abstract class ScenarioNodeDataMapper {
         ScenarioNodeData result = new ScenarioNodeData();
         result.setNeedAnswer(dto.isNeedAnswer());
         result.setQuestion(dto.getReplica());
+        result.setWaitingTime(Optional.ofNullable(dto.getWaitingTime()).orElse(0));
         return result;
     }
 

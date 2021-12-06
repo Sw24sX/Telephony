@@ -2,8 +2,8 @@ package com.example.telephony.service.scenario.dialing;
 
 import ch.loway.oss.ari4java.ARI;
 import com.example.telephony.domain.GeneratedSound;
-import com.example.telephony.domain.Scenario;
-import com.example.telephony.domain.ScenarioNode;
+import com.example.telephony.domain.scenario.Scenario;
+import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.SpeechVoice;
 import com.example.telephony.service.TTSService;
 import com.example.telephony.service.scenario.dialing.steps.EndStep;
