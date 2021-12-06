@@ -19,6 +19,8 @@ public abstract class ScenarioNodeDataMapper {
         return result;
     }
 
-//    @Mapping(target = "answerKey", source = "answerKey")
+    @Mappings({
+            @Mapping(source = "question", target = "replica")
+    })
     public abstract ScenarioNodeDataDto fromScenarioNodeData(ScenarioNodeData data);
 }

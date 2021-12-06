@@ -2,6 +2,7 @@ package com.example.telephony.mapper.scneario;
 
 import com.example.telephony.domain.ScenarioEdge;
 import com.example.telephony.domain.ScenarioNode;
+import com.example.telephony.domain.ScenarioNodeData;
 import com.example.telephony.domain.ScenarioNodeExtraData;
 import com.example.telephony.dto.scenario.ScenarioNodeAnswersDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDataDto;
@@ -46,10 +47,19 @@ public abstract class ScenarioNodeMapper {
         return scenarioNode;
     }
 
+    public ScenarioNodeDto fromScenarioNode(ScenarioNode scenarioNode) {
+        if(scenarioNode == null) {
+            return null;
+        }
 
-
-    @Mappings({
-            @Mapping(target = "data", source = "data", resultType = ScenarioNodeDataDto.class)
-    })
-    public abstract ScenarioNodeDto fromScenarioNode(ScenarioNode scenarioNode);
+        ScenarioNodeDto result = new ScenarioNodeDto();
+        result.setId(scenarioNode.getId().toString());
+        result.setType(scenarioNode.getType());
+        ScenarioNodeDataDto data = scenarioNodeDataMapper.fromScenarioNodeData(scenarioNode.getData());
+        data.setAnswers(scenarioNode.getChildEdges().stream()
+                .map(edge -> new ScenarioNodeAnswersDto(edge.getAnswerKey()))
+                .collect(Collectors.toList()));
+        result.setData(data);
+        return result;
+    }
 }

@@ -61,15 +61,19 @@ public abstract class ScenarioMapper {
         children.add(root);
         while(!children.isEmpty()) {
             ScenarioNode currentNode = children.poll();
-//            for (ScenarioNode child : currentNode.getChildren()) {
-//                children.add(child);
-//
-//                ScenarioEdgeDto edge = new ScenarioEdgeDto();
-//                edge.setId(String.format("e%s-%s", currentNode.getId(), child.getId()));
-//                edge.setSource(currentNode.getId());
-//                edge.setTarget(child.getId());
-//                edges.add(edge);
-//            }
+            for (ScenarioEdge scenarioEdge : currentNode.getChildEdges()) {
+                children.add(scenarioEdge.getTarget());
+
+                ScenarioEdgeDto edge = new ScenarioEdgeDto();
+                String sourceId = scenarioEdge.getSource().getId().toString();
+                String targetId = scenarioEdge.getTarget().getId().toString();
+
+                edge.setId(String.format("e%s-%s", sourceId, targetId));
+                edge.setSource(sourceId);
+                edge.setTarget(targetId);
+                edge.setSourceHandle(scenarioEdge.getAnswerKey());
+                edges.add(edge);
+            }
 
             nodes.add(scenarioNodeMapper.fromScenarioNode(currentNode));
         }
@@ -108,7 +112,7 @@ public abstract class ScenarioMapper {
                         .findFirst()
                         .orElseThrow(() -> new TelephonyException(
                                 String.format(
-                                        ScenarioExceptionMessages.SOURCE_HANDLER_NOT_FOUND.getMessage(), "none", edge.getSourceHandle())));
+                                        ScenarioExceptionMessages.SOURCE_HANDLER_NOT_FOUND.getMessage(), edge.getId(), edge.getSourceHandle())));
                 scenarioEdge.setTarget(child);
             } else {
                 ScenarioEdge scenarioEdge = new ScenarioEdge();
