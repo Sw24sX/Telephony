@@ -58,12 +58,12 @@ public abstract class ScenarioMapper {
         List<ScenarioEdgeDto> edges = new ArrayList<>();
 
         Queue<ScenarioNode> children = new LinkedList<>();
+        Set<Long> addedNodeId = new HashSet<>();
         children.add(root);
+        addedNodeId.add(root.getId());
         while(!children.isEmpty()) {
             ScenarioNode currentNode = children.poll();
             for (ScenarioEdge scenarioEdge : currentNode.getChildEdges()) {
-                children.add(scenarioEdge.getTarget());
-
                 ScenarioEdgeDto edge = new ScenarioEdgeDto();
                 String sourceId = scenarioEdge.getSource().getId().toString();
                 String targetId = scenarioEdge.getTarget().getId().toString();
@@ -73,6 +73,11 @@ public abstract class ScenarioMapper {
                 edge.setTarget(targetId);
                 edge.setSourceHandle(scenarioEdge.getAnswerKey());
                 edges.add(edge);
+
+                if(!addedNodeId.contains(scenarioEdge.getTarget().getId())) {
+                    children.add(scenarioEdge.getTarget());
+                    addedNodeId.add(scenarioEdge.getTarget().getId());
+                }
             }
 
             nodes.add(scenarioNodeMapper.fromScenarioNode(currentNode));
