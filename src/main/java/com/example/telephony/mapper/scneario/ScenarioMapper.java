@@ -10,6 +10,8 @@ import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.ScenarioMappingException;
 import com.example.telephony.exception.TelephonyException;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.collections4.SetUtils;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,7 +43,7 @@ public abstract class ScenarioMapper {
         Scenario scenario = new Scenario();
 
         Map<String, ScenarioNode> scenarioNodes = getMapScenarioNode(dto.getNodes());
-        ScenarioNode root = getRootNode(scenarioNodes, dto.getRootId());
+        ScenarioNode root = getScenarioNode(scenarioNodes, dto.getRootId());
         connectNodes(scenarioNodes, dto.getEdges());
         if (CollectionUtils.isEmpty(root.getChildEdges())) {
             throw new ScenarioMappingException(ScenarioExceptionMessages.ROOT_NODE_HAVE_NOT_CHILD.getMessage());
@@ -54,41 +56,39 @@ public abstract class ScenarioMapper {
     }
 
     private ScenarioDto addNodesAndEdges(ScenarioNode root, ScenarioDto scenarioDto) {
-        List<ScenarioNodeDto> nodes = new ArrayList<>();
-        List<ScenarioEdgeDto> edges = new ArrayList<>();
+        scenarioDto.setNodes(new ArrayList<>());
+        scenarioDto.setEdges(new ArrayList<>());
 
         Queue<ScenarioNode> children = new LinkedList<>();
-        Set<Long> addedNodeId = new HashSet<>();
         children.add(root);
-        addedNodeId.add(root.getId());
+
+        Set<Long> addedNodeId = SetUtils.hashSet(root.getId());
         while(!children.isEmpty()) {
             ScenarioNode currentNode = children.poll();
             for (ScenarioEdge scenarioEdge : currentNode.getChildEdges()) {
-                ScenarioEdgeDto edge = new ScenarioEdgeDto();
-                String sourceId = scenarioEdge.getSource().getId().toString();
-                String targetId = scenarioEdge.getTarget().getId().toString();
-
-                edge.setId(String.format("e%s-%s", sourceId, targetId));
-                edge.setSource(sourceId);
-                edge.setTarget(targetId);
-                edge.setSourceHandle(scenarioEdge.getAnswerKey());
-                edges.add(edge);
-
+                scenarioDto.getEdges().add(createEdgeDto(scenarioEdge));
                 if(!addedNodeId.contains(scenarioEdge.getTarget().getId())) {
                     children.add(scenarioEdge.getTarget());
                     addedNodeId.add(scenarioEdge.getTarget().getId());
                 }
             }
-
-            nodes.add(scenarioNodeMapper.fromScenarioNode(currentNode));
+            scenarioDto.getNodes().add(scenarioNodeMapper.fromScenarioNode(currentNode));
         }
 
-        scenarioDto.setNodes(nodes);
-        scenarioDto.setEdges(edges);
         return scenarioDto;
     }
 
+    private ScenarioEdgeDto createEdgeDto(ScenarioEdge scenarioEdge) {
+        ScenarioEdgeDto edge = new ScenarioEdgeDto();
+        String sourceId = scenarioEdge.getSource().getId().toString();
+        String targetId = scenarioEdge.getTarget().getId().toString();
 
+        edge.setId(String.format("e%s-%s", sourceId, targetId));
+        edge.setSource(sourceId);
+        edge.setTarget(targetId);
+        edge.setSourceHandle(scenarioEdge.getAnswerKey());
+        return edge;
+    }
 
     private Map<String, ScenarioNode> getMapScenarioNode(List<ScenarioNodeDto> scenarioNodeDtos) {
         Map<String, ScenarioNode> result = new HashMap<>();
@@ -99,19 +99,11 @@ public abstract class ScenarioMapper {
         return result;
     }
 
-    private ScenarioNode getRootNode(Map<String, ScenarioNode> nodeMap, String rootId) {
-        if(!nodeMap.containsKey(rootId)) {
-            throw new ScenarioMappingException(ScenarioExceptionMessages.NO_ROOT_NODE.getMessage());
-        }
-
-        return nodeMap.get(rootId);
-    }
-
     private void connectNodes(Map<String, ScenarioNode> scenarioNodes, List<ScenarioEdgeDto> edges) {
         for(ScenarioEdgeDto edge : edges) {
             ScenarioNode parent = getScenarioNode(scenarioNodes, edge.getSource());
             ScenarioNode child = getScenarioNode(scenarioNodes, edge.getTarget());
-            if (parent.getData().isNeedAnswer()){
+            if (parent.getData() != null && parent.getData().isNeedAnswer()){
                 ScenarioEdge scenarioEdge = parent.getChildEdges().stream()
                         .filter(parentEdge -> parentEdge.getAnswerKey().equals(edge.getSourceHandle()))
                         .findFirst()

@@ -33,7 +33,7 @@ public abstract class ScenarioNodeMapper {
         scenarioNode.setType(dto.getType());
         scenarioNode.setData(scenarioNodeDataMapper.fromScenarioNodeDataDto(dto.getData()));
         scenarioNode.setChildEdges(new ArrayList<>());
-        if (dto.getData().isNeedAnswer()) {
+        if (dto.getData() != null && dto.getData().isNeedAnswer()) {
             scenarioNode.setChildEdges(dto.getData().getAnswers().stream().map(answer -> {
                 ScenarioEdge result = new ScenarioEdge();
                 result.setSource(scenarioNode);

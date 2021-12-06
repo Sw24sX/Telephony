@@ -10,7 +10,9 @@ import org.mapstruct.Mappings;
 public abstract class ScenarioNodeDataMapper {
     public ScenarioNodeData fromScenarioNodeDataDto(ScenarioNodeDataDto dto) {
         if (dto == null) {
-            return null;
+            ScenarioNodeData data = new ScenarioNodeData();
+            data.setNeedAnswer(false);
+            return data;
         }
 
         ScenarioNodeData result = new ScenarioNodeData();
