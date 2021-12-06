@@ -6,7 +6,7 @@ import com.example.telephony.domain.CallersBase;
 import com.example.telephony.dto.CallerDto;
 import com.example.telephony.dto.CallersBaseHeaderDto;
 import com.example.telephony.dto.VariablesTypeDto;
-import com.example.telephony.enums.CallersBasePageSort;
+import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.VariablesType;
 import com.example.telephony.mapper.CallerMapper;
 import com.example.telephony.mapper.CallersBaseHeaderMapper;
@@ -18,7 +18,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,7 +49,7 @@ public class CallerBaseController {
     public Page<CallersBaseHeaderDto> getAll(@ApiParam("Number page") @RequestParam("page") int page,
                                              @ApiParam("Page size") @RequestParam("size") int size,
                                              @ApiParam("Sort direction") @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
-                                             @ApiParam("Sort field") @RequestParam(value = "sortBy", required = false, defaultValue = "NAME") CallersBasePageSort sort,
+                                             @ApiParam("Sort field") @RequestParam(value = "sortBy", required = false, defaultValue = "NAME") FieldsPageSort sort,
                                              @ApiParam("Filtering by name") @RequestParam(value = "name", required = false, defaultValue = "") String searchedName) {
         Page<CallersBase> callersBases = callerBaseService.getPage(page, size, sort, direction, searchedName);
         return callersBases.map(callersBaseHeaderMapper::fromCallersBase);
