@@ -12,6 +12,7 @@ import com.example.telephony.exception.TelephonyException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.SetUtils;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,44 +26,16 @@ public abstract class ScenarioMapper {
     @Autowired
     protected ScenarioEdgeMapper scenarioEdgeMapper;
 
-    @Mappings({
-
-    })
-    protected abstract ScenarioDto createScenarioDtoFromScenario(Scenario scenario);
-
     public ScenarioDto fromScenario(Scenario scenario) {
-        if (scenario == null) {
-            return null;
-        }
-
-        ScenarioDto dto = new ScenarioDto();
-        dto.setId(scenario.getId());
-        dto.setCreated(scenario.getCreated());
-        dto.setName(scenario.getName());
-        dto.setRootId(scenario.getRoot().getId().toString());
-        return addNodesAndEdges(scenario.getRoot(), dto);
-    }
-
-    public Scenario fromScenarioDto(ScenarioDto dto) {
+        ScenarioDto dto = createScenarioDtoFromScenario(scenario);
         if (dto == null) {
             return null;
         }
-
-        Scenario scenario = new Scenario();
-
-        Map<String, ScenarioNode> scenarioNodes = getMapScenarioNode(dto.getNodes());
-        ScenarioNode root = getScenarioNode(scenarioNodes, dto.getRootId());
-        connectNodes(scenarioNodes, dto.getEdges());
-        if (CollectionUtils.isEmpty(root.getChildEdges())) {
-            throw new ScenarioMappingException(ScenarioExceptionMessages.ROOT_NODE_HAVE_NOT_CHILD.getMessage());
-        }
-
-        scenario.setName(dto.getName());
-        scenario.setRoot(root);
-        scenario.setCountSteps(scenarioNodes.size());
-
-        return scenario;
+        return addNodesAndEdges(scenario.getRoot(), dto);
     }
+
+    @Mapping(source = "root.id", target = "rootId")
+    protected abstract ScenarioDto createScenarioDtoFromScenario(Scenario scenario);
 
     private ScenarioDto addNodesAndEdges(ScenarioNode root, ScenarioDto scenarioDto) {
         scenarioDto.setNodes(new ArrayList<>());
@@ -85,6 +58,27 @@ public abstract class ScenarioMapper {
         }
 
         return scenarioDto;
+    }
+
+    public Scenario fromScenarioDto(ScenarioDto dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Scenario scenario = new Scenario();
+
+        Map<String, ScenarioNode> scenarioNodes = getMapScenarioNode(dto.getNodes());
+        ScenarioNode root = getScenarioNode(scenarioNodes, dto.getRootId());
+        connectNodes(scenarioNodes, dto.getEdges());
+        if (CollectionUtils.isEmpty(root.getChildEdges())) {
+            throw new ScenarioMappingException(ScenarioExceptionMessages.ROOT_NODE_HAVE_NOT_CHILD.getMessage());
+        }
+
+        scenario.setName(dto.getName());
+        scenario.setRoot(root);
+        scenario.setCountSteps(scenarioNodes.size());
+
+        return scenario;
     }
 
     private Map<String, ScenarioNode> getMapScenarioNode(List<ScenarioNodeDto> scenarioNodeDtos) {
