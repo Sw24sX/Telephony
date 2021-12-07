@@ -7,11 +7,14 @@ import com.example.telephony.domain.scenario.ScenarioNodePoint;
 import com.example.telephony.dto.scenario.ScenarioNodeAnswersDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDataDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDto;
+import lombok.var;
+import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {ScenarioNodeDataMapper.class})
@@ -52,12 +55,18 @@ public abstract class ScenarioNodeMapper {
         result.setId(scenarioNode.getId().toString());
         result.setType(scenarioNode.getType());
         ScenarioNodeDataDto data = scenarioNodeDataMapper.fromScenarioNodeData(scenarioNode.getData());
-        data.setAnswers(scenarioNode.getChildEdges().stream()
-                .map(edge -> new ScenarioNodeAnswersDto(edge.getAnswerKey()))
-                .collect(Collectors.toList()));
+        data.setAnswers(getAnswersDto(scenarioNode));
         result.setData(data);
         ScenarioNodePoint position = scenarioNode.getExtraData().getPosition();
         result.setPosition(new Point(position.getX(), position.getY()));
         return result;
+    }
+
+    private List<ScenarioNodeAnswersDto> getAnswersDto(ScenarioNode scenarioNode) {
+        List<ScenarioNodeAnswersDto> answers = scenarioNode.getChildEdges().stream()
+                .filter(edge -> edge.getAnswerKey() != null)
+                .map(edge -> new ScenarioNodeAnswersDto(edge.getAnswerKey()))
+                .collect(Collectors.toList());
+        return CollectionUtils.isEmpty(answers) ? null : answers;
     }
 }
