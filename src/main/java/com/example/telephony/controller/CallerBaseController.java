@@ -76,7 +76,6 @@ public class CallerBaseController {
         callerBaseService.deleteCallersBase(id);
     }
 
-    // TODO: не exel, а excel
     @PostMapping("upload/exel")
     @ApiOperation("Upload callers base from exel file")
     public CallersBaseHeaderDto uploadFromExel(@ApiParam("Callers base in exel file") @RequestParam("file") MultipartFile multipartFile,

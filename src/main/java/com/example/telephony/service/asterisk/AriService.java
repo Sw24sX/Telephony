@@ -20,9 +20,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-// TODO: где-то называются методы/переменные ARI, где-то Ari
 @Service
-public class ARIService {
+public class AriService {
     private final String app;
     private final ARI ari;
     private final ScenarioManager scenarioManager;
@@ -30,7 +29,7 @@ public class ARIService {
     private final TTSService ttsService;
 
     @Autowired
-    public ARIService(Environment environment, MessageCallBack messageCallBack,
+    public AriService(Environment environment, MessageCallBack messageCallBack,
                       ScenarioManager scenarioManager, CallerRepository callerRepository,
                       TTSService ttsService) throws ARIException {
         this.scenarioManager = scenarioManager;

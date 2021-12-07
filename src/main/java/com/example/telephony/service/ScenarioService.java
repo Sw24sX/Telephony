@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: пустые скобки в аннотации
-@Service()
+@Service
 public class ScenarioService {
     private final ScenarioRepository scenarioRepository;
     private final TTSService ttsService;

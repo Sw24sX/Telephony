@@ -4,7 +4,7 @@ import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Channel;
 import ch.loway.oss.ari4java.generated.models.ChannelDtmfReceived;
 import ch.loway.oss.ari4java.generated.models.Event;
-import com.example.telephony.service.asterisk.ARIService;
+import com.example.telephony.service.asterisk.AriService;
 import com.example.telephony.service.asterisk.AsteriskEvent;
 import com.example.telephony.service.scenario.dialing.ScenarioManager;
 import lombok.NonNull;
@@ -16,7 +16,7 @@ public class ChannelDtmfReceivedListener implements ApplicationListener<Asterisk
     private final ScenarioManager scenarioManager;
     private final ARI ari;
 
-    public ChannelDtmfReceivedListener(ScenarioManager scenarioManager, ARIService ariService) {
+    public ChannelDtmfReceivedListener(ScenarioManager scenarioManager, AriService ariService) {
         this.scenarioManager = scenarioManager;
         this.ari = ariService.getAri();
     }
