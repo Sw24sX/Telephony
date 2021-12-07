@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+// TODO: где-то называются методы/переменные ARI, где-то Ari
 @Service
 public class ARIService {
     private final String app;
