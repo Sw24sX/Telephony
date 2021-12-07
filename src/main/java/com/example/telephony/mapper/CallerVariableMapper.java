@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CallerVariableMapper {
-    public abstract CallerVariablesDto fromCallerVariable(CallerVariable callerVariable);
+    CallerVariablesDto fromCallerVariable(CallerVariable callerVariable);
 
-    public abstract List<CallerVariablesDto> fromCallerVariable(List<CallerVariable> callerVariable);
+    List<CallerVariablesDto> fromCallerVariable(List<CallerVariable> callerVariable);
 }

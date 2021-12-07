@@ -7,7 +7,6 @@ import com.example.telephony.domain.scenario.ScenarioNodePoint;
 import com.example.telephony.dto.scenario.ScenarioNodeAnswersDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDataDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDto;
-import lombok.var;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;

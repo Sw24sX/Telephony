@@ -61,6 +61,7 @@ public class ScenarioBuilder {
     }
 
     private static ScenarioNode getNextNode(ScenarioNode current) {
+        current.getChildEdges();
         //todo: fix this
 //        if (current.getChildren().size() == 0) {
 //            return null;
