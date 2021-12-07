@@ -12,6 +12,7 @@ import com.example.telephony.exception.TelephonyException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.SetUtils;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -20,6 +21,14 @@ import java.util.*;
 public abstract class ScenarioMapper {
     @Autowired
     protected ScenarioNodeMapper scenarioNodeMapper;
+
+    @Autowired
+    protected ScenarioEdgeMapper scenarioEdgeMapper;
+
+    @Mappings({
+
+    })
+    protected abstract ScenarioDto createScenarioDtoFromScenario(Scenario scenario);
 
     public ScenarioDto fromScenario(Scenario scenario) {
         if (scenario == null) {
@@ -66,7 +75,7 @@ public abstract class ScenarioMapper {
         while(!children.isEmpty()) {
             ScenarioNode currentNode = children.poll();
             for (ScenarioEdge scenarioEdge : currentNode.getChildEdges()) {
-                scenarioDto.getEdges().add(createEdgeDto(scenarioEdge));
+                scenarioDto.getEdges().add(scenarioEdgeMapper.fromScenarioEdge(scenarioEdge));
                 if(!addedNodeId.contains(scenarioEdge.getTarget().getId())) {
                     children.add(scenarioEdge.getTarget());
                     addedNodeId.add(scenarioEdge.getTarget().getId());
@@ -76,18 +85,6 @@ public abstract class ScenarioMapper {
         }
 
         return scenarioDto;
-    }
-
-    private ScenarioEdgeDto createEdgeDto(ScenarioEdge scenarioEdge) {
-        ScenarioEdgeDto edge = new ScenarioEdgeDto();
-        String sourceId = scenarioEdge.getSource().getId().toString();
-        String targetId = scenarioEdge.getTarget().getId().toString();
-
-        edge.setId(String.format("e%s-%s", sourceId, targetId));
-        edge.setSource(sourceId);
-        edge.setTarget(targetId);
-        edge.setSourceHandle(scenarioEdge.getAnswerKey());
-        return edge;
     }
 
     private Map<String, ScenarioNode> getMapScenarioNode(List<ScenarioNodeDto> scenarioNodeDtos) {
@@ -104,21 +101,27 @@ public abstract class ScenarioMapper {
             ScenarioNode parent = getScenarioNode(scenarioNodes, edge.getSource());
             ScenarioNode child = getScenarioNode(scenarioNodes, edge.getTarget());
             if (parent.getData() != null && parent.getData().isNeedAnswer()){
-                ScenarioEdge scenarioEdge = parent.getChildEdges().stream()
-                        .filter(parentEdge -> parentEdge.getAnswerKey().equals(edge.getSourceHandle()))
-                        .findFirst()
-                        .orElseThrow(() -> new TelephonyException(
-                                String.format(
-                                        ScenarioExceptionMessages.SOURCE_HANDLER_NOT_FOUND.getMessage(), edge.getId(), edge.getSourceHandle())));
-                scenarioEdge.setTarget(child);
+                getScenarioEdgeBySourceHandle(parent, edge).setTarget(child);
             } else {
-                ScenarioEdge scenarioEdge = new ScenarioEdge();
-                scenarioEdge.setSource(parent);
-                scenarioEdge.setTarget(child);
-                parent.getChildEdges().add(scenarioEdge);
+                parent.getChildEdges().add(createScenarioNodeWithoutAnswerKey(parent, child));
             }
-
         }
+    }
+
+    private ScenarioEdge getScenarioEdgeBySourceHandle(ScenarioNode parent, ScenarioEdgeDto edge) {
+        return parent.getChildEdges().stream()
+            .filter(parentEdge -> parentEdge.getAnswerKey().equals(edge.getSourceHandle()))
+            .findFirst()
+            .orElseThrow(() -> new TelephonyException(
+                String.format(
+                    ScenarioExceptionMessages.SOURCE_HANDLER_NOT_FOUND.getMessage(), edge.getId(), edge.getSourceHandle())));
+    }
+
+    private ScenarioEdge createScenarioNodeWithoutAnswerKey(ScenarioNode parent, ScenarioNode child){
+        ScenarioEdge scenarioEdge = new ScenarioEdge();
+        scenarioEdge.setSource(parent);
+        scenarioEdge.setTarget(child);
+        return scenarioEdge;
     }
 
     private ScenarioNode getScenarioNode(Map<String, ScenarioNode> scenarioNodes, String id) {
