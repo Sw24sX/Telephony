@@ -1,7 +1,7 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.CallersBase;
-import com.example.telephony.enums.CallersBasePageSort;
+import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
@@ -33,9 +33,9 @@ public class CallerBaseService {
         return callerBaseRepository.findAllByConfirmedIs(true);
     }
 
-    public Page<CallersBase> getPage(int number, int size, CallersBasePageSort callersBasePageSort,
+    public Page<CallersBase> getPage(int number, int size, FieldsPageSort fieldsPageSort,
                                      Sort.Direction direction, String name) {
-        Sort sort = Sort.by(direction, callersBasePageSort.getFieldName());
+        Sort sort = Sort.by(direction, fieldsPageSort.getFieldName());
         Pageable pageable = PageRequest.of(number, size, sort);
         return callerBaseRepository.findAllByConfirmedIs(true, "%" + name + "%", pageable);
     }

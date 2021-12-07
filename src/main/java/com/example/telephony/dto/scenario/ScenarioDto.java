@@ -1,5 +1,6 @@
-package com.example.telephony.dto;
+package com.example.telephony.dto.scenario;
 
+import com.example.telephony.dto.BaseDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,5 +12,5 @@ public class ScenarioDto extends BaseDto {
     private String name;
     private List<ScenarioNodeDto> nodes;
     private List<ScenarioEdgeDto> edges;
-    private Long rootId;
+    private String rootId;
 }

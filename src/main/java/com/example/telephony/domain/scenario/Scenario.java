@@ -1,10 +1,10 @@
-package com.example.telephony.domain;
+package com.example.telephony.domain.scenario;
 
+import com.example.telephony.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -17,4 +17,7 @@ public class Scenario extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "root_node")
     private ScenarioNode root;
+
+    @Column(name = "count_steps")
+    private int countSteps;
 }

@@ -7,7 +7,7 @@ import ch.loway.oss.ari4java.generated.models.Channel;
 import ch.loway.oss.ari4java.tools.ARIException;
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.Caller;
-import com.example.telephony.domain.Scenario;
+import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.service.TTSService;
 import com.example.telephony.service.scenario.dialing.ScenarioBuilder;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ARIService {
+public class AriService {
     private final String app;
     private final ARI ari;
     private final ScenarioManager scenarioManager;
@@ -29,7 +29,7 @@ public class ARIService {
     private final TTSService ttsService;
 
     @Autowired
-    public ARIService(Environment environment, MessageCallBack messageCallBack,
+    public AriService(Environment environment, MessageCallBack messageCallBack,
                       ScenarioManager scenarioManager, CallerRepository callerRepository,
                       TTSService ttsService) throws ARIException {
         this.scenarioManager = scenarioManager;

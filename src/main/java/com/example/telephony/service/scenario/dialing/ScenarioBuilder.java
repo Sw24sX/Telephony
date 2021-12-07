@@ -2,8 +2,8 @@ package com.example.telephony.service.scenario.dialing;
 
 import ch.loway.oss.ari4java.ARI;
 import com.example.telephony.domain.GeneratedSound;
-import com.example.telephony.domain.Scenario;
-import com.example.telephony.domain.ScenarioNode;
+import com.example.telephony.domain.scenario.Scenario;
+import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.SpeechVoice;
 import com.example.telephony.service.TTSService;
 import com.example.telephony.service.scenario.dialing.steps.EndStep;
@@ -37,11 +37,11 @@ public class ScenarioBuilder {
         ScenarioNode current = scenario.getRoot();
         while(current != null) {
             switch (current.getType()){
-                case INPUT:
+                case START:
                     scenarioBuilder.addScenarioStep(new StartStep(current, ari));
                     current = getNextNode(current);
                     break;
-                case QUESTION:
+                case REPLICA:
                     String soundPath = current.getData().getSoundPath();
                     if (soundPath == null || soundPath.isEmpty()) {
                         GeneratedSound generatedSound = ttsService.textToFile(current.getData().getQuestion(), SpeechVoice.IRINA);
@@ -50,7 +50,7 @@ public class ScenarioBuilder {
                     scenarioBuilder.addScenarioStep(new SoundStep(current, ari));
                     current = getNextNode(current);
                     break;
-                case OUTPUT:
+                case FINISH:
                     scenarioBuilder.addScenarioStep(new EndStep(current, ari));
                     current = getNextNode(current);
                     break;
@@ -61,9 +61,11 @@ public class ScenarioBuilder {
     }
 
     private static ScenarioNode getNextNode(ScenarioNode current) {
-        if (current.getChildren().size() == 0) {
-            return null;
-        }
-        return current.getChildren().get(0);
+        //todo: fix this
+//        if (current.getChildren().size() == 0) {
+//            return null;
+//        }
+//        return current.getChildren().get(0);
+        return null;
     }
 }

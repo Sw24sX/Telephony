@@ -2,7 +2,7 @@ package com.example.telephony.service.scenario.dialing.steps;
 
 import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Playback;
-import com.example.telephony.domain.ScenarioNode;
+import com.example.telephony.domain.scenario.ScenarioNode;
 
 public class StartStep extends BaseScenarioStep {
     private ScenarioStep next;

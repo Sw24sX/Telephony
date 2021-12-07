@@ -1,9 +1,11 @@
 package com.example.telephony.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Table(name = "caller_variables")

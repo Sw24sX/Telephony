@@ -3,7 +3,7 @@ package com.example.telephony.service.scenario.dialing.steps;
 import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Playback;
 import ch.loway.oss.ari4java.tools.RestException;
-import com.example.telephony.domain.ScenarioNode;
+import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.exception.TelephonyException;
 
 public class SoundStep extends BaseScenarioStep {

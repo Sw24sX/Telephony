@@ -1,13 +1,13 @@
 package com.example.telephony.enums;
 
-public enum CallersBasePageSort {
+public enum FieldsPageSort {
     NAME("Имя", "name"),
     CREATION_DATE("Дата создания", "created");
 
     private final String name;
     private final String fieldName;
 
-    CallersBasePageSort(String name, String fieldName) {
+    FieldsPageSort(String name, String fieldName) {
         this.name = name;
         this.fieldName = fieldName;
     }

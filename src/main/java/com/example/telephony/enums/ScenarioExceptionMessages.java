@@ -3,7 +3,8 @@ package com.example.telephony.enums;
 public enum ScenarioExceptionMessages {
     NO_ROOT_NODE("Стартовая вершина не найдена"),
     ROOT_NODE_HAVE_NOT_CHILD("Стартовая вершина не имеет потомков"),
-    NODE_NOT_FOUND("Вершина %s не найдена");
+    NODE_NOT_FOUND("Вершина %s не найдена"),
+    SOURCE_HANDLER_NOT_FOUND("Для ребра %s не найдена цифра %s");
 
     private final String message;
 

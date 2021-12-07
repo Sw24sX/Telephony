@@ -3,8 +3,8 @@ package com.example.telephony.service;
 import ch.loway.oss.ari4java.generated.models.Channel;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
-import com.example.telephony.domain.Scenario;
-import com.example.telephony.service.asterisk.ARIService;
+import com.example.telephony.domain.scenario.Scenario;
+import com.example.telephony.service.asterisk.AriService;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,13 @@ import java.util.UUID;
 
 @Service
 public class DialingService {
-    private final ARIService ariService;
+    private final AriService ariService;
     private final ScenarioService scenarioService;
     private final CallerService callerService;
     private final CallerBaseService callerBaseService;
 
     @Autowired
-    public DialingService(ARIService ariService, ScenarioService scenarioService, CallerService callerService,
+    public DialingService(AriService ariService, ScenarioService scenarioService, CallerService callerService,
                           CallerBaseService callerBaseService) {
         this.ariService = ariService;
         this.scenarioService = scenarioService;

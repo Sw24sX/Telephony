@@ -2,13 +2,13 @@ package com.example.telephony.configuration;
 
 import com.example.telephony.service.file.FileStorageService;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Configuration;
 
-@Service
-public class FileStorageConfiguration implements CommandLineRunner {
+@Configuration
+public class FileStorageConfig implements CommandLineRunner {
     private final FileStorageService fileStorageService;
 
-    public FileStorageConfiguration(FileStorageService fileStorageService) {
+    public FileStorageConfig(FileStorageService fileStorageService) {
         this.fileStorageService = fileStorageService;
     }
 
