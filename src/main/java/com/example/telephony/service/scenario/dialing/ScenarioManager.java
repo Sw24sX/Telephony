@@ -37,7 +37,7 @@ public class ScenarioManager {
     }
 
     public void endPlayback(String playbackId) {
-        getCurrentState(getChannelId(playbackId)).playbackEnd();;
+        getCurrentState(getChannelId(playbackId)).playbackEnd();
         channelIdByPlaybackId.remove(playbackId);
     }
 

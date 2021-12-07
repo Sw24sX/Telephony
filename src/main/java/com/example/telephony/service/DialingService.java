@@ -1,6 +1,5 @@
 package com.example.telephony.service;
 
-import ch.loway.oss.ari4java.generated.models.Channel;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.domain.scenario.Scenario;
@@ -30,7 +29,7 @@ public class DialingService {
     public void callCaller(Long callerId) {
         String number = callerService.getCallerNumber(callerId);
         UUID uuid = UUID.randomUUID();
-        Channel channel = ariService.createChannel(number, uuid.toString());
+        ariService.createChannel(number, uuid.toString());
     }
 
     public void startDialingCaller(Long callerId, Long scenarioId) {

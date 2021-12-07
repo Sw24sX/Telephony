@@ -1,13 +1,11 @@
 package com.example.telephony.repository;
 
 import com.example.telephony.domain.Caller;
-import org.aspectj.weaver.ast.Call;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface CallerRepository extends JpaRepository<Caller, Long> {

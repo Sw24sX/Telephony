@@ -1,10 +1,8 @@
 package com.example.telephony.service.scenario.event.listener;
 
-import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Channel;
 import ch.loway.oss.ari4java.generated.models.ChannelDtmfReceived;
 import ch.loway.oss.ari4java.generated.models.Event;
-import com.example.telephony.service.asterisk.AriService;
 import com.example.telephony.service.asterisk.AsteriskEvent;
 import com.example.telephony.service.scenario.dialing.ScenarioManager;
 import lombok.NonNull;
@@ -14,11 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChannelDtmfReceivedListener implements ApplicationListener<AsteriskEvent> {
     private final ScenarioManager scenarioManager;
-    private final ARI ari;
 
-    public ChannelDtmfReceivedListener(ScenarioManager scenarioManager, AriService ariService) {
+    public ChannelDtmfReceivedListener(ScenarioManager scenarioManager) {
         this.scenarioManager = scenarioManager;
-        this.ari = ariService.getAri();
     }
 
     @Override
@@ -31,13 +27,8 @@ public class ChannelDtmfReceivedListener implements ApplicationListener<Asterisk
 
     private void execute(ChannelDtmfReceived channelDtmfReceived) {
         if (scenarioManager.isFinished(channelDtmfReceived.getChannel().getId())) {
-            saveNumber(channelDtmfReceived);
             startNextScenarioStep(channelDtmfReceived);
         }
-    }
-
-    private void saveNumber(ChannelDtmfReceived channelDtmfReceived) {
-        //TODO: save number
     }
 
     private void startNextScenarioStep(ChannelDtmfReceived channelDtmfReceived) {

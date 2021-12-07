@@ -1,12 +1,11 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.CallersBase;
-import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
-import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.service.file.CallersBaseParser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,11 +21,9 @@ import java.util.List;
 @Service
 public class CallerBaseService {
     private final CallerBaseRepository callerBaseRepository;
-    private final CallerRepository callerRepository;
 
-    public CallerBaseService(CallerBaseRepository callerBaseRepository, CallerRepository callerRepository) {
+    public CallerBaseService(CallerBaseRepository callerBaseRepository) {
         this.callerBaseRepository = callerBaseRepository;
-        this.callerRepository = callerRepository;
     }
 
     public List<CallersBase> getAll() {
@@ -65,8 +62,7 @@ public class CallerBaseService {
         CallersBase callersBase = callersBaseParser.parseExelToCallersBase();
         callersBase.setName(name);
 
-        CallersBase result = callerBaseRepository.save(callersBase);
-        return result;
+        return callerBaseRepository.save(callersBase);
     }
 
     private InputStream getInputStream(MultipartFile multipartFile) {
