@@ -3,7 +3,9 @@ package com.example.telephony.controller;
 import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.dto.scenario.ScenarioDto;
+import com.example.telephony.dto.scenario.ScenarioHeaderDto;
 import com.example.telephony.enums.FieldsPageSort;
+import com.example.telephony.mapper.scneario.ScenarioHeaderMapper;
 import com.example.telephony.mapper.scneario.ScenarioMapper;
 import com.example.telephony.service.ScenarioService;
 import io.swagger.annotations.ApiOperation;
@@ -12,32 +14,34 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(GlobalMapping.API + "scenario")
 public class ScenarioController {
     private final ScenarioService scenarioService;
     private final ScenarioMapper scenarioMapper;
+    private final ScenarioHeaderMapper scenarioHeaderMapper;
 
-    public ScenarioController(ScenarioService scenarioService, ScenarioMapper scenarioMapper) {
+    public ScenarioController(ScenarioService scenarioService, ScenarioMapper scenarioMapper,
+                              ScenarioHeaderMapper scenarioHeaderMapper) {
         this.scenarioService = scenarioService;
         this.scenarioMapper = scenarioMapper;
+        this.scenarioHeaderMapper = scenarioHeaderMapper;
     }
 
     @GetMapping
-    public Page<ScenarioDto> getAll(@ApiParam("Number page") @RequestParam("page") int page,
-                                    @ApiParam("Page size") @RequestParam("size") int size,
-                                    @ApiParam("Sort direction")
+    public Page<ScenarioHeaderDto> getAll(@ApiParam("Number page") @RequestParam("page") int page,
+                                          @ApiParam("Page size") @RequestParam("size") int size,
+                                          @ApiParam("Sort direction")
                                         @RequestParam(value = "direction", required = false, defaultValue = "ASC")
                                         Sort.Direction direction,
-                                    @ApiParam("Sort field")
-                                        @RequestParam(value = "sortBy", required = false, defaultValue = "NAME")
+                                          @ApiParam("Sort field")
+                                        @RequestParam(value = "sortBy", required = false, defaultValue = "CREATION_DATE")
                                         FieldsPageSort sort,
-                                    @ApiParam("Filtering by name")
+                                          @ApiParam("Filtering by name")
                                         @RequestParam(value = "name", required = false, defaultValue = "")
                                         String searchedName) {
-        return null;
+        return scenarioService.getAll(page, size, sort, direction, searchedName)
+                .map(scenarioHeaderMapper::fromScenarioHeader);
     }
 
     @GetMapping("{id}")

@@ -50,6 +50,7 @@ public abstract class ScenarioMapper {
 
         scenario.setName(dto.getName());
         scenario.setRoot(root);
+        scenario.setCountSteps(scenarioNodes.size());
 
         return scenario;
     }

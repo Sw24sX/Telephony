@@ -2,26 +2,34 @@ package com.example.telephony.service;
 
 import com.example.telephony.domain.scenario.*;
 import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.ScenarioNodeTypes;
 import com.example.telephony.exception.EntityNotFoundException;
+import com.example.telephony.repository.ScenarioHeaderRepository;
 import com.example.telephony.repository.ScenarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ScenarioService {
     private final ScenarioRepository scenarioRepository;
-    private final TTSService ttsService;
+    private final ScenarioHeaderRepository scenarioHeaderRepository;
 
-    public ScenarioService(ScenarioRepository scenarioRepository, TTSService ttsService) {
+    public ScenarioService(ScenarioRepository scenarioRepository, ScenarioHeaderRepository scenarioHeaderRepository) {
         this.scenarioRepository = scenarioRepository;
-        this.ttsService = ttsService;
+        this.scenarioHeaderRepository = scenarioHeaderRepository;
     }
 
-    public List<Scenario> getAll() {
-        return scenarioRepository.findAll();
+    public Page<ScenarioHeader> getAll(int number, int size, FieldsPageSort fieldsPageSort,
+                                       Sort.Direction direction, String name) {
+        Sort sort = Sort.by(direction, fieldsPageSort.getFieldName());
+        Pageable pageable = PageRequest.of(number, size, sort);
+        return scenarioHeaderRepository.findAll("%" + name + "%", pageable);
     }
 
     public Scenario getById(Long id) {
@@ -54,6 +62,7 @@ public class ScenarioService {
         replica.getChildEdges().add(createEdge(replica, finish));
 
         scenario.setRoot(start);
+        scenario.setCountSteps(3);
         return scenario;
     }
 
