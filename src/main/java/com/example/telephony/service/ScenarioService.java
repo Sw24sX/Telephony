@@ -6,7 +6,9 @@ import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.ScenarioNodeTypes;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.ScenarioHeaderRepository;
+import com.example.telephony.repository.ScenarioNodeRepository;
 import com.example.telephony.repository.ScenarioRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,10 +21,13 @@ import java.util.ArrayList;
 public class ScenarioService {
     private final ScenarioRepository scenarioRepository;
     private final ScenarioHeaderRepository scenarioHeaderRepository;
+    private final ScenarioNodeRepository scenarioNodeRepository;
 
-    public ScenarioService(ScenarioRepository scenarioRepository, ScenarioHeaderRepository scenarioHeaderRepository) {
+    public ScenarioService(ScenarioRepository scenarioRepository, ScenarioHeaderRepository scenarioHeaderRepository,
+                           ScenarioNodeRepository scenarioNodeRepository) {
         this.scenarioRepository = scenarioRepository;
         this.scenarioHeaderRepository = scenarioHeaderRepository;
+        this.scenarioNodeRepository = scenarioNodeRepository;
     }
 
     public Page<ScenarioHeader> getAll(int number, int size, FieldsPageSort fieldsPageSort,
@@ -55,8 +60,8 @@ public class ScenarioService {
         ScenarioNodePoint finishPoint = new ScenarioNodePoint(500, 800);
 
         ScenarioNode start = createPatternNode(ScenarioNodeTypes.START, createNotReplicaData(), startPoint);
-        ScenarioNode finish = createPatternNode(ScenarioNodeTypes.FINISH, createNotReplicaData(), replicaPoint);
-        ScenarioNode replica = createPatternNode(ScenarioNodeTypes.REPLICA, createReplicaData(), finishPoint);
+        ScenarioNode finish = createPatternNode(ScenarioNodeTypes.FINISH, createNotReplicaData(), finishPoint);
+        ScenarioNode replica = createPatternNode(ScenarioNodeTypes.REPLICA, createReplicaData(), replicaPoint);
 
         start.getChildEdges().add(createEdge(start, replica));
         replica.getChildEdges().add(createEdge(replica, finish));
@@ -101,8 +106,12 @@ public class ScenarioService {
     }
 
     public Scenario update(Scenario scenario, Long id) {
-        delete(id);
-        return scenarioRepository.save(scenario);
+        Scenario oldScenario = getById(id);
+        Long oldRootNodeId = oldScenario.getRoot().getId();
+        BeanUtils.copyProperties(scenario, oldScenario, "id", "created");
+        Scenario newScenario = scenarioRepository.save(oldScenario);
+        scenarioNodeRepository.deleteById(oldRootNodeId);
+        return newScenario;
     }
 
     public void delete(Long id) {
