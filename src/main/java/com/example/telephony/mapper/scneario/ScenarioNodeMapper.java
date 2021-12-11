@@ -31,16 +31,6 @@ public abstract class ScenarioNodeMapper {
         ScenarioNode scenarioNode = new ScenarioNode();
         scenarioNode.setType(dto.getType());
         scenarioNode.setData(scenarioNodeDataMapper.fromScenarioNodeDataDto(dto.getData()));
-//        scenarioNode.setChildEdges(new ArrayList<>());
-//        if (dto.getData() != null && dto.getData().isNeedAnswer()) {
-//            scenarioNode.setChildEdges(dto.getData().getAnswers().stream().map(answer -> {
-//                ScenarioEdge result = new ScenarioEdge();
-//                result.setSource(scenarioNode);
-//                result.setAnswerKey(answer.getButton());
-//                return result;
-//            }).collect(Collectors.toList()));
-//        }
-
         ScenarioNodeExtraData extraData = new ScenarioNodeExtraData();
         extraData.setPosition(new ScenarioNodePoint(dto.getPosition().x, dto.getPosition().y));
         scenarioNode.setExtraData(extraData);
