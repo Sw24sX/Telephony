@@ -12,6 +12,8 @@ import org.apache.commons.collections4.QueueUtils;
 import org.apache.commons.collections4.SetUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
@@ -28,25 +30,16 @@ public class ScenarioBuilder {
     public static ScenarioStep build(Scenario scenario, ARI ari, TTSService ttsService) {
         ScenarioBuilder scenarioBuilder = new ScenarioBuilder(ari, ttsService);
 
-        Queue<BaseScenarioStep> stepsWithoutChild = QueueUtils.emptyQueue();
-        Set<Long> alreadyCreatedSteps = SetUtils.emptySet();
-
+        Queue<BaseScenarioStep> stepsWithoutChild = new LinkedList<>();
         stepsWithoutChild.add(scenarioBuilder.createStartStep(scenario.getRoot()));
-        alreadyCreatedSteps.add(scenario.getRoot().getId());
 
         while(!stepsWithoutChild.isEmpty()) {
             BaseScenarioStep current = stepsWithoutChild.poll();
 
             for (ScenarioEdge edge : current.getScenarioNode().getChildEdges()) {
                 ScenarioNode target = edge.getTarget();
-                if (alreadyCreatedSteps.contains(target.getId())) {
-                    continue;
-                }
-
                 BaseScenarioStep step = scenarioBuilder.createScenarioStep(target);
                 current.setNext(step, edge.getAnswerKey());
-
-                alreadyCreatedSteps.add(target.getId());
                 stepsWithoutChild.add(step);
             }
         }

@@ -47,10 +47,6 @@ public class AriService {
         return ari;
     }
 
-    public String getApp() {
-        return app;
-    }
-
     public void startScenarioExecute(List<Caller> callers, Scenario scenario) {
         ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ari, ttsService);
         for(Caller caller : callers) {

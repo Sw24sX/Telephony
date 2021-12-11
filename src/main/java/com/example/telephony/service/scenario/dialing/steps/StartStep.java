@@ -19,12 +19,12 @@ public class StartStep extends BaseScenarioStep {
     }
 
     @Override
-    public void setNext(ScenarioStep next, String answer) {
+    public void setNext(ScenarioStep scenarioStep, String answer) {
         if (next != null) {
             throw new TelephonyException(ScenarioExceptionMessages.AFTER_START_STEP_MAY_BE_ONLY_ONE_STEP.getMessage());
         }
 
-        this.next = next;
+        this.next = scenarioStep;
     }
 
     @Override
