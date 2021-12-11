@@ -2,12 +2,14 @@ package com.example.telephony.service.tts;
 
 import com.example.telephony.common.Properties;
 import com.example.telephony.enums.SpeechVoice;
+import com.example.telephony.exception.TelephonyException;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -22,18 +24,20 @@ public class MicrosoftTextToSpeech {
     }
 
     public String textToFile(String text, SpeechVoice speechVoice) {
-        String uniqueFileName = getUniqueFileName();
-        Path pathToNewFile = path.resolve(uniqueFileName);
+        Path pathToFirstFile = path.resolve(getUniqueFileName());
+        String endFileName = getUniqueFileName();
+        Path pathToEndFile = path.resolve(endFileName);
 
         List<String> commandLineScript = new SpeechCommandLineScriptBuilder()
                 .setText(text)
-                .setPath(pathToNewFile)
+                .setPath(pathToFirstFile)
                 .setVoice(speechVoice)
+                .setSox(pathToFirstFile.toString(), pathToEndFile.toString())
                 .build();
 
         String[] list = commandLineScript.toArray(new String[0]);
         execute(list);
-        return uniqueFileName;
+        return endFileName;
     }
 
     private String getUniqueFileName() {
