@@ -2,11 +2,11 @@ package com.example.telephony.domain.scenario;
 
 import com.example.telephony.domain.BaseEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Table(name = "scenario_edge")
 @Entity
@@ -21,4 +21,17 @@ public class ScenarioEdge extends BaseEntity {
 
     @Column(name = "answer_key")
     private String answerKey;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        ScenarioEdge edge = (ScenarioEdge) o;
+        return getId() != null && Objects.equals(getId(), edge.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

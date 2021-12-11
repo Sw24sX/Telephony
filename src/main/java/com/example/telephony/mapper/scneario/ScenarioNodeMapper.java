@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {ScenarioNodeDataMapper.class})
@@ -29,20 +31,25 @@ public abstract class ScenarioNodeMapper {
         ScenarioNode scenarioNode = new ScenarioNode();
         scenarioNode.setType(dto.getType());
         scenarioNode.setData(scenarioNodeDataMapper.fromScenarioNodeDataDto(dto.getData()));
-        scenarioNode.setChildEdges(new ArrayList<>());
-        if (dto.getData() != null && dto.getData().isNeedAnswer()) {
-            scenarioNode.setChildEdges(dto.getData().getAnswers().stream().map(answer -> {
-                ScenarioEdge result = new ScenarioEdge();
-                result.setSource(scenarioNode);
-                result.setAnswerKey(answer.getButton());
-                return result;
-            }).collect(Collectors.toList()));
-        }
-
         ScenarioNodeExtraData extraData = new ScenarioNodeExtraData();
         extraData.setPosition(new ScenarioNodePoint(dto.getPosition().x, dto.getPosition().y));
         scenarioNode.setExtraData(extraData);
         return scenarioNode;
+    }
+
+    public Map<String, ScenarioEdge> setEdgesToScenarioNode(ScenarioNode scenarioNode, ScenarioNodeDto dto) {
+        Map<String, ScenarioEdge> result = new HashMap<>();
+        scenarioNode.setChildEdges(new ArrayList<>());
+        if (dto.getData() != null && dto.getData().isNeedAnswer()) {
+            for (ScenarioNodeAnswersDto answer : dto.getData().getAnswers()) {
+                ScenarioEdge edge = new ScenarioEdge();
+                edge.setSource(scenarioNode);
+                edge.setAnswerKey(answer.getButton());
+                scenarioNode.getChildEdges().add(edge);
+                result.put(answer.getId(), edge);
+            }
+        }
+        return result;
     }
 
     public ScenarioNodeDto fromScenarioNode(ScenarioNode scenarioNode) {
@@ -64,7 +71,7 @@ public abstract class ScenarioNodeMapper {
     private List<ScenarioNodeAnswersDto> getAnswersDto(ScenarioNode scenarioNode) {
         List<ScenarioNodeAnswersDto> answers = scenarioNode.getChildEdges().stream()
                 .filter(edge -> edge.getAnswerKey() != null)
-                .map(edge -> new ScenarioNodeAnswersDto(edge.getAnswerKey()))
+                .map(edge -> new ScenarioNodeAnswersDto(edge.getId().toString(), edge.getAnswerKey()))
                 .collect(Collectors.toList());
         return CollectionUtils.isEmpty(answers) ? null : answers;
     }
