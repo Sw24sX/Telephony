@@ -30,12 +30,6 @@ public class ScenarioManager {
         scenariosByChannelId.put(channelId, stateScenarioStep);
     }
 
-    private void addPlayback(String channelId, String playbackId) {
-        StateScenarioStep currentState = getCurrentState(channelId);
-        currentState.setPlaybackId(playbackId);
-        channelIdByPlaybackId.put(playbackId, channelId);
-    }
-
     public void endPlayback(String playbackId) {
         getCurrentState(getChannelId(playbackId)).playbackEnd();
         channelIdByPlaybackId.remove(playbackId);
@@ -71,6 +65,11 @@ public class ScenarioManager {
         }
     }
 
+    public boolean isFinished(String channelId) {
+        checkContainsKeyChannelId(channelId);
+        return scenariosByChannelId.get(channelId).isFinished();
+    }
+
     private void continueScenario(String channelId, String answer) {
         ScenarioStep nextStep = getCurrentState(channelId).getScenarioStep().getNext(answer);
         if (nextStep == null) {
@@ -82,14 +81,15 @@ public class ScenarioManager {
         addPlayback(channelId, playback.getId());
     }
 
+    private void addPlayback(String channelId, String playbackId) {
+        StateScenarioStep currentState = getCurrentState(channelId);
+        currentState.setPlaybackId(playbackId);
+        channelIdByPlaybackId.put(playbackId, channelId);
+    }
+
     private StateScenarioStep getCurrentState(String channelId) {
         checkContainsKeyChannelId(channelId);
         return scenariosByChannelId.get(channelId);
-    }
-
-    public boolean isFinished(String channelId) {
-        checkContainsKeyChannelId(channelId);
-        return scenariosByChannelId.get(channelId).isFinished();
     }
 
     private void checkContainsKeyChannelId(String channelId) {
