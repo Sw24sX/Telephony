@@ -32,10 +32,8 @@ public class DeleteUnusedFiles {
             }
 
             String filePath = fileEntry.getPath();
-            if (!generatedSoundRepository.existsByPath(filePath)) {
-                if (fileEntry.delete()) {
-                    System.out.println(String.format("File %s deleted", filePath));
-                }
+            if (!generatedSoundRepository.existsByPath(filePath) && fileEntry.delete()) {
+                System.out.println(String.format("File %s deleted", filePath));
             }
         }
     }

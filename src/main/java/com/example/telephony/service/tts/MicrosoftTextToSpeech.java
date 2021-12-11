@@ -2,14 +2,12 @@ package com.example.telephony.service.tts;
 
 import com.example.telephony.common.Properties;
 import com.example.telephony.enums.SpeechVoice;
-import com.example.telephony.exception.TelephonyException;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
