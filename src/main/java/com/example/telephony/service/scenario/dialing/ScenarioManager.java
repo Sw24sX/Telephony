@@ -52,27 +52,27 @@ public class ScenarioManager {
             throw new TelephonyException(
                     String.format(ExceptionMessage.SCENARIO_WAS_ALREADY_STARTED.getMessage(), channelId));
         }
-        continueScenario(channelId);
+        continueScenario(channelId, null);
     }
 
     public void continueScenarioIfPossible(String channelId) {
         StateScenarioStep currentState = getCurrentState(channelId);
         boolean needUserAnswer = currentState.getScenarioStep().needUserAnswer();
         if (currentState.isFinished() && !needUserAnswer) {
-            continueScenario(channelId);
+            continueScenario(channelId, null);
         }
     }
 
-    public void continueScenario(String channelId, String answer) {
+    public void continueScenarioWithAnswer(String channelId, String answer) {
         //todo save answer
         StateScenarioStep currentState = getCurrentState(channelId);
         if (currentState.isFinished()) {
-            continueScenario(channelId);
+            continueScenario(channelId, answer);
         }
     }
 
-    private void continueScenario(String channelId) {
-        ScenarioStep nextStep = getCurrentState(channelId).getScenarioStep().getNext();
+    private void continueScenario(String channelId, String answer) {
+        ScenarioStep nextStep = getCurrentState(channelId).getScenarioStep().getNext(answer);
         if (nextStep == null) {
             throw new TelephonyException(ExceptionMessage.SCENARIO_NO_MORE_STEPS.getMessage());
         }

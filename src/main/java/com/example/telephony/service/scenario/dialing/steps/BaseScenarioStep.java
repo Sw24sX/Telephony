@@ -4,6 +4,8 @@ import ch.loway.oss.ari4java.ARI;
 import com.example.telephony.domain.scenario.ScenarioNode;
 
 public abstract class BaseScenarioStep implements ScenarioStep {
+    protected static final String EMPTY_ANSWER = "undefined_key";
+
     protected final ScenarioNode scenarioNode;
     protected final ARI ari;
 
@@ -15,5 +17,13 @@ public abstract class BaseScenarioStep implements ScenarioStep {
     @Override
     public boolean needUserAnswer() {
         return scenarioNode.getData().isNeedAnswer();
+    }
+
+    public ScenarioNode getScenarioNode() {
+        return scenarioNode;
+    }
+
+    public static String getEmptyAnswer() {
+        return EMPTY_ANSWER;
     }
 }

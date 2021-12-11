@@ -4,13 +4,20 @@ import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Playback;
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.scenario.ScenarioNode;
+import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SoundStep extends BaseScenarioStep {
-    private ScenarioStep next;
+
+
+    private Map<String, ScenarioStep> nextSteps;
 
     public SoundStep(ScenarioNode scenarioNode, ARI ari) {
         super(scenarioNode, ari);
+        nextSteps = new HashMap<>();
     }
 
     @Override
@@ -24,12 +31,18 @@ public class SoundStep extends BaseScenarioStep {
     }
 
     @Override
-    public void setNext(ScenarioStep next) {
-        this.next = next;
+    public void setNext(ScenarioStep next, String answer) {
+        if(nextSteps.containsKey(answer)) {
+            String message = String.format(ScenarioExceptionMessages.ANSWER_BUTTON_ALREADY_EXIST.getMessage(), answer);
+            throw new TelephonyException(message);
+        }
+        String answerKey = answer == null ? EMPTY_ANSWER : answer;
+        nextSteps.put(answerKey, next);
     }
 
     @Override
-    public ScenarioStep getNext() {
-        return next;
+    public ScenarioStep getNext(String answer) {
+        String answerKey = answer == null ? EMPTY_ANSWER : answer;
+        return nextSteps.get(answerKey);
     }
 }
