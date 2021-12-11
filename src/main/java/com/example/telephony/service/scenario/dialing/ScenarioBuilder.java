@@ -8,14 +8,10 @@ import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.service.TTSService;
 import com.example.telephony.service.scenario.dialing.steps.*;
-import org.apache.commons.collections4.QueueUtils;
-import org.apache.commons.collections4.SetUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Set;
 
 public class ScenarioBuilder {
     private final ARI ari;
@@ -69,7 +65,8 @@ public class ScenarioBuilder {
 
     private String getPathForSoundText(ScenarioNode node) {
         // TODO: 11.12.2021
-
+        ttsService.getAll();
+        assert node != null;
 //        GeneratedSound generatedSound = ttsService.textToFile(current.getData().getQuestion(), SpeechVoice.IRINA);
 //        current.getData().setSoundPath(generatedSound.getUri());
 
