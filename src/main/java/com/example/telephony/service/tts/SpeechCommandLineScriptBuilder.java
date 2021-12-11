@@ -12,6 +12,7 @@ public class SpeechCommandLineScriptBuilder {
     private String voice;
     private String path;
     private String text;
+    private String sox;
 
     public SpeechCommandLineScriptBuilder() {
         commands = new ArrayList<>(Arrays.asList(
@@ -22,7 +23,8 @@ public class SpeechCommandLineScriptBuilder {
 
         this.voice = "$speech.SelectVoice('%s');";
         this.path = "$speech.SetOutputToWaveFile('%s');";
-        this.text = "$speech.speak('%s')";
+        this.text = "$speech.speak('%s');";
+        this.sox = "sox -r 8000 -b 16 -e signed-integer -c 1 %s %s speed 3";
     }
 
     public SpeechCommandLineScriptBuilder setPath(Path pathToFile) {
@@ -40,10 +42,16 @@ public class SpeechCommandLineScriptBuilder {
         return this;
     }
 
+    public SpeechCommandLineScriptBuilder setSox(String oldFileName, String newFileName) {
+        this.sox = String.format(this.sox, oldFileName, newFileName);
+        return this;
+    }
+
     public List<String> build() {
         commands.add(voice);
         commands.add(path);
         commands.add(text);
+        commands.add(sox);
         return commands;
     }
 }
