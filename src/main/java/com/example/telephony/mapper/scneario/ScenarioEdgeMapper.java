@@ -21,7 +21,8 @@ public abstract class ScenarioEdgeMapper {
         edge.setId(String.format(uuid.toString(), sourceId, targetId));
         edge.setSource(sourceId);
         edge.setTarget(targetId);
-        edge.setSourceHandle(scenarioEdge.getAnswerKey());
+        String sourceHandle = scenarioEdge.getAnswerKey() != null ? scenarioEdge.getId().toString() : null;
+        edge.setSourceHandle(sourceHandle);
         return edge;
     }
 }

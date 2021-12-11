@@ -66,9 +66,16 @@ public abstract class ScenarioMapper {
 
         Scenario scenario = new Scenario();
 
-        Map<String, ScenarioNode> scenarioNodes = getMapScenarioNode(dto.getNodes());
+        Map<String, ScenarioNode> scenarioNodes = new HashMap<>();
+        Map<ScenarioNode, Map<String, ScenarioEdge>> scenarioEdgesWithAnswers = new HashMap<>();
+        for(ScenarioNodeDto nodeDto : dto.getNodes()) {
+            ScenarioNode node = scenarioNodeMapper.fromScenarioNodeDto(nodeDto);
+            scenarioNodes.put(nodeDto.getId(), node);
+            scenarioEdgesWithAnswers.put(node, scenarioNodeMapper.setEdgesToScenarioNode(node, nodeDto));
+        }
+
         ScenarioNode root = getScenarioNode(scenarioNodes, dto.getRootId());
-        connectNodes(scenarioNodes, dto.getEdges());
+        connectNodes(scenarioNodes, dto.getEdges(), scenarioEdgesWithAnswers);
         if (CollectionUtils.isEmpty(root.getChildEdges())) {
             throw new ScenarioMappingException(ScenarioExceptionMessages.ROOT_NODE_HAVE_NOT_CHILD.getMessage());
         }
@@ -80,35 +87,29 @@ public abstract class ScenarioMapper {
         return scenario;
     }
 
-    private Map<String, ScenarioNode> getMapScenarioNode(List<ScenarioNodeDto> scenarioNodeDtos) {
-        Map<String, ScenarioNode> result = new HashMap<>();
-        for(ScenarioNodeDto node : scenarioNodeDtos) {
-            result.put(node.getId(), scenarioNodeMapper.fromScenarioNodeDto(node));
-        }
-
-        return result;
-    }
-
-    private void connectNodes(Map<String, ScenarioNode> scenarioNodes, List<ScenarioEdgeDto> edges) {
-        for(ScenarioEdgeDto edge : edges) {
-            ScenarioNode parent = getScenarioNode(scenarioNodes, edge.getSource());
-            ScenarioNode child = getScenarioNode(scenarioNodes, edge.getTarget());
-            if (parent.getData() != null && parent.getData().isNeedAnswer()){
-                getScenarioEdgeBySourceHandle(parent, edge).setTarget(child);
+    private void connectNodes(Map<String, ScenarioNode> scenarioNodes, List<ScenarioEdgeDto> edges,
+                              Map<ScenarioNode, Map<String, ScenarioEdge>> scenarioEdgesWithAnswers) {
+        for(ScenarioEdgeDto edgeDto : edges) {
+            ScenarioNode parent = getScenarioNode(scenarioNodes, edgeDto.getSource());
+            ScenarioNode child = getScenarioNode(scenarioNodes, edgeDto.getTarget());
+            if (parent.getData() != null && parent.getData().isNeedAnswer()) {
+                ScenarioEdge edge = scenarioEdgesWithAnswers.get(parent).get(edgeDto.getSourceHandle());
+//                getScenarioEdgeBySourceHandle(parent, edgeDto).setTarget(child);
+                edge.setTarget(child);
             } else {
                 parent.getChildEdges().add(createScenarioNodeWithoutAnswerKey(parent, child));
             }
         }
     }
 
-    private ScenarioEdge getScenarioEdgeBySourceHandle(ScenarioNode parent, ScenarioEdgeDto edge) {
-        return parent.getChildEdges().stream()
-            .filter(parentEdge -> parentEdge.getAnswerKey().equals(edge.getSourceHandle()))
-            .findFirst()
-            .orElseThrow(() -> new TelephonyException(
-                String.format(
-                    ScenarioExceptionMessages.SOURCE_HANDLER_NOT_FOUND.getMessage(), edge.getId(), edge.getSourceHandle())));
-    }
+//    private ScenarioEdge getScenarioEdgeBySourceHandle(ScenarioNode parent, ScenarioEdgeDto edge) {
+//        return parent.getChildEdges().stream()
+//            .filter(parentEdge -> parentEdge.getAnswerKey().equals(edge.getSourceHandle()))
+//            .findFirst()
+//            .orElseThrow(() -> new TelephonyException(
+//                String.format(
+//                    ScenarioExceptionMessages.SOURCE_HANDLER_NOT_FOUND.getMessage(), edge.getId(), edge.getSourceHandle())));
+//    }
 
     private ScenarioEdge createScenarioNodeWithoutAnswerKey(ScenarioNode parent, ScenarioNode child){
         ScenarioEdge scenarioEdge = new ScenarioEdge();

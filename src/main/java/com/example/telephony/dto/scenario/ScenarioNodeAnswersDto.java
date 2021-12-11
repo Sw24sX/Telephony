@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScenarioNodeAnswersDto {
+    String id;
     String button;
 }
