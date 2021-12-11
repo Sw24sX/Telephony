@@ -33,7 +33,7 @@ public class ChannelDtmfReceivedListener implements ApplicationListener<Asterisk
 
     private void startNextScenarioStep(ChannelDtmfReceived channelDtmfReceived) {
         Channel channel = channelDtmfReceived.getChannel();
-        scenarioManager.continueScenario(channel.getId(), channelDtmfReceived.getDigit());
+        scenarioManager.continueScenarioWithAnswer(channel.getId(), channelDtmfReceived.getDigit());
 //        Playback playback = nextStep.execute(channel.getId());
 //        scenarioManager.addPlayback(channel.getId(), playback.getId());
     }

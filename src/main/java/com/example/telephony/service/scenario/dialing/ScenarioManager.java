@@ -30,12 +30,6 @@ public class ScenarioManager {
         scenariosByChannelId.put(channelId, stateScenarioStep);
     }
 
-    private void addPlayback(String channelId, String playbackId) {
-        StateScenarioStep currentState = getCurrentState(channelId);
-        currentState.setPlaybackId(playbackId);
-        channelIdByPlaybackId.put(playbackId, channelId);
-    }
-
     public void endPlayback(String playbackId) {
         getCurrentState(getChannelId(playbackId)).playbackEnd();
         channelIdByPlaybackId.remove(playbackId);
@@ -52,27 +46,32 @@ public class ScenarioManager {
             throw new TelephonyException(
                     String.format(ExceptionMessage.SCENARIO_WAS_ALREADY_STARTED.getMessage(), channelId));
         }
-        continueScenario(channelId);
+        continueScenario(channelId, null);
     }
 
     public void continueScenarioIfPossible(String channelId) {
         StateScenarioStep currentState = getCurrentState(channelId);
         boolean needUserAnswer = currentState.getScenarioStep().needUserAnswer();
         if (currentState.isFinished() && !needUserAnswer) {
-            continueScenario(channelId);
+            continueScenario(channelId, null);
         }
     }
 
-    public void continueScenario(String channelId, String answer) {
+    public void continueScenarioWithAnswer(String channelId, String answer) {
         //todo save answer
         StateScenarioStep currentState = getCurrentState(channelId);
         if (currentState.isFinished()) {
-            continueScenario(channelId);
+            continueScenario(channelId, answer);
         }
     }
 
-    private void continueScenario(String channelId) {
-        ScenarioStep nextStep = getCurrentState(channelId).getScenarioStep().getNext();
+    public boolean isFinished(String channelId) {
+        checkContainsKeyChannelId(channelId);
+        return scenariosByChannelId.get(channelId).isFinished();
+    }
+
+    private void continueScenario(String channelId, String answer) {
+        ScenarioStep nextStep = getCurrentState(channelId).getScenarioStep().getNext(answer);
         if (nextStep == null) {
             throw new TelephonyException(ExceptionMessage.SCENARIO_NO_MORE_STEPS.getMessage());
         }
@@ -82,14 +81,15 @@ public class ScenarioManager {
         addPlayback(channelId, playback.getId());
     }
 
+    private void addPlayback(String channelId, String playbackId) {
+        StateScenarioStep currentState = getCurrentState(channelId);
+        currentState.setPlaybackId(playbackId);
+        channelIdByPlaybackId.put(playbackId, channelId);
+    }
+
     private StateScenarioStep getCurrentState(String channelId) {
         checkContainsKeyChannelId(channelId);
         return scenariosByChannelId.get(channelId);
-    }
-
-    public boolean isFinished(String channelId) {
-        checkContainsKeyChannelId(channelId);
-        return scenariosByChannelId.get(channelId).isFinished();
     }
 
     private void checkContainsKeyChannelId(String channelId) {

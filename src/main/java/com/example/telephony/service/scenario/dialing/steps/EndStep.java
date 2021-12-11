@@ -4,11 +4,10 @@ import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Playback;
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.scenario.ScenarioNode;
+import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
 
 public class EndStep extends BaseScenarioStep {
-    private ScenarioStep next;
-
     public EndStep(ScenarioNode scenarioNode, ARI ari) {
         super(scenarioNode, ari);
     }
@@ -24,12 +23,12 @@ public class EndStep extends BaseScenarioStep {
     }
 
     @Override
-    public void setNext(ScenarioStep next) {
-        this.next = next;
+    public void setNext(ScenarioStep next, String answer) {
+        throw new TelephonyException(ScenarioExceptionMessages.STEP_AFTER_END.getMessage());
     }
 
     @Override
-    public ScenarioStep getNext() {
-        return next;
+    public ScenarioStep getNext(String answer) {
+        throw new TelephonyException(ScenarioExceptionMessages.STEP_AFTER_END.getMessage());
     }
 }
