@@ -5,7 +5,6 @@ import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.enums.SpeechVoice;
 import com.example.telephony.exception.EntityNotFoundException;
-import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.GeneratedSoundRepository;
 import com.example.telephony.service.tts.MicrosoftTextToSpeech;
 import org.springframework.core.env.Environment;

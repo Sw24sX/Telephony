@@ -6,9 +6,7 @@ import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
-import com.google.common.collect.Lists;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class StartStep extends BaseScenarioStep {
