@@ -1,4 +1,4 @@
-package com.example.telephony.service.scenario.dialing;
+package com.example.telephony.service.scenario;
 
 import ch.loway.oss.ari4java.ARI;
 import com.example.telephony.domain.scenario.Scenario;
@@ -6,8 +6,8 @@ import com.example.telephony.domain.scenario.ScenarioEdge;
 import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
-import com.example.telephony.service.TTSService;
-import com.example.telephony.service.scenario.dialing.steps.*;
+import com.example.telephony.service.GenerationSoundsService;
+import com.example.telephony.service.scenario.steps.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
@@ -15,16 +15,16 @@ import java.util.Queue;
 
 public class ScenarioBuilder {
     private final ARI ari;
-    private final TTSService ttsService;
+    private final GenerationSoundsService generationSoundsService;
     private ScenarioStep startStep;
 
-    private ScenarioBuilder(ARI ari, TTSService ttsService) {
+    private ScenarioBuilder(ARI ari, GenerationSoundsService generationSoundsService) {
         this.ari = ari;
-        this.ttsService = ttsService;
+        this.generationSoundsService = generationSoundsService;
     }
 
-    public static ScenarioStep build(Scenario scenario, ARI ari, TTSService ttsService) {
-        ScenarioBuilder scenarioBuilder = new ScenarioBuilder(ari, ttsService);
+    public static ScenarioStep build(Scenario scenario, ARI ari, GenerationSoundsService generationSoundsService) {
+        ScenarioBuilder scenarioBuilder = new ScenarioBuilder(ari, generationSoundsService);
 
         Queue<BaseScenarioStep> stepsWithoutChild = new LinkedList<>();
         stepsWithoutChild.add(scenarioBuilder.createStartStep(scenario.getRoot()));
@@ -65,7 +65,7 @@ public class ScenarioBuilder {
 
     private String getPathForSoundText(ScenarioNode node) {
         // TODO: 11.12.2021
-        ttsService.getAll();
+        generationSoundsService.getAll();
         assert node != null;
 //        GeneratedSound generatedSound = ttsService.textToFile(current.getData().getQuestion(), SpeechVoice.IRINA);
 //        current.getData().setSoundPath(generatedSound.getUri());

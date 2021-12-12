@@ -12,18 +12,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.List;
 
 @Service
-public class TTSService {
+public class GenerationSoundsService {
     private final MicrosoftTextToSpeech microsoftTextToSpeech;
     private final Environment environment;
     private final GeneratedSoundRepository generatedSoundRepository;
     private final Path generatedFilePath;
 
-    public TTSService(MicrosoftTextToSpeech microsoftTextToSpeech, Environment environment, GeneratedSoundRepository generatedSoundRepository) {
+    public GenerationSoundsService(MicrosoftTextToSpeech microsoftTextToSpeech, Environment environment, GeneratedSoundRepository generatedSoundRepository) {
         this.microsoftTextToSpeech = microsoftTextToSpeech;
         this.environment = environment;
         this.generatedSoundRepository = generatedSoundRepository;
@@ -62,6 +64,18 @@ public class TTSService {
 
     public void delete(Long id) {
         GeneratedSound generatedSound = getById(id);
+        if (!new File(generatedSound.getPath()).delete()) {
+            System.out.println(String.format(ExceptionMessage.FILE_NOT_FOUND.getMessage(), generatedSound.getPath()));
+        }
         generatedSoundRepository.delete(generatedSound);
+    }
+
+    public void deleteAll(Collection<GeneratedSound> sounds) {
+        for (GeneratedSound sound : sounds) {
+            if (!new File(sound.getPath()).delete()) {
+                System.out.println(String.format(ExceptionMessage.FILE_NOT_FOUND.getMessage(), sound.getPath()));
+            }
+        }
+        generatedSoundRepository.deleteAll(sounds);
     }
 }

@@ -1,11 +1,15 @@
-package com.example.telephony.service.scenario.dialing.steps;
+package com.example.telephony.service.scenario.steps;
 
 import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Playback;
 import ch.loway.oss.ari4java.tools.RestException;
+import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
+
+import java.util.Collections;
+import java.util.List;
 
 public class EndStep extends BaseScenarioStep {
     public EndStep(ScenarioNode scenarioNode, ARI ari) {
@@ -13,7 +17,7 @@ public class EndStep extends BaseScenarioStep {
     }
 
     @Override
-    public Playback execute(String channelId) {
+    public Playback execute(String channelId, GeneratedSound sound) {
         try {
             ari.channels().hangup(channelId).execute();
         } catch (RestException e) {
@@ -30,5 +34,10 @@ public class EndStep extends BaseScenarioStep {
     @Override
     public ScenarioStep getNext(String answer) {
         throw new TelephonyException(ScenarioExceptionMessages.STEP_AFTER_END.getMessage());
+    }
+
+    @Override
+    public List<ScenarioStep> getAllVariantsNext() {
+        return Collections.emptyList();
     }
 }

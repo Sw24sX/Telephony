@@ -7,6 +7,7 @@ public enum ExceptionMessage {
     PROPERTY_NOT_FOUND("Свойство \"%s\" не указано"),
     FILE_NAME_IS_NULL("Файл не содержит имени"),
     GENERATED_FOLDER_MUST_NOT_CONTAINS_FOLDER("Директория 'generated' не должна содержать поддиректории"),
+    FILE_NOT_FOUND("Файл %s не найден"),
     COULD_NOT_STORE_FILE("Не удалось сохранить файл %s"),
     NOT_INITIALIZE_FOLDER_FOR_UPLOAD("Не удалось создать папку для сохранения файлов"),
     SCENARIO_MANAGER_NOT_FOUND_ID("Менеджер сценариев не обнаружил уникальный номер %s"),
