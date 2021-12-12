@@ -15,10 +15,10 @@ import java.util.Queue;
 
 @Service
 public class ScenarioPreparationService {
-    private final TTSService ttsService;
+    private final GenerationSoundsService generationSoundsService;
 
-    public ScenarioPreparationService(TTSService ttsService) {
-        this.ttsService = ttsService;
+    public ScenarioPreparationService(GenerationSoundsService generationSoundsService) {
+        this.generationSoundsService = generationSoundsService;
     }
 
     public Map<ScenarioStep, GeneratedSound> voiceOverScenarioByCaller(ScenarioStep firstStep, Caller caller) {
@@ -36,7 +36,7 @@ public class ScenarioPreparationService {
                 continue;
             }
 
-            GeneratedSound sound = ttsService.textToFile(question, SpeechVoice.IRINA);
+            GeneratedSound sound = generationSoundsService.textToFile(question, SpeechVoice.IRINA);
             result.put(current, sound);
         }
 

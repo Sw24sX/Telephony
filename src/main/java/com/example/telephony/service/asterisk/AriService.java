@@ -6,20 +6,9 @@ import ch.loway.oss.ari4java.generated.actions.ActionEvents;
 import ch.loway.oss.ari4java.generated.models.Channel;
 import ch.loway.oss.ari4java.tools.ARIException;
 import ch.loway.oss.ari4java.tools.RestException;
-import com.example.telephony.domain.Caller;
-import com.example.telephony.domain.scenario.Scenario;
-import com.example.telephony.exception.TelephonyException;
-import com.example.telephony.repository.CallerRepository;
-import com.example.telephony.service.TTSService;
-import com.example.telephony.service.scenario.ScenarioBuilder;
-import com.example.telephony.service.scenario.dialing.ScenarioManager;
-import com.example.telephony.service.scenario.steps.ScenarioStep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AriService {
@@ -40,11 +29,12 @@ public class AriService {
         return ari;
     }
 
-    public Channel createChannel(String number, String channelId) {
-        try {
-            return ari.channels().originate(number).setChannelId(channelId).setExtension(number).setApp(app).execute();
-        } catch (RestException e) {
-            throw new TelephonyException(e.getMessage());
-        }
+    public Channel createChannel(String number, String channelId) throws RestException {
+        return ari.channels()
+                .originate(number)
+                .setChannelId(channelId)
+                .setExtension(number)
+                .setApp(app)
+                .execute();
     }
 }

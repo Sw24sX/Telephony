@@ -1,5 +1,6 @@
 package com.example.telephony.service;
 
+import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.domain.GeneratedSound;
@@ -13,7 +14,6 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,13 +25,13 @@ public class DialingService {
     private final CallerBaseService callerBaseService;
     private final ScenarioManager scenarioManager;
     private final CallerRepository callerRepository;
-    private final TTSService ttsService;
+    private final GenerationSoundsService generationSoundsService;
     private final ScenarioPreparationService scenarioPreparationService;
 
     @Autowired
     public DialingService(AriService ariService, ScenarioService scenarioService, CallerService callerService,
                           CallerBaseService callerBaseService, ScenarioManager scenarioManager,
-                          CallerRepository callerRepository, TTSService ttsService,
+                          CallerRepository callerRepository, GenerationSoundsService generationSoundsService,
                           ScenarioPreparationService scenarioPreparationService) {
         this.ariService = ariService;
         this.scenarioService = scenarioService;
@@ -39,27 +39,21 @@ public class DialingService {
         this.callerBaseService = callerBaseService;
         this.scenarioManager = scenarioManager;
         this.callerRepository = callerRepository;
-        this.ttsService = ttsService;
+        this.generationSoundsService = generationSoundsService;
         this.scenarioPreparationService = scenarioPreparationService;
-    }
-
-    public void callCaller(Long callerId) {
-        String number = callerService.getCallerNumber(callerId);
-        UUID uuid = UUID.randomUUID();
-        ariService.createChannel(number, uuid.toString());
     }
 
     public void startDialingCaller(Long callerId, Long scenarioId) {
         Scenario scenario = scenarioService.getById(scenarioId);
         Caller caller = callerService.getById(callerId);
-        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri(), ttsService);
+        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri(), generationSoundsService);
         addCallerToScenarioExecute(caller, scenarioStep);
     }
 
     public void startDialingCallersBase(Long callersBaseId, Long scenarioId) {
         Scenario scenario = scenarioService.getById(scenarioId);
         CallersBase callersBase = callerBaseService.getById(callersBaseId);
-        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri(), ttsService);
+        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri(), generationSoundsService);
         for(Caller caller : callersBase.getCallers()) {
             addCallerToScenarioExecute(caller, scenarioStep);
         }
@@ -69,7 +63,12 @@ public class DialingService {
         String channelId = UUID.randomUUID().toString();
         Map<ScenarioStep, GeneratedSound> sounds = scenarioPreparationService.voiceOverScenarioByCaller(scenarioStep, caller);
         scenarioManager.addCallScenario(channelId, scenarioStep, sounds);
-        ariService.createChannel(callerRepository.getCallerNumber(caller.getId()), channelId);
+        try {
+            ariService.createChannel(callerRepository.getCallerNumber(caller.getId()), channelId);
+        } catch (RestException e) {
+            scenarioManager.endCall(channelId);
+            // TODO: 12.12.2021 save information to statistic
+        }
     }
 
     public void addScheduledDialing() {
