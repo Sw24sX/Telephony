@@ -1,9 +1,11 @@
 package com.example.telephony.service.scenario.dialing;
 
 import ch.loway.oss.ari4java.generated.models.Playback;
+import ch.loway.oss.ari4java.generated.models.Sound;
+import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
-import com.example.telephony.service.scenario.dialing.steps.ScenarioStep;
+import com.example.telephony.service.scenario.steps.ScenarioStep;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +27,8 @@ public class ScenarioManager {
         scenariosByChannelId.remove(channelId);
     }
 
-    public void addCallScenario(String channelId, ScenarioStep scenarioStep) {
-        StateScenarioStep stateScenarioStep = new StateScenarioStep(scenarioStep, true);
+    public void addCallScenario(String channelId, ScenarioStep scenarioStep, Map<ScenarioStep, GeneratedSound> sounds) {
+        StateScenarioStep stateScenarioStep = new StateScenarioStep(scenarioStep, true, sounds);
         scenariosByChannelId.put(channelId, stateScenarioStep);
     }
 
@@ -71,13 +73,15 @@ public class ScenarioManager {
     }
 
     private void continueScenario(String channelId, String answer) {
-        ScenarioStep nextStep = getCurrentState(channelId).getScenarioStep().getNext(answer);
+        StateScenarioStep stateScenarioStep = getCurrentState(channelId);
+        ScenarioStep nextStep = stateScenarioStep.getScenarioStep().getNext(answer);
         if (nextStep == null) {
             throw new TelephonyException(ExceptionMessage.SCENARIO_NO_MORE_STEPS.getMessage());
         }
-        StateScenarioStep nextState = new StateScenarioStep(nextStep, false);
+
+        StateScenarioStep nextState = new StateScenarioStep(nextStep, false, stateScenarioStep.getSounds());
         scenariosByChannelId.put(channelId, nextState);
-        Playback playback = nextStep.execute(channelId);
+        Playback playback = nextStep.execute(channelId, nextState.getSoundForScenarioStep());
         addPlayback(channelId, playback.getId());
     }
 

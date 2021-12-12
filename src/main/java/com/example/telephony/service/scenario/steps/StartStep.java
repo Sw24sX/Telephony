@@ -1,10 +1,15 @@
-package com.example.telephony.service.scenario.dialing.steps;
+package com.example.telephony.service.scenario.steps;
 
 import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Playback;
+import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
+import com.google.common.collect.Lists;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class StartStep extends BaseScenarioStep {
     private ScenarioStep next;
@@ -14,7 +19,7 @@ public class StartStep extends BaseScenarioStep {
     }
 
     @Override
-    public Playback execute(String channelId) {
+    public Playback execute(String channelId, GeneratedSound sound) {
         return null;
     }
 
@@ -30,5 +35,10 @@ public class StartStep extends BaseScenarioStep {
     @Override
     public ScenarioStep getNext(String answer) {
         return next;
+    }
+
+    @Override
+    public List<ScenarioStep> getAllVariantsNext() {
+        return List.of(next);
     }
 }

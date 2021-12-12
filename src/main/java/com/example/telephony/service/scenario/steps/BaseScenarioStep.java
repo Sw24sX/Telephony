@@ -1,4 +1,4 @@
-package com.example.telephony.service.scenario.dialing.steps;
+package com.example.telephony.service.scenario.steps;
 
 import ch.loway.oss.ari4java.ARI;
 import com.example.telephony.domain.scenario.ScenarioNode;

@@ -1,4 +1,4 @@
-package com.example.telephony.service.scenario.dialing;
+package com.example.telephony.service.scenario;
 
 import ch.loway.oss.ari4java.ARI;
 import com.example.telephony.domain.scenario.Scenario;
@@ -7,7 +7,7 @@ import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.service.TTSService;
-import com.example.telephony.service.scenario.dialing.steps.*;
+import com.example.telephony.service.scenario.steps.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
