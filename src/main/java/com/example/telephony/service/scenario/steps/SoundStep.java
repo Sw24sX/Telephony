@@ -23,7 +23,7 @@ public class SoundStep extends BaseScenarioStep {
 
     @Override
     public Playback execute(String channelId, GeneratedSound sound) {
-        String mediaUrl = String.format("sound:%s", scenarioNode.getData().getSoundPath());
+        String mediaUrl = String.format("sound:%s", sound.getUri());
         try {
             return ari.channels().play(channelId, mediaUrl).execute();
         } catch (RestException e) {
