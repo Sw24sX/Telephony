@@ -31,7 +31,9 @@ public class ScenarioPreparationService {
             BaseScenarioStep current = (BaseScenarioStep) steps.poll();
             steps.addAll(current.getAllVariantsNext());
 
-            String question = current.getScenarioNode().getData().getQuestion();
+//            String question = current.getScenarioNode().getData().getQuestion();
+            // TODO: 16.12.2021
+            String question = "";
             if (StringUtils.isBlank(question)) {
                 continue;
             }

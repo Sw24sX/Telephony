@@ -7,24 +7,21 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@Table(name = "question_part")
 @Data
-@Table(name = "scenario_node_data")
-public class ScenarioNodeData extends BaseEntity {
-    @Column(name = "sound_path")
-    private String soundPath;
+public class ScenarioQuestionPart extends BaseEntity {
+    @Column(name = "question_part")
+    private String questionPart;
 
-    @OneToOne
+    @Column(name = "is_variable")
+    private boolean isVariable;
+
+    @ManyToOne
     @JoinColumn(name = "question_id")
     private ScenarioQuestion question;
-
-    @Column(name = "need_answer")
-    private boolean needAnswer;
-
-    @Column(name = "waiting_time")
-    private int waitingTime;
 }

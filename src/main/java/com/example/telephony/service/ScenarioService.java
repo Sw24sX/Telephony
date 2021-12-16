@@ -80,7 +80,8 @@ public class ScenarioService {
 
     private ScenarioNodeData createReplicaData() {
         ScenarioNodeData data = new ScenarioNodeData();
-        data.setQuestion("Текст реплики");
+        // TODO: 16.12.2021
+//        data.setQuestion("Текст реплики");
         data.setWaitingTime(50000);
         data.setNeedAnswer(false);
         return data;
