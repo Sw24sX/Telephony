@@ -1,5 +1,6 @@
 package com.example.telephony.service;
 
+import com.example.telephony.common.ScenarioQuestionParser;
 import com.example.telephony.domain.scenario.*;
 import com.example.telephony.enums.ExceptionMessage;
 import com.example.telephony.enums.FieldsPageSort;
@@ -22,12 +23,14 @@ public class ScenarioService {
     private final ScenarioRepository scenarioRepository;
     private final ScenarioHeaderRepository scenarioHeaderRepository;
     private final ScenarioNodeRepository scenarioNodeRepository;
+    private final ScenarioQuestionParser parser;
 
     public ScenarioService(ScenarioRepository scenarioRepository, ScenarioHeaderRepository scenarioHeaderRepository,
                            ScenarioNodeRepository scenarioNodeRepository) {
         this.scenarioRepository = scenarioRepository;
         this.scenarioHeaderRepository = scenarioHeaderRepository;
         this.scenarioNodeRepository = scenarioNodeRepository;
+        parser = new ScenarioQuestionParser();
     }
 
     public Page<ScenarioHeader> getAll(int number, int size, FieldsPageSort fieldsPageSort,
@@ -80,8 +83,7 @@ public class ScenarioService {
 
     private ScenarioNodeData createReplicaData() {
         ScenarioNodeData data = new ScenarioNodeData();
-        // TODO: 16.12.2021
-//        data.setQuestion("Текст реплики");
+        data.setQuestion(parser.parseTextToScenarioQuestion("Текст реплики"));
         data.setWaitingTime(50000);
         data.setNeedAnswer(false);
         return data;
