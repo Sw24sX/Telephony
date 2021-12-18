@@ -5,6 +5,8 @@ import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.Scenario;
+import com.example.telephony.exception.ScenarioBuildException;
+import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.service.asterisk.AriService;
 import com.example.telephony.service.scenario.ScenarioBuilder;
@@ -47,7 +49,13 @@ public class DialingService {
         Scenario scenario = scenarioService.getById(scenarioId);
         Caller caller = callerService.getById(callerId);
         ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri(), generationSoundsService);
-        addCallerToScenarioExecute(caller, scenarioStep);
+        try {
+            addCallerToScenarioExecute(caller, scenarioStep);
+        } catch (ScenarioBuildException e) {
+            throw new TelephonyException(e.getCause(), e.getMessage());
+        } catch (RestException e) {
+            throw new TelephonyException(e.getCause(), e.getMessage());
+        }
     }
 
     public void startDialingCallersBase(Long callersBaseId, Long scenarioId) {
@@ -55,20 +63,23 @@ public class DialingService {
         CallersBase callersBase = callerBaseService.getById(callersBaseId);
         ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri(), generationSoundsService);
         for(Caller caller : callersBase.getCallers()) {
-            addCallerToScenarioExecute(caller, scenarioStep);
+            try {
+                addCallerToScenarioExecute(caller, scenarioStep);
+            } catch (ScenarioBuildException e) {
+                // TODO: 17.12.2021 add to statistic
+                continue;
+            } catch (RestException e) {
+                // TODO: 17.12.2021 add to statistic
+                continue;
+            }
         }
     }
 
-    private void addCallerToScenarioExecute(Caller caller, ScenarioStep scenarioStep) {
+    private void addCallerToScenarioExecute(Caller caller, ScenarioStep scenarioStep) throws ScenarioBuildException, RestException {
         String channelId = UUID.randomUUID().toString();
         Map<ScenarioStep, GeneratedSound> sounds = scenarioPreparationService.voiceOverScenarioByCaller(scenarioStep, caller);
         scenarioManager.addCallScenario(channelId, scenarioStep, sounds);
-        try {
-            ariService.createChannel(callerRepository.getCallerNumber(caller.getId()), channelId);
-        } catch (RestException e) {
-            scenarioManager.endCall(channelId);
-            // TODO: 12.12.2021 save information to statistic
-        }
+        ariService.createChannel(callerRepository.getCallerNumber(caller.getId()), channelId);
     }
 
     public void addScheduledDialing() {
