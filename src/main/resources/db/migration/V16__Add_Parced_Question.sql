@@ -13,4 +13,4 @@ create table "question_part" (
 
 alter table "scenario_node_data"
     drop column "question",
-    add column "question_id" int8 not null references "question" ("id") unique;
+    add column "question_id" int8 references "question" ("id") unique;
