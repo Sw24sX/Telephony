@@ -8,7 +8,8 @@ public enum ScenarioExceptionMessages {
     STEP_AFTER_END("После шага 'End' не может быть других шагов"),
     AFTER_START_STEP_MAY_BE_ONLY_ONE_STEP("После шага 'Start' может быть только один вариант ответа"),
     ANSWER_BUTTON_ALREADY_EXIST("Кнопка %s уже имеется в списке ответов"),
-    START_SCENARIO_TYPE_CAN_BE_ONLY_ONE("Только одна вершина может иметь тип 'Start'");
+    START_SCENARIO_TYPE_CAN_BE_ONLY_ONE("Только одна вершина может иметь тип 'Start'"),
+    CALLER_HAVE_NOT_VARIABLE("Абонент не содержит переменную %s");
 
     private final String message;
 
