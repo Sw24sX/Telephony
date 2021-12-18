@@ -48,7 +48,7 @@ public class DialingService {
     public void startDialingCaller(Long callerId, Long scenarioId) {
         Scenario scenario = scenarioService.getById(scenarioId);
         Caller caller = callerService.getById(callerId);
-        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri(), generationSoundsService);
+        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri());
         try {
             addCallerToScenarioExecute(caller, scenarioStep);
         } catch (ScenarioBuildException e) {
@@ -61,7 +61,7 @@ public class DialingService {
     public void startDialingCallersBase(Long callersBaseId, Long scenarioId) {
         Scenario scenario = scenarioService.getById(scenarioId);
         CallersBase callersBase = callerBaseService.getById(callersBaseId);
-        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri(), generationSoundsService);
+        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri());
         for(Caller caller : callersBase.getCallers()) {
             try {
                 addCallerToScenarioExecute(caller, scenarioStep);

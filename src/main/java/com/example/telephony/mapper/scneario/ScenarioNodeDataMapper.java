@@ -25,10 +25,6 @@ public abstract class ScenarioNodeDataMapper {
         return result;
     }
 
-//    // TODO: 16.12.2021
-//    @Mappings({
-//            @Mapping(source = "question", target = "replica", ignore = true)
-//    })
     public ScenarioNodeDataDto fromScenarioNodeData(ScenarioNodeData data) {
         if ( data == null ) {
             return null;

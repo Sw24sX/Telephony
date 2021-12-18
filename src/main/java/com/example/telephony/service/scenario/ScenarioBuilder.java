@@ -15,16 +15,14 @@ import java.util.Queue;
 
 public class ScenarioBuilder {
     private final ARI ari;
-    private final GenerationSoundsService generationSoundsService;
     private ScenarioStep startStep;
 
-    private ScenarioBuilder(ARI ari, GenerationSoundsService generationSoundsService) {
+    private ScenarioBuilder(ARI ari) {
         this.ari = ari;
-        this.generationSoundsService = generationSoundsService;
     }
 
-    public static ScenarioStep build(Scenario scenario, ARI ari, GenerationSoundsService generationSoundsService) {
-        ScenarioBuilder scenarioBuilder = new ScenarioBuilder(ari, generationSoundsService);
+    public static ScenarioStep build(Scenario scenario, ARI ari) {
+        ScenarioBuilder scenarioBuilder = new ScenarioBuilder(ari);
 
         Queue<BaseScenarioStep> stepsWithoutChild = new LinkedList<>();
         stepsWithoutChild.add(scenarioBuilder.createStartStep(scenario.getRoot()));
@@ -52,24 +50,11 @@ public class ScenarioBuilder {
     private BaseScenarioStep createScenarioStep(ScenarioNode node) {
         switch (node.getType()){
             case REPLICA:
-                String soundPath = StringUtils.isBlank(node.getData().getSoundPath()) ?
-                        getPathForSoundText(node) : node.getData().getSoundPath();
-                node.getData().setSoundPath(soundPath);
                 return new SoundStep(node, ari);
             case FINISH:
                 return new EndStep(node, ari);
             default:
                 throw new TelephonyException(ScenarioExceptionMessages.START_SCENARIO_TYPE_CAN_BE_ONLY_ONE.name());
         }
-    }
-
-    private String getPathForSoundText(ScenarioNode node) {
-        // TODO: 11.12.2021
-        generationSoundsService.getAll();
-        assert node != null;
-//        GeneratedSound generatedSound = ttsService.textToFile(current.getData().getQuestion(), SpeechVoice.IRINA);
-//        current.getData().setSoundPath(generatedSound.getUri());
-
-        return null;
     }
 }

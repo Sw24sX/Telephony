@@ -44,10 +44,4 @@ public class SoundController {
     public void delete(@PathVariable("id") Long id) {
         soundService.delete(id);
     }
-
-    @GetMapping("download/{id}")
-    public ResponseEntity<byte[]> downloadSound(@PathVariable("id") Long id) {
-        //todo
-        throw new NotImplementedException();
-    }
 }
