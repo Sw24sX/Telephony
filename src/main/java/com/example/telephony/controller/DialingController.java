@@ -1,6 +1,9 @@
 package com.example.telephony.controller;
 
 import com.example.telephony.common.GlobalMapping;
+import com.example.telephony.domain.Dialing;
+import com.example.telephony.dto.DialingDto;
+import com.example.telephony.mapper.DialingMapper;
 import com.example.telephony.service.DialingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,9 +18,30 @@ import java.util.List;
 @Api("Operations pertaining to dialing to caller or callers base")
 public class DialingController {
     private final DialingService dialingService;
+    private final DialingMapper dialingMapper;
 
-    public DialingController(DialingService dialingService) {
+    public DialingController(DialingService dialingService, DialingMapper dialingMapper) {
         this.dialingService = dialingService;
+        this.dialingMapper = dialingMapper;
+    }
+
+    @GetMapping("{id}")
+    @ApiOperation("Get dialing by id")
+    public DialingDto getDialingById(@PathVariable("id") Long id) {
+        return dialingMapper.fromDialing(dialingService.getById(id));
+    }
+
+    @GetMapping()
+    @ApiOperation("Get all dialings")
+    public List<DialingDto> getAllDialings() {
+        return dialingMapper.fromListDialing(dialingService.getAll());
+    }
+
+    @PostMapping()
+    @ApiOperation("Create dialing for callers base")
+    public DialingDto createDialing(@RequestBody DialingDto dto) {
+        Dialing dialing = dialingMapper.fromDialingDto(dto);
+        return dialingMapper.fromDialing(dialingService.createDialing(dialing));
     }
 
     @PostMapping("start-dialing/caller")
@@ -32,19 +56,5 @@ public class DialingController {
     public void startDialingForCallersBase(@ApiParam("Callers base id") @RequestParam("callersBaseId") Long callersBaseId,
                                            @ApiParam("Scenario id") @RequestParam("scenarioId") Long scenarioId) {
         dialingService.startDialingCallersBase(callersBaseId, scenarioId);
-    }
-
-    @PostMapping()
-    @ApiOperation("Create scheduled dialing")
-    public Object createScheduledDialing() {
-        //TODO
-        throw new NotImplementedException();
-    }
-
-    @GetMapping()
-    @ApiOperation("Get all dialing")
-    public List<Object> getAllDialings() {
-        //TODO
-        throw new NotImplementedException();
     }
 }

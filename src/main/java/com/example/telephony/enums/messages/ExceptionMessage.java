@@ -15,7 +15,8 @@ public enum ExceptionMessage {
     SCENARIO_NO_MORE_STEPS("Сценарий больше нет шагов"),
     CALLERS_BASE_NOT_FOUND("База клиентов %s не найдена"),
     GENERATED_FILE_NOT_FOUND("Сгенерированный файл %s не найден"),
-    WRONG_ENUM_CODE("Код перечисления %s не найден");
+    WRONG_ENUM_CODE("Код перечисления %s не найден"),
+    DIALING_NOT_FOUND("Обзванивание %s не найдено");
 
     private final String message;
 

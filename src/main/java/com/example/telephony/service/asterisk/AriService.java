@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
+// TODO: 19.12.2021 create as singleton
 public class AriService {
     private final String app;
     private final ARI ari;

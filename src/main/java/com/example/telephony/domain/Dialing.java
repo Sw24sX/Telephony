@@ -17,9 +17,6 @@ public class Dialing extends BaseEntity {
     @Column(name = "start_date")
     private Date startDate;
 
-    @Column(name = "is_scheduled")
-    private boolean isScheduled;
-
     @Column(name = "status_code")
     @Convert(converter = DialingStatusConverter.class)
     private DialingStatus status;
@@ -28,9 +25,8 @@ public class Dialing extends BaseEntity {
     @JoinColumn(name = "scenario_id")
     private Scenario scenario;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "caller_base_id")
-    private CallersBase callersBase;
+    @Column(name = "caller_base_id")
+    private Long callersBaseId;
 
     @Override
     public boolean equals(Object o) {
