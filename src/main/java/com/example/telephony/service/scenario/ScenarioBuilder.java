@@ -4,11 +4,9 @@ import ch.loway.oss.ari4java.ARI;
 import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.domain.scenario.ScenarioEdge;
 import com.example.telephony.domain.scenario.ScenarioNode;
-import com.example.telephony.enums.ScenarioExceptionMessages;
+import com.example.telephony.enums.messages.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
-import com.example.telephony.service.GenerationSoundsService;
 import com.example.telephony.service.scenario.steps.*;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
 import java.util.Queue;

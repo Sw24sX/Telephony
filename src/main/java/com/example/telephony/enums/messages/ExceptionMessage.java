@@ -1,4 +1,4 @@
-package com.example.telephony.enums;
+package com.example.telephony.enums.messages;
 
 public enum ExceptionMessage {
     SOUND_NOT_FOUND("Запись %s не найдена."),

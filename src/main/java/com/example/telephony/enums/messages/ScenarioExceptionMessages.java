@@ -1,4 +1,4 @@
-package com.example.telephony.enums;
+package com.example.telephony.enums.messages;
 
 public enum ScenarioExceptionMessages {
     NO_ROOT_NODE("Стартовая вершина не найдена"),
