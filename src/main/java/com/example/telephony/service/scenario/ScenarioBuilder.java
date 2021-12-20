@@ -6,21 +6,22 @@ import com.example.telephony.domain.scenario.ScenarioEdge;
 import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.messages.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
+import com.example.telephony.service.asterisk.AsteriskHelper;
 import com.example.telephony.service.scenario.steps.*;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class ScenarioBuilder {
-    private final ARI ari;
+    private final AsteriskHelper asteriskHelper;
     private ScenarioStep startStep;
 
-    private ScenarioBuilder(ARI ari) {
-        this.ari = ari;
+    private ScenarioBuilder(AsteriskHelper asteriskHelper) {
+        this.asteriskHelper = asteriskHelper;
     }
 
-    public static ScenarioStep build(Scenario scenario, ARI ari) {
-        ScenarioBuilder scenarioBuilder = new ScenarioBuilder(ari);
+    public static ScenarioStep build(Scenario scenario, AsteriskHelper asteriskHelper) {
+        ScenarioBuilder scenarioBuilder = new ScenarioBuilder(asteriskHelper);
 
         Queue<BaseScenarioStep> stepsWithoutChild = new LinkedList<>();
         stepsWithoutChild.add(scenarioBuilder.createStartStep(scenario.getRoot()));
@@ -40,7 +41,7 @@ public class ScenarioBuilder {
     }
 
     private StartStep createStartStep(ScenarioNode node) {
-        StartStep result = new StartStep(node, ari);
+        StartStep result = new StartStep(node, asteriskHelper);
         this.startStep = result;
         return result;
     }
@@ -48,9 +49,9 @@ public class ScenarioBuilder {
     private BaseScenarioStep createScenarioStep(ScenarioNode node) {
         switch (node.getType()){
             case REPLICA:
-                return new SoundStep(node, ari);
+                return new SoundStep(node, asteriskHelper);
             case FINISH:
-                return new EndStep(node, ari);
+                return new EndStep(node, asteriskHelper);
             default:
                 throw new TelephonyException(ScenarioExceptionMessages.START_SCENARIO_TYPE_CAN_BE_ONLY_ONE.name());
         }

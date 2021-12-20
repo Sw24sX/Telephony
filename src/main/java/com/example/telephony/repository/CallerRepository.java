@@ -15,9 +15,6 @@ public interface CallerRepository extends JpaRepository<Caller, Long> {
     @Query("select c from Caller c where c.callersBase.id = ?1 and c.isValid = ?2")
     Page<Caller> findAllByCallersBase_idAndAndValid(Long callersBase_id, boolean isValid, Pageable pageable);
 
-    @Query("select c from Caller c where c.callersBase.id = ?1 and c.isValid = ?2")
-    List<Caller> findAllByCallersBase_idAndAndValid(Long callersBase_id, boolean isValid);
-
     @Query("select c from Caller c where c.callersBase.id = ?1")
     Page<Caller> findAllByCallersBase_id(Long callersBase_id, Pageable pageable);
 

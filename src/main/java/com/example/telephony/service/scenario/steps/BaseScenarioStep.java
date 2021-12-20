@@ -1,17 +1,17 @@
 package com.example.telephony.service.scenario.steps;
 
-import ch.loway.oss.ari4java.ARI;
 import com.example.telephony.domain.scenario.ScenarioNode;
+import com.example.telephony.service.asterisk.AsteriskHelper;
 
 public abstract class BaseScenarioStep implements ScenarioStep {
     protected static final String EMPTY_ANSWER = "undefined_key";
 
     protected final ScenarioNode scenarioNode;
-    protected final ARI ari;
+    protected final AsteriskHelper asteriskHelper;
 
-    protected BaseScenarioStep(ScenarioNode scenarioNode, ARI ari) {
+    protected BaseScenarioStep(ScenarioNode scenarioNode, AsteriskHelper asteriskHelper) {
         this.scenarioNode = scenarioNode;
-        this.ari = ari;
+        this.asteriskHelper = asteriskHelper;
     }
 
     @Override

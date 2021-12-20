@@ -6,14 +6,15 @@ import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.messages.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
+import com.example.telephony.service.asterisk.AsteriskHelper;
 
 import java.util.List;
 
 public class StartStep extends BaseScenarioStep {
     private ScenarioStep next;
 
-    public StartStep(ScenarioNode scenarioNode, ARI ari) {
-        super(scenarioNode, ari);
+    public StartStep(ScenarioNode scenarioNode, AsteriskHelper asteriskHelper) {
+        super(scenarioNode, asteriskHelper);
     }
 
     @Override

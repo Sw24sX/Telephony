@@ -1,6 +1,5 @@
 package com.example.telephony.service;
 
-import ch.loway.oss.ari4java.generated.models.Dial;
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallersBase;
@@ -12,10 +11,10 @@ import com.example.telephony.enums.messages.ExceptionMessage;
 import com.example.telephony.exception.DialingException;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.ScenarioBuildException;
-import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.repository.DialingRepository;
 import com.example.telephony.service.asterisk.AriService;
+import com.example.telephony.service.asterisk.AsteriskHelper;
 import com.example.telephony.service.scenario.ScenarioBuilder;
 import com.example.telephony.service.scenario.dialing.ScenarioManager;
 import com.example.telephony.service.scenario.steps.ScenarioStep;
@@ -32,26 +31,14 @@ import java.util.UUID;
 @Service
 public class DialingService {
     private final AriService ariService;
-    private final ScenarioService scenarioService;
-    private final CallerService callerService;
     private final CallerBaseService callerBaseService;
-    private final ScenarioManager scenarioManager;
-    private final CallerRepository callerRepository;
-    private final ScenarioPreparationService scenarioPreparationService;
     private final DialingRepository dialingRepository;
 
     @Autowired
-    public DialingService(AriService ariService, ScenarioService scenarioService, CallerService callerService,
-                          CallerBaseService callerBaseService, ScenarioManager scenarioManager,
-                          CallerRepository callerRepository, ScenarioPreparationService scenarioPreparationService,
+    public DialingService(AriService ariService, CallerBaseService callerBaseService,
                           DialingRepository dialingRepository) {
         this.ariService = ariService;
-        this.scenarioService = scenarioService;
-        this.callerService = callerService;
         this.callerBaseService = callerBaseService;
-        this.scenarioManager = scenarioManager;
-        this.callerRepository = callerRepository;
-        this.scenarioPreparationService = scenarioPreparationService;
         this.dialingRepository = dialingRepository;
     }
 
@@ -79,7 +66,7 @@ public class DialingService {
 
         dialing = setStartDate(dialing);
         if (dialing.getStatus() == DialingStatus.RUN) {
-            startDialingCallersBase(dialing.getCallersBaseId(), dialing.getScenario());
+            ariService.startDialingCallersBase(dialing.getCallersBaseId(), dialing.getScenario());
         }
 
         return dialingRepository.save(dialing);
@@ -109,7 +96,7 @@ public class DialingService {
         BeanUtils.copyProperties(dialing, dialingDb, "id", "created");
         dialingDb = dialingRepository.save(dialingDb);
         if (dialingDb.getStatus() == DialingStatus.RUN) {
-            startDialingCallersBase(dialingDb.getCallersBaseId(), dialingDb.getScenario());
+            ariService.startDialingCallersBase(dialingDb.getCallersBaseId(), dialingDb.getScenario());
         }
 
         return dialingDb;
@@ -119,30 +106,6 @@ public class DialingService {
         Dialing dialingDb = getById(id);
         // TODO: 19.12.2021 stop if running
         dialingRepository.delete(dialingDb);
-    }
-
-    private void startDialingCallersBase(Long callersBaseId, Scenario scenario) {
-        CallersBase callersBase = callerBaseService.getById(callersBaseId);
-        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri());
-        // TODO: 19.12.2021 get callers base by page
-        for(Caller caller : callersBase.getCallers()) {
-            try {
-                addCallerToScenarioExecute(caller, scenarioStep);
-            } catch (ScenarioBuildException e) {
-                // TODO: 17.12.2021 add to statistic
-                continue;
-            } catch (RestException e) {
-                // TODO: 17.12.2021 add to statistic
-                continue;
-            }
-        }
-    }
-
-    private void addCallerToScenarioExecute(Caller caller, ScenarioStep scenarioStep) throws ScenarioBuildException, RestException {
-        String channelId = UUID.randomUUID().toString();
-        Map<ScenarioStep, GeneratedSound> sounds = scenarioPreparationService.voiceOverScenarioByCaller(scenarioStep, caller);
-        scenarioManager.addCallScenario(channelId, scenarioStep, sounds);
-        ariService.createChannel(callerRepository.getCallerNumber(caller.getId()), channelId);
     }
 
     public void addScheduledDialing() {
