@@ -20,6 +20,7 @@ import com.example.telephony.service.scenario.ScenarioBuilder;
 import com.example.telephony.service.scenario.dialing.ScenarioManager;
 import com.example.telephony.service.scenario.steps.ScenarioStep;
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -92,20 +93,26 @@ public class DialingService {
 
             dialing.setStartDate(new Date());
         }
+        // TODO: 20.12.2021 check scheduled dialing date
 
         return dialing;
     }
 
     public Dialing updateDialing(Dialing dialing, Long id) {
+        // TODO: 20.12.2021 stop dialing if change from run to scheduled
+
         Dialing dialingDb = getById(id);
         if (dialingDb.getStatus() != DialingStatus.SCHEDULED) {
             throw new DialingException(ExceptionMessage.CAN_NOT_CHANGE_DIALING.getMessage());
         }
 
-        dialing.setId(id);
-        dialing.setStatus(dialing.getStatus());
-        dialing.setCreated(dialing.getCreated());
-        return dialingRepository.save(dialing);
+        BeanUtils.copyProperties(dialing, dialingDb, "id", "created");
+        dialingDb = dialingRepository.save(dialingDb);
+        if (dialingDb.getStatus() == DialingStatus.RUN) {
+            startDialingCallersBase(dialingDb.getCallersBaseId(), dialingDb.getScenario());
+        }
+
+        return dialingDb;
     }
 
     public void deleteDialing(Long id) {

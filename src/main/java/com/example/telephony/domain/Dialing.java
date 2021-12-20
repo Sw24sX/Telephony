@@ -28,6 +28,9 @@ public class Dialing extends BaseEntity {
     @Column(name = "caller_base_id")
     private Long callersBaseId;
 
+    @Column(name = "name")
+    private String name;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
