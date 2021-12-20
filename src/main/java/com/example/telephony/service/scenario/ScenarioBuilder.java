@@ -1,6 +1,5 @@
 package com.example.telephony.service.scenario;
 
-import ch.loway.oss.ari4java.ARI;
 import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.domain.scenario.ScenarioEdge;
 import com.example.telephony.domain.scenario.ScenarioNode;

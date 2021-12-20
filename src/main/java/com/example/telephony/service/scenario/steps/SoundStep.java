@@ -1,8 +1,6 @@
 package com.example.telephony.service.scenario.steps;
 
-import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Playback;
-import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.messages.ScenarioExceptionMessages;
