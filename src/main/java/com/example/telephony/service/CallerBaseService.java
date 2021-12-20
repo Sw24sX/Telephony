@@ -72,4 +72,8 @@ public class CallerBaseService {
             throw new TelephonyException(e.getMessage());
         }
     }
+
+    public boolean isConfirmed(Long id) {
+        return callerBaseRepository.baseIsConfirmed(id);
+    }
 }

@@ -19,7 +19,8 @@ public enum ExceptionMessage {
     DIALING_NOT_FOUND("Обзванивание %s не найдено"),
     CAN_NOT_CHANGE_DIALING("Нельзя изменить запущенный или завершенный обзвон"),
     CAN_NOT_CREATE_DONE_DIALING("Нельзя создать выполненный обзвон"),
-    DIALING_DATE_NOT_VALID("Дата обзвона не указана или указана неверно");
+    DIALING_DATE_NOT_VALID("Дата обзвона не указана или указана неверно"),
+    CALLER_BASE_NOT_CONFIRMED("База клентов %s не подтверждена и не может быть использована");
 
     private final String message;
 

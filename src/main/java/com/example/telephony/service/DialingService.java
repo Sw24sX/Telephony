@@ -70,6 +70,21 @@ public class DialingService {
             throw new DialingException(ExceptionMessage.CAN_NOT_CREATE_DONE_DIALING.getMessage());
         }
 
+        if (!callerBaseService.isConfirmed(dialing.getCallersBaseId())) {
+            String message = String.format(
+                    ExceptionMessage.CALLER_BASE_NOT_CONFIRMED.getMessage(), dialing.getCallersBaseId());
+            throw new DialingException(message);
+        }
+
+        dialing = setStartDate(dialing);
+        if (dialing.getStatus() == DialingStatus.RUN) {
+            startDialingCallersBase(dialing.getCallersBaseId(), dialing.getScenario());
+        }
+
+        return dialingRepository.save(dialing);
+    }
+
+    private Dialing setStartDate(Dialing dialing) {
         if (dialing.getStartDate() == null) {
             if (dialing.getStatus() != DialingStatus.RUN) {
                 throw new DialingException(ExceptionMessage.DIALING_DATE_NOT_VALID.getMessage());
@@ -78,7 +93,7 @@ public class DialingService {
             dialing.setStartDate(new Date());
         }
 
-        return dialingRepository.save(dialing);
+        return dialing;
     }
 
     public Dialing updateDialing(Dialing dialing, Long id) {
@@ -112,8 +127,7 @@ public class DialingService {
         }
     }
 
-    public void startDialingCallersBase(Long callersBaseId, Long scenarioId) {
-        Scenario scenario = scenarioService.getById(scenarioId);
+    private void startDialingCallersBase(Long callersBaseId, Scenario scenario) {
         CallersBase callersBase = callerBaseService.getById(callersBaseId);
         ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri());
         // TODO: 19.12.2021 get callers base by page

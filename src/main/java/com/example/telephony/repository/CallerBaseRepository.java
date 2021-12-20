@@ -17,4 +17,7 @@ public interface CallerBaseRepository extends JpaRepository<CallersBase, Long> {
 
     @Query("select cb from CallersBase cb where cb.isConfirmed = ?1 order by cb.variablesList.size")
     Page<CallersBase> findAllByConfirmedIsOrderByVariablesSize(boolean confirmed, Pageable pageable);
+
+    @Query("select cb.isConfirmed from CallersBase cb where cb.id = ?1")
+    boolean baseIsConfirmed(Long id);
 }

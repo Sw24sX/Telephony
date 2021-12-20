@@ -75,11 +75,4 @@ public class DialingController {
                                       @ApiParam("Scenario id") @RequestParam("scenarioId") Long scenarioId) {
         dialingService.startDialingCaller(callerId, scenarioId);
     }
-
-    @PostMapping("start-dialing/callers-base")
-    @ApiOperation("Start dialing for callers base with scenario")
-    public void startDialingForCallersBase(@ApiParam("Callers base id") @RequestParam("callersBaseId") Long callersBaseId,
-                                           @ApiParam("Scenario id") @RequestParam("scenarioId") Long scenarioId) {
-        dialingService.startDialingCallersBase(callersBaseId, scenarioId);
-    }
 }
