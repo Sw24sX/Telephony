@@ -121,19 +121,6 @@ public class DialingService {
         dialingRepository.delete(dialingDb);
     }
 
-    public void startDialingCaller(Long callerId, Long scenarioId) {
-        Scenario scenario = scenarioService.getById(scenarioId);
-        Caller caller = callerService.getById(callerId);
-        ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri());
-        try {
-            addCallerToScenarioExecute(caller, scenarioStep);
-        } catch (ScenarioBuildException e) {
-            throw new TelephonyException(e.getCause(), e.getMessage());
-        } catch (RestException e) {
-            throw new TelephonyException(e.getCause(), e.getMessage());
-        }
-    }
-
     private void startDialingCallersBase(Long callersBaseId, Scenario scenario) {
         CallersBase callersBase = callerBaseService.getById(callersBaseId);
         ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri());

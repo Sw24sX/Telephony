@@ -68,11 +68,4 @@ public class DialingController {
     public void deleteDialing(@PathVariable("id") Long id) {
         dialingService.deleteDialing(id);
     }
-
-    @PostMapping("start-dialing/caller")
-    @ApiOperation("Start dialing to caller with scenario")
-    public void startDialingForCaller(@ApiParam("Caller id") @RequestParam("callerId") Long callerId,
-                                      @ApiParam("Scenario id") @RequestParam("scenarioId") Long scenarioId) {
-        dialingService.startDialingCaller(callerId, scenarioId);
-    }
 }
