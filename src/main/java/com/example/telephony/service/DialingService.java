@@ -7,7 +7,9 @@ import com.example.telephony.domain.CallersBase;
 import com.example.telephony.domain.Dialing;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.Scenario;
+import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.messages.ExceptionMessage;
+import com.example.telephony.exception.DialingException;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.ScenarioBuildException;
 import com.example.telephony.exception.TelephonyException;
@@ -21,6 +23,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -61,7 +64,39 @@ public class DialingService {
     }
 
     public Dialing createDialing(Dialing dialing) {
-        return null;
+        // TODO: 19.12.2021 run scenario if not scheduled
+        // TODO: 19.12.2021 check callers base by confirmed
+        if (dialing.getStatus() == DialingStatus.DONE) {
+            throw new DialingException(ExceptionMessage.CAN_NOT_CREATE_DONE_DIALING.getMessage());
+        }
+
+        if (dialing.getStartDate() == null) {
+            if (dialing.getStatus() != DialingStatus.RUN) {
+                throw new DialingException(ExceptionMessage.DIALING_DATE_NOT_VALID.getMessage());
+            }
+
+            dialing.setStartDate(new Date());
+        }
+
+        return dialingRepository.save(dialing);
+    }
+
+    public Dialing updateDialing(Dialing dialing, Long id) {
+        Dialing dialingDb = getById(id);
+        if (dialingDb.getStatus() != DialingStatus.SCHEDULED) {
+            throw new DialingException(ExceptionMessage.CAN_NOT_CHANGE_DIALING.getMessage());
+        }
+
+        dialing.setId(id);
+        dialing.setStatus(dialing.getStatus());
+        dialing.setCreated(dialing.getCreated());
+        return dialingRepository.save(dialing);
+    }
+
+    public void deleteDialing(Long id) {
+        Dialing dialingDb = getById(id);
+        // TODO: 19.12.2021 stop if running
+        dialingRepository.delete(dialingDb);
     }
 
     public void startDialingCaller(Long callerId, Long scenarioId) {
@@ -81,6 +116,7 @@ public class DialingService {
         Scenario scenario = scenarioService.getById(scenarioId);
         CallersBase callersBase = callerBaseService.getById(callersBaseId);
         ScenarioStep scenarioStep = ScenarioBuilder.build(scenario, ariService.getAri());
+        // TODO: 19.12.2021 get callers base by page
         for(Caller caller : callersBase.getCallers()) {
             try {
                 addCallerToScenarioExecute(caller, scenarioStep);

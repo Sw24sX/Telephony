@@ -9,6 +9,6 @@ import java.util.Date;
 public class DialingDto extends BaseDto {
     private Date startDialing;
     private Long scenarioId;
-    private Long callerBaseId;
+    private Long callersBaseId;
     private DialingStatus status;
 }

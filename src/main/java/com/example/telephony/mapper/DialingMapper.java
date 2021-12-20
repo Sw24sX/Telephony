@@ -18,7 +18,8 @@ public abstract class DialingMapper {
 
     @Mappings({
             @Mapping(target = "scenario", expression = "java(scenarioService.getById(dto.getScenarioId()))"),
-            @Mapping(target = "id", ignore = true)
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "callersBaseId", source = "callersBaseId")
     })
     public abstract Dialing fromDialingDto(DialingDto dto);
 

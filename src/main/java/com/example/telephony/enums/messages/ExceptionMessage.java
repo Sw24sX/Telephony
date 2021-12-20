@@ -16,7 +16,10 @@ public enum ExceptionMessage {
     CALLERS_BASE_NOT_FOUND("База клиентов %s не найдена"),
     GENERATED_FILE_NOT_FOUND("Сгенерированный файл %s не найден"),
     WRONG_ENUM_CODE("Код перечисления %s не найден"),
-    DIALING_NOT_FOUND("Обзванивание %s не найдено");
+    DIALING_NOT_FOUND("Обзванивание %s не найдено"),
+    CAN_NOT_CHANGE_DIALING("Нельзя изменить запущенный или завершенный обзвон"),
+    CAN_NOT_CREATE_DONE_DIALING("Нельзя создать выполненный обзвон"),
+    DIALING_DATE_NOT_VALID("Дата обзвона не указана или указана неверно");
 
     private final String message;
 
