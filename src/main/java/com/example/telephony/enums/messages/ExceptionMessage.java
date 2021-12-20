@@ -1,4 +1,4 @@
-package com.example.telephony.enums;
+package com.example.telephony.enums.messages;
 
 public enum ExceptionMessage {
     SOUND_NOT_FOUND("Запись %s не найдена."),
@@ -15,7 +15,12 @@ public enum ExceptionMessage {
     SCENARIO_NO_MORE_STEPS("Сценарий больше нет шагов"),
     CALLERS_BASE_NOT_FOUND("База клиентов %s не найдена"),
     GENERATED_FILE_NOT_FOUND("Сгенерированный файл %s не найден"),
-    WRONG_ENUM_CODE("Код перечисления %s не найден");
+    WRONG_ENUM_CODE("Код перечисления %s не найден"),
+    DIALING_NOT_FOUND("Обзванивание %s не найдено"),
+    CAN_NOT_CHANGE_DIALING("Нельзя изменить запущенный или завершенный обзвон"),
+    CAN_NOT_CREATE_DONE_DIALING("Нельзя создать выполненный обзвон"),
+    DIALING_DATE_NOT_VALID("Дата обзвона не указана или указана неверно"),
+    CALLER_BASE_NOT_CONFIRMED("База клентов %s не подтверждена и не может быть использована");
 
     private final String message;
 

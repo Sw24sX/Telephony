@@ -2,7 +2,7 @@ package com.example.telephony.service.scenario.dialing;
 
 import ch.loway.oss.ari4java.generated.models.Playback;
 import com.example.telephony.domain.GeneratedSound;
-import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.enums.messages.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.service.GenerationSoundsService;
 import com.example.telephony.service.scenario.steps.ScenarioStep;

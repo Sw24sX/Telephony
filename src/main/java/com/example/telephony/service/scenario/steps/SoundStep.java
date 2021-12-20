@@ -1,12 +1,11 @@
 package com.example.telephony.service.scenario.steps;
 
-import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.models.Playback;
-import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.ScenarioNode;
-import com.example.telephony.enums.ScenarioExceptionMessages;
+import com.example.telephony.enums.messages.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
+import com.example.telephony.service.asterisk.AsteriskHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,19 +15,15 @@ import java.util.Map;
 public class SoundStep extends BaseScenarioStep {
     private Map<String, ScenarioStep> nextSteps;
 
-    public SoundStep(ScenarioNode scenarioNode, ARI ari) {
-        super(scenarioNode, ari);
+    public SoundStep(ScenarioNode scenarioNode, AsteriskHelper asteriskHelper) {
+        super(scenarioNode, asteriskHelper);
         nextSteps = new HashMap<>();
     }
 
     @Override
     public Playback execute(String channelId, GeneratedSound sound) {
         String mediaUrl = String.format("sound:%s", sound.getUri());
-        try {
-            return ari.channels().play(channelId, mediaUrl).execute();
-        } catch (RestException e) {
-            throw new TelephonyException(e.getMessage());
-        }
+        return asteriskHelper.createPlayback(channelId, mediaUrl);
     }
 
     @Override

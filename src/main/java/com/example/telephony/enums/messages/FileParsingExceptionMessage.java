@@ -1,4 +1,4 @@
-package com.example.telephony.enums;
+package com.example.telephony.enums.messages;
 
 public enum FileParsingExceptionMessage {
     PHONE_NUMBER_COLUMN_NOT_FOUND("Не удается найти столбец с номером телефона"),

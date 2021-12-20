@@ -6,17 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-
 public interface CallerRepository extends JpaRepository<Caller, Long> {
     @Query(value = "select count(c) from Caller c where c.isValid = false and c.callersBase.id  = ?1")
     int getCountInvalidCallers(Long callersBaseId);
 
     @Query("select c from Caller c where c.callersBase.id = ?1 and c.isValid = ?2")
     Page<Caller> findAllByCallersBase_idAndAndValid(Long callersBase_id, boolean isValid, Pageable pageable);
-
-    @Query("select c from Caller c where c.callersBase.id = ?1 and c.isValid = ?2")
-    List<Caller> findAllByCallersBase_idAndAndValid(Long callersBase_id, boolean isValid);
 
     @Query("select c from Caller c where c.callersBase.id = ?1")
     Page<Caller> findAllByCallersBase_id(Long callersBase_id, Pageable pageable);

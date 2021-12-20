@@ -1,7 +1,7 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.CallersBase;
-import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.enums.messages.ExceptionMessage;
 import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
@@ -71,5 +71,9 @@ public class CallerBaseService {
         } catch (IOException e) {
             throw new TelephonyException(e.getMessage());
         }
+    }
+
+    public boolean isConfirmed(Long id) {
+        return callerBaseRepository.baseIsConfirmed(id);
     }
 }
