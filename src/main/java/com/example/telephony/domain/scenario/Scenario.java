@@ -20,4 +20,7 @@ public class Scenario extends BaseEntity {
 
     @Column(name = "count_steps")
     private int countSteps;
+
+    @Column(name = "last_connected_callers_base_id")
+    private Long lastConnectedCallersBaseId;
 }

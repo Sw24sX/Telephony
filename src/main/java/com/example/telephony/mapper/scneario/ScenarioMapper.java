@@ -12,6 +12,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.SetUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -32,7 +33,10 @@ public abstract class ScenarioMapper {
         return addNodesAndEdges(scenario.getRoot(), dto);
     }
 
-    @Mapping(source = "root.id", target = "rootId")
+    @Mappings({
+            @Mapping(source = "root.id", target = "rootId"),
+            @Mapping(source = "lastConnectedCallersBaseId", target = "connectedCallerBaseId")
+    })
     protected abstract ScenarioDto createScenarioDtoFromScenario(Scenario scenario);
 
     private ScenarioDto addNodesAndEdges(ScenarioNode root, ScenarioDto scenarioDto) {
@@ -82,6 +86,7 @@ public abstract class ScenarioMapper {
         scenario.setName(dto.getName());
         scenario.setRoot(root);
         scenario.setCountSteps(scenarioNodes.size());
+        scenario.setLastConnectedCallersBaseId(dto.getConnectedCallerBaseId());
 
         return scenario;
     }
