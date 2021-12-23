@@ -2,6 +2,7 @@ package com.example.telephony.service;
 
 import com.example.telephony.domain.Dialing;
 import com.example.telephony.enums.DialingStatus;
+import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.DialingException;
 import com.example.telephony.exception.EntityNotFoundException;
@@ -10,6 +11,10 @@ import com.example.telephony.service.asterisk.AriService;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -34,8 +39,11 @@ public class DialingService {
                 new EntityNotFoundException(String.format(ExceptionMessage.DIALING_NOT_FOUND.getMessage(), id)));
     }
 
-    public List<Dialing> getAll() {
-        return dialingRepository.findAll();
+    public Page<Dialing> getPage(int number, int size, FieldsPageSort fieldsPageSort,
+                                 Sort.Direction direction, String name) {
+        Sort sort = Sort.by(direction, fieldsPageSort.getFieldName());
+        Pageable pageable = PageRequest.of(number, size, sort);
+        return dialingRepository.findAll(pageable);
     }
 
     public Dialing createDialing(Dialing dialing) {

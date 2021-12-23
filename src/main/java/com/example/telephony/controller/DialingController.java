@@ -1,14 +1,19 @@
 package com.example.telephony.controller;
 
+import ch.loway.oss.ari4java.generated.models.Dial;
 import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.Dialing;
 import com.example.telephony.dto.DialingDto;
 import com.example.telephony.dto.DialingStatusDto;
 import com.example.telephony.enums.DialingStatus;
+import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.mapper.DialingMapper;
 import com.example.telephony.service.DialingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -43,8 +48,13 @@ public class DialingController {
 
     @GetMapping()
     @ApiOperation("Get all dialings")
-    public List<DialingDto> getAllDialings() {
-        return dialingMapper.fromListDialing(dialingService.getAll());
+    public Page<DialingDto> getAllDialings(@ApiParam("Number page") @RequestParam("page") int page,
+                                           @ApiParam("Page size") @RequestParam("size") int size,
+                                           @ApiParam("Sort direction") @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
+                                           @ApiParam("Sort field") @RequestParam(value = "sortBy", required = false, defaultValue = "NAME") FieldsPageSort sort,
+                                           @ApiParam("Filtering by name") @RequestParam(value = "name", required = false, defaultValue = "") String searchedName) {
+        Page<Dialing> dialing = dialingService.getPage(page, size, sort, direction, searchedName);
+        return dialing.map(dialingMapper::fromDialing);
     }
 
     @PostMapping()
