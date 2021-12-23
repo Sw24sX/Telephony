@@ -1,7 +1,7 @@
 package com.example.telephony.service.file;
 
 import com.example.telephony.common.Properties;
-import com.example.telephony.enums.messages.ExceptionMessage;
+import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;

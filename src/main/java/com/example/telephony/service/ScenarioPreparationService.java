@@ -4,7 +4,7 @@ import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.ScenarioQuestion;
 import com.example.telephony.domain.scenario.ScenarioQuestionPart;
-import com.example.telephony.enums.messages.ScenarioExceptionMessages;
+import com.example.telephony.enums.exception.messages.ScenarioExceptionMessages;
 import com.example.telephony.enums.SpeechVoice;
 import com.example.telephony.exception.ScenarioBuildException;
 import com.example.telephony.service.scenario.steps.BaseScenarioStep;

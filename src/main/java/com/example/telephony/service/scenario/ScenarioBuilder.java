@@ -3,7 +3,7 @@ package com.example.telephony.service.scenario;
 import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.domain.scenario.ScenarioEdge;
 import com.example.telephony.domain.scenario.ScenarioNode;
-import com.example.telephony.enums.messages.ScenarioExceptionMessages;
+import com.example.telephony.enums.exception.messages.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.service.asterisk.AsteriskHelper;
 import com.example.telephony.service.scenario.steps.*;

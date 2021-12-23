@@ -3,6 +3,7 @@ package com.example.telephony.service;
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.Dialing;
 import com.example.telephony.domain.DialingCallerResult;
+import com.example.telephony.enums.DialingResultHoldOnMessages;
 import com.example.telephony.repository.DialingCallerResultRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +26,12 @@ public class DialingCallerResultService {
         return dialingCallerResultRepository.save(dialingCallerResult);
     }
 
-    public DialingCallerResult createHoldOn(Caller caller, Dialing dialing) {
+    public DialingCallerResult createHoldOn(Caller caller, Dialing dialing, DialingResultHoldOnMessages message) {
         DialingCallerResult dialingCallerResult = new DialingCallerResult();
         dialingCallerResult.setDialing(dialing);
         dialingCallerResult.setCaller(caller);
         dialingCallerResult.setHoldOn(true);
+        dialingCallerResult.setMessage(message.getMessage());
         return dialingCallerResultRepository.save(dialingCallerResult);
     }
 }

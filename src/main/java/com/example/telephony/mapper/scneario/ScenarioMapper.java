@@ -6,7 +6,7 @@ import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.dto.scenario.ScenarioDto;
 import com.example.telephony.dto.scenario.ScenarioEdgeDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDto;
-import com.example.telephony.enums.messages.ScenarioExceptionMessages;
+import com.example.telephony.enums.exception.messages.ScenarioExceptionMessages;
 import com.example.telephony.exception.ScenarioMappingException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.SetUtils;

@@ -30,6 +30,9 @@ public class DialingCallerResult extends BaseEntity {
     @Type(type = "list-array")
     private List<String> answers;
 
+    @Column(name = "message_hold_on")
+    private String message;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

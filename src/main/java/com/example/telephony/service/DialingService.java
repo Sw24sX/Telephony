@@ -2,7 +2,7 @@ package com.example.telephony.service;
 
 import com.example.telephony.domain.Dialing;
 import com.example.telephony.enums.DialingStatus;
-import com.example.telephony.enums.messages.ExceptionMessage;
+import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.DialingException;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.DialingRepository;
@@ -53,7 +53,7 @@ public class DialingService {
 
         dialing = setStartDate(dialing);
         if (dialing.getStatus() == DialingStatus.RUN) {
-            ariService.startDialingCallersBase(dialing.getCallersBaseId(), dialing.getScenario());
+            ariService.startDialingCallersBase(dialing);
         }
 
         return dialingRepository.save(dialing);
@@ -83,7 +83,7 @@ public class DialingService {
         BeanUtils.copyProperties(dialing, dialingDb, "id", "created");
         dialingDb = dialingRepository.save(dialingDb);
         if (dialingDb.getStatus() == DialingStatus.RUN) {
-            ariService.startDialingCallersBase(dialingDb.getCallersBaseId(), dialingDb.getScenario());
+            ariService.startDialingCallersBase(dialingDb);
         }
 
         return dialingDb;
