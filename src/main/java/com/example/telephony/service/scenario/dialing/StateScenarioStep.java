@@ -1,27 +1,25 @@
 package com.example.telephony.service.scenario.dialing;
 
+import com.example.telephony.domain.Caller;
+import com.example.telephony.domain.Dialing;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.service.scenario.steps.ScenarioStep;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
-@RequiredArgsConstructor()
+@Builder()
 public class StateScenarioStep {
-    @NonNull
     private final ScenarioStep scenarioStep;
-
-    @NonNull
-    private boolean isStart;
-
-    @NonNull
-    private Map<ScenarioStep, GeneratedSound> sounds;
-
+    private final boolean isStart;
+    private final Map<ScenarioStep, GeneratedSound> sounds;
+    private final Dialing dialing;
     private boolean isFinished = false;
     private String playbackId;
+    private final List<String> answers;
+    private final Caller caller;
 
     public void playbackEnd() {
         isFinished = true;
@@ -30,5 +28,21 @@ public class StateScenarioStep {
 
     public GeneratedSound getSoundForScenarioStep() {
         return sounds.get(scenarioStep);
+    }
+
+    public StateScenarioStep createNextState(ScenarioStep scenarioStep) {
+        return new StateScenarioStepBuilder()
+                .answers(this.answers)
+                .dialing(this.dialing)
+                .sounds(this.sounds)
+                .caller(this.caller)
+                .isFinished(false)
+                .isStart(false)
+                .scenarioStep(scenarioStep)
+                .build();
+    }
+
+    public static StateScenarioStepBuilder getBuilder() {
+        return new StateScenarioStepBuilder();
     }
 }

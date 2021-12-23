@@ -2,7 +2,7 @@ package com.example.telephony.service;
 
 import com.example.telephony.common.Properties;
 import com.example.telephony.domain.GeneratedSound;
-import com.example.telephony.enums.messages.ExceptionMessage;
+import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.enums.SpeechVoice;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.GeneratedSoundRepository;

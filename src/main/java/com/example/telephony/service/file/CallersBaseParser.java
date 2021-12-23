@@ -4,7 +4,7 @@ import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.CallerVariable;
 import com.example.telephony.domain.CallersBase;
 import com.example.telephony.domain.VariablesTypeName;
-import com.example.telephony.enums.messages.FileParsingExceptionMessage;
+import com.example.telephony.enums.exception.messages.FileParsingExceptionMessage;
 import com.example.telephony.enums.VariablesType;
 import com.example.telephony.exception.FileParsingException;
 import com.example.telephony.exception.TelephonyException;
