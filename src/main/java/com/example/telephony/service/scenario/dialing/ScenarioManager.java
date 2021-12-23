@@ -1,9 +1,9 @@
 package com.example.telephony.service.scenario.dialing;
 
 import ch.loway.oss.ari4java.generated.models.Playback;
-import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
+import com.example.telephony.service.DialingCallerResultService;
 import com.example.telephony.service.GenerationSoundsService;
 import com.example.telephony.service.scenario.steps.ScenarioStep;
 
@@ -14,9 +14,11 @@ public class ScenarioManager {
     private final Map<String, StateScenarioStep> scenariosByChannelId;
     private final Map<String, String> channelIdByPlaybackId;
     private final GenerationSoundsService generationSoundsService;
+    private final DialingCallerResultService dialingCallerResultService;
 
-    public ScenarioManager(GenerationSoundsService generationSoundsService) {
+    public ScenarioManager(GenerationSoundsService generationSoundsService, DialingCallerResultService dialingCallerResultService) {
         this.generationSoundsService = generationSoundsService;
+        this.dialingCallerResultService = dialingCallerResultService;
         this.scenariosByChannelId = new HashMap<>();
         this.channelIdByPlaybackId = new HashMap<>();
     }
@@ -28,10 +30,10 @@ public class ScenarioManager {
         }
         scenariosByChannelId.remove(channelId);
         generationSoundsService.deleteAll(currentState.getSounds().values());
+        dialingCallerResultService.create(currentState.getCaller(), currentState.getDialing(), currentState.getAnswers());
     }
 
-    public void addCallScenario(String channelId, ScenarioStep scenarioStep, Map<ScenarioStep, GeneratedSound> sounds) {
-        StateScenarioStep stateScenarioStep = new StateScenarioStep(scenarioStep, true, sounds);
+    public void addCallScenario(String channelId, StateScenarioStep stateScenarioStep) {
         scenariosByChannelId.put(channelId, stateScenarioStep);
     }
 
@@ -66,6 +68,7 @@ public class ScenarioManager {
         //todo save answer
         StateScenarioStep currentState = getCurrentState(channelId);
         if (currentState.isFinished()) {
+            currentState.getAnswers().add(answer);
             continueScenario(channelId, answer);
         }
     }
@@ -82,7 +85,7 @@ public class ScenarioManager {
             throw new TelephonyException(ExceptionMessage.SCENARIO_NO_MORE_STEPS.getMessage());
         }
 
-        StateScenarioStep nextState = new StateScenarioStep(nextStep, false, stateScenarioStep.getSounds());
+        StateScenarioStep nextState = stateScenarioStep.createNextState(nextStep);
         scenariosByChannelId.put(channelId, nextState);
         Playback playback = nextStep.execute(channelId, nextState.getSoundForScenarioStep());
         addPlayback(channelId, playback.getId());

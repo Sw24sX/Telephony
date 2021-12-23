@@ -51,12 +51,12 @@ public class DialingService {
             throw new DialingException(message);
         }
 
-        dialing = setStartDate(dialing);
+        dialing = dialingRepository.save(setStartDate(dialing));;
         if (dialing.getStatus() == DialingStatus.RUN) {
             ariService.startDialingCallersBase(dialing);
         }
 
-        return dialingRepository.save(dialing);
+        return dialing;
     }
 
     private Dialing setStartDate(Dialing dialing) {

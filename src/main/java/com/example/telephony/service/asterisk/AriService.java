@@ -14,10 +14,12 @@ import com.example.telephony.service.DialingCallerResultService;
 import com.example.telephony.service.ScenarioPreparationService;
 import com.example.telephony.service.scenario.ScenarioBuilder;
 import com.example.telephony.service.scenario.dialing.ScenarioManager;
+import com.example.telephony.service.scenario.dialing.StateScenarioStep;
 import com.example.telephony.service.scenario.steps.ScenarioStep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -48,7 +50,7 @@ public class AriService {
         // TODO: 19.12.2021 get callers base by page
         for(Caller caller : callersBase.getCallers()) {
             try {
-                addCallerToScenarioExecute(caller, scenarioStep);
+                addCallerToScenarioExecute(caller, scenarioStep, dialing);
             } catch (ScenarioBuildException e) {
                 dialingCallerResultService.createHoldOn(caller, dialing, DialingResultHoldOnMessages.INCORRECT_CALLER_VARIABLE);
             } catch (RestException e) {
@@ -57,10 +59,20 @@ public class AriService {
         }
     }
 
-    private void addCallerToScenarioExecute(Caller caller, ScenarioStep scenarioStep) throws ScenarioBuildException, RestException {
+    private void addCallerToScenarioExecute(Caller caller, ScenarioStep scenarioStep, Dialing dialing) throws ScenarioBuildException, RestException {
         String channelId = UUID.randomUUID().toString();
         Map<ScenarioStep, GeneratedSound> sounds = scenarioPreparationService.voiceOverScenarioByCaller(scenarioStep, caller);
-        scenarioManager.addCallScenario(channelId, scenarioStep, sounds);
+        StateScenarioStep stateScenarioStep = StateScenarioStep.getBuilder()
+                .dialing(dialing)
+                .scenarioStep(scenarioStep)
+                .caller(caller)
+                .answers(new ArrayList<>())
+                .isFinished(false)
+                .isStart(true)
+                .sounds(sounds)
+                .build();
+
+        scenarioManager.addCallScenario(channelId, stateScenarioStep);
         // TODO: 20.12.2021 optimise get phone number
         asteriskHelper.createChannel( callerRepository.getCallerNumber(caller.getId()), channelId);
     }
