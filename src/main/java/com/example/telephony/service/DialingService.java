@@ -7,7 +7,6 @@ import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.DialingException;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.DialingRepository;
-import com.example.telephony.service.asterisk.AriService;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.example.telephony.service.asterisk;
+package com.example.telephony.service;
 
 import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.Caller;
@@ -12,6 +12,7 @@ import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.service.CallerBaseService;
 import com.example.telephony.service.DialingCallerResultService;
 import com.example.telephony.service.ScenarioPreparationService;
+import com.example.telephony.service.asterisk.AsteriskHelper;
 import com.example.telephony.service.scenario.ScenarioBuilder;
 import com.example.telephony.service.scenario.dialing.ScenarioManager;
 import com.example.telephony.service.scenario.dialing.StateScenarioStep;

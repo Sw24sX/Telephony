@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public abstract class ScenarioNodeDataMapper {
-    protected ScenarioQuestionParser parser = new ScenarioQuestionParser();
+    protected ScenarioQuestionParser questionParser = new ScenarioQuestionParser();
 
     public ScenarioNodeData fromScenarioNodeDataDto(ScenarioNodeDataDto dto) {
         if (dto == null) {
@@ -20,7 +20,7 @@ public abstract class ScenarioNodeDataMapper {
 
         ScenarioNodeData result = new ScenarioNodeData();
         result.setNeedAnswer(dto.isNeedAnswer());
-        result.setQuestion(parser.parseTextToScenarioQuestion(dto.getReplica()));
+        result.setQuestion(questionParser.parseTextToScenarioQuestion(dto.getReplica()));
         result.setWaitingTime(Optional.ofNullable(dto.getWaitingTime()).orElse(0));
         return result;
     }
@@ -35,7 +35,7 @@ public abstract class ScenarioNodeDataMapper {
         scenarioNodeDataDto.setWaitingTime( data.getWaitingTime() );
         scenarioNodeDataDto.setNeedAnswer( data.isNeedAnswer() );
         scenarioNodeDataDto.setCreated( data.getCreated() );
-        scenarioNodeDataDto.setReplica(parser.getFullText(data.getQuestion()));
+        scenarioNodeDataDto.setReplica(questionParser.getFullText(data.getQuestion()));
         return scenarioNodeDataDto;
     }
 }

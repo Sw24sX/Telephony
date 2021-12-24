@@ -7,6 +7,9 @@ import com.example.telephony.domain.scenario.ScenarioNodePoint;
 import com.example.telephony.dto.scenario.ScenarioNodeAnswersDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDataDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDto;
+import com.example.telephony.enums.ScenarioNodeTypes;
+import com.example.telephony.enums.messages.ScenarioExceptionMessages;
+import com.example.telephony.exception.ScenarioMappingException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +34,17 @@ public abstract class ScenarioNodeMapper {
         ScenarioNode scenarioNode = new ScenarioNode();
         scenarioNode.setType(dto.getType());
         scenarioNode.setData(scenarioNodeDataMapper.fromScenarioNodeDataDto(dto.getData()));
+        checkQuestion(scenarioNode);
         ScenarioNodeExtraData extraData = new ScenarioNodeExtraData();
         extraData.setPosition(new ScenarioNodePoint(dto.getPosition().x, dto.getPosition().y));
         scenarioNode.setExtraData(extraData);
         return scenarioNode;
+    }
+
+    private void checkQuestion(ScenarioNode node) {
+        if(node.getType() == ScenarioNodeTypes.REPLICA && node.getData().getQuestion() == null) {
+            throw new ScenarioMappingException(ScenarioExceptionMessages.REPLICA_TEXT_IS_EMPTY.getMessage());
+        }
     }
 
     public Map<String, ScenarioEdge> setEdgesToScenarioNode(ScenarioNode scenarioNode, ScenarioNodeDto dto) {

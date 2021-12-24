@@ -2,6 +2,8 @@ package com.example.telephony.common;
 
 import com.example.telephony.domain.scenario.ScenarioQuestion;
 import com.example.telephony.domain.scenario.ScenarioQuestionPart;
+import com.example.telephony.enums.messages.ScenarioExceptionMessages;
+import com.example.telephony.exception.ScenarioMappingException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class ScenarioQuestionParser {
     }
 
     public ScenarioQuestion parseTextToScenarioQuestion(String text) {
-        if(text == null) {
+        if(StringUtils.isBlank(text)) {
             return null;
         }
 

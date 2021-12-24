@@ -9,7 +9,8 @@ public enum ScenarioExceptionMessages {
     AFTER_START_STEP_MAY_BE_ONLY_ONE_STEP("После шага 'Start' может быть только один вариант ответа"),
     ANSWER_BUTTON_ALREADY_EXIST("Кнопка %s уже имеется в списке ответов"),
     START_SCENARIO_TYPE_CAN_BE_ONLY_ONE("Только одна вершина может иметь тип 'Start'"),
-    CALLER_HAVE_NOT_VARIABLE("Абонент не содержит переменную %s");
+    CALLER_HAVE_NOT_VARIABLE("Абонент не содержит переменную %s"),
+    REPLICA_TEXT_IS_EMPTY("Текст реплики пуст");
 
     private final String message;
 
