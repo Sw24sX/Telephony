@@ -25,7 +25,7 @@
 
 ----
 
-- Инструкция по настройке сервера asterisk: <a href="https://github.com/Alllex202/asterisk_setup#readme">ссылка</a>
+- Описание и ссылки на репозитории всех частей приложения: <a href="https://github.com/Alllex202/telephony/blob/main/README.md#сервис-по-автоматическому-обзвону-клиентов">ссылка</a>
 - Документация по приложению (Swagger): `http://*server.address*:8080/docApi/swagger-ui.html`, где `server.address` - свойство, настроенное пунктом выше
-- Ссылка на репозиторий web-приложения: <a href="https://github.com/Alllex202/telephony-react">ссылка</a>
-- Ссылка на репозиторий мобильного приложения: <a href="https://github.com/dekabrsky/ITalks">ссылка</a>
+- Ссылка на развернутый Asterisk + FreePBX: в разработке
+- Ссылка на развернутый сервер: в разработке
