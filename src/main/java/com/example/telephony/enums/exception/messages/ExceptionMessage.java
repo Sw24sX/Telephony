@@ -20,7 +20,9 @@ public enum ExceptionMessage {
     CAN_NOT_CHANGE_DIALING("Нельзя изменить запущенный или завершенный обзвон"),
     CAN_NOT_CREATE_DONE_DIALING("Нельзя создать выполненный обзвон"),
     DIALING_DATE_NOT_VALID("Дата обзвона не указана или указана неверно"),
-    CALLER_BASE_NOT_CONFIRMED("База клентов %s не подтверждена и не может быть использована");
+    CALLER_BASE_NOT_CONFIRMED("База клентов %s не подтверждена и не может быть использована"),
+    DIALING_ALREADY_ADDED_TO_DIALING_MANAGER("Обзваниевание уже добавлено в менеджер обзвонов"),
+    DIALING_NOT_ADDED_TO_DIALING_MANAGER("Обзвон не добавлен в менеджер обзвонов");
 
     private final String message;
 

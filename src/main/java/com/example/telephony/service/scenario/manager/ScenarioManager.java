@@ -1,24 +1,29 @@
-package com.example.telephony.service.scenario.dialing;
+package com.example.telephony.service.scenario.manager;
 
 import ch.loway.oss.ari4java.generated.models.Playback;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.service.DialingCallerResultService;
 import com.example.telephony.service.GenerationSoundsService;
+import com.example.telephony.service.scenario.dialing.DialingManager;
 import com.example.telephony.service.scenario.steps.ScenarioStep;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ScenarioManager {
-    private final Map<String, StateScenarioStep> scenariosByChannelId;
-    private final Map<String, String> channelIdByPlaybackId;
     private final GenerationSoundsService generationSoundsService;
     private final DialingCallerResultService dialingCallerResultService;
+    private final DialingManager dialingManager;
 
-    public ScenarioManager(GenerationSoundsService generationSoundsService, DialingCallerResultService dialingCallerResultService) {
+    private final Map<String, StateScenarioStep> scenariosByChannelId;
+    private final Map<String, String> channelIdByPlaybackId;
+
+    public ScenarioManager(GenerationSoundsService generationSoundsService,
+                           DialingCallerResultService dialingCallerResultService, DialingManager dialingManager) {
         this.generationSoundsService = generationSoundsService;
         this.dialingCallerResultService = dialingCallerResultService;
+        this.dialingManager = dialingManager;
         this.scenariosByChannelId = new HashMap<>();
         this.channelIdByPlaybackId = new HashMap<>();
     }
@@ -31,6 +36,7 @@ public class ScenarioManager {
         scenariosByChannelId.remove(channelId);
         generationSoundsService.deleteAll(currentState.getSounds().values());
         dialingCallerResultService.create(currentState.getCaller(), currentState.getDialing(), currentState.getAnswers());
+        dialingManager.endDialCaller(currentState.getDialing());
     }
 
     public void addCallScenario(String channelId, StateScenarioStep stateScenarioStep) {

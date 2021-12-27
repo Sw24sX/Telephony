@@ -8,7 +8,7 @@ import com.example.telephony.dto.scenario.ScenarioNodeAnswersDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDataDto;
 import com.example.telephony.dto.scenario.ScenarioNodeDto;
 import com.example.telephony.enums.ScenarioNodeTypes;
-import com.example.telephony.enums.messages.ScenarioExceptionMessages;
+import com.example.telephony.enums.exception.messages.ScenarioExceptionMessages;
 import com.example.telephony.exception.ScenarioMappingException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.Mapper;

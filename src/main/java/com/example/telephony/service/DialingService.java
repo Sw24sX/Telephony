@@ -7,6 +7,7 @@ import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.DialingException;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.DialingRepository;
+import com.example.telephony.service.scenario.dialing.DialingManager;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +18,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class DialingService {
-    private final AriService ariService;
+    private final ScenarioManagerService scenarioManagerService;
     private final CallerBaseService callerBaseService;
     private final DialingRepository dialingRepository;
+    private final DialingManager dialingManager;
 
     @Autowired
-    public DialingService(AriService ariService, CallerBaseService callerBaseService,
-                          DialingRepository dialingRepository) {
-        this.ariService = ariService;
+    public DialingService(ScenarioManagerService scenarioManagerService, CallerBaseService callerBaseService,
+                          DialingRepository dialingRepository, DialingManager dialingManager) {
+        this.scenarioManagerService = scenarioManagerService;
         this.callerBaseService = callerBaseService;
         this.dialingRepository = dialingRepository;
+        this.dialingManager = dialingManager;
     }
 
     public Dialing getById(Long id) {
@@ -58,12 +60,18 @@ public class DialingService {
             throw new DialingException(message);
         }
 
-        dialing = dialingRepository.save(setStartDate(dialing));;
+        dialing = dialingRepository.save(setStartDate(dialing));
+
         if (dialing.getStatus() == DialingStatus.RUN) {
-            ariService.startDialingCallersBase(dialing);
+            startDialing(dialing);
         }
 
         return dialing;
+    }
+
+    private void startDialing(Dialing dialing) {
+        dialingManager.addDialing(dialing, callerBaseService.getCountCallers(dialing.getCallersBaseId()));
+        scenarioManagerService.startDialingCallersBase(dialing);
     }
 
     private Dialing setStartDate(Dialing dialing) {
@@ -90,7 +98,7 @@ public class DialingService {
         BeanUtils.copyProperties(dialing, dialingDb, "id", "created");
         dialingDb = dialingRepository.save(dialingDb);
         if (dialingDb.getStatus() == DialingStatus.RUN) {
-            ariService.startDialingCallersBase(dialingDb);
+            scenarioManagerService.startDialingCallersBase(dialingDb);
         }
 
         return dialingDb;
@@ -105,5 +113,10 @@ public class DialingService {
     public void addScheduledDialing() {
         //TODO
         throw new NotImplementedException();
+    }
+
+    public void endDialing(Dialing dialing) {
+        dialing.setStatus(DialingStatus.DONE);
+        dialingRepository.save(dialing);
     }
 }

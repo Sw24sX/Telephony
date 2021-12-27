@@ -76,4 +76,8 @@ public class CallerBaseService {
     public boolean isConfirmed(Long id) {
         return callerBaseRepository.baseIsConfirmed(id);
     }
+
+    public Integer getCountCallers(Long callerBaseId) {
+        return callerBaseRepository.getCountCallersByCallersBaseId(callerBaseId);
+    }
 }
