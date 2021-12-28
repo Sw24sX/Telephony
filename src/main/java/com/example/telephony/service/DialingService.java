@@ -45,10 +45,10 @@ public class DialingService {
     }
 
     public Page<Dialing> getPage(int number, int size, FieldsPageSort fieldsPageSort,
-                                 Sort.Direction direction, String name) {
+                                 Sort.Direction direction, String name, DialingStatus status) {
         Sort sort = Sort.by(direction, fieldsPageSort.getFieldName());
         Pageable pageable = PageRequest.of(number, size, sort);
-        return dialingRepository.findAll(pageable);
+        return dialingRepository.findAll("%" + name + "%", status, pageable);
     }
 
     public Dialing createDialing(Dialing dialing) {
