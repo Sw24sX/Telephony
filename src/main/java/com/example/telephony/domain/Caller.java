@@ -15,9 +15,6 @@ public class Caller extends BaseEntity {
     @JoinColumn(name = "callers_base_id")
     private CallersBase callersBase;
 
-    @OneToMany(mappedBy = "caller", cascade = CascadeType.ALL)
-    private List<CallStatistic> callStatistics;
-
     @OrderBy("typeName")
     @OneToMany(mappedBy = "caller", cascade = CascadeType.ALL)
     private List<CallerVariable> variables;
