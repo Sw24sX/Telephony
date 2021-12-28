@@ -20,4 +20,7 @@ public interface CallerBaseRepository extends JpaRepository<CallersBase, Long> {
 
     @Query("select cb.isConfirmed from CallersBase cb where cb.id = ?1")
     boolean baseIsConfirmed(Long id);
+
+    @Query("select cb.callers.size from CallersBase cb where cb.id = ?1")
+    Integer getCountCallersByCallersBaseId(Long id);
 }

@@ -18,11 +18,11 @@ public class CallersBase extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "callersBase", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "callersBase", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Caller> callers;
 
     @OrderBy("id")
-    @OneToMany(mappedBy = "callersBase", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "callersBase", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<VariablesTypeName> variablesList;
 
     @Column(name = "is_confirmed")

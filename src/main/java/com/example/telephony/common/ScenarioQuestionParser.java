@@ -16,7 +16,7 @@ public class ScenarioQuestionParser {
     }
 
     public ScenarioQuestion parseTextToScenarioQuestion(String text) {
-        if(text == null) {
+        if(StringUtils.isBlank(text)) {
             return null;
         }
 

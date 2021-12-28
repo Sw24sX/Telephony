@@ -4,7 +4,7 @@ import ch.loway.oss.ari4java.generated.models.Channel;
 import ch.loway.oss.ari4java.generated.models.ChannelDtmfReceived;
 import ch.loway.oss.ari4java.generated.models.Event;
 import com.example.telephony.service.asterisk.AsteriskEvent;
-import com.example.telephony.service.scenario.dialing.ScenarioManager;
+import com.example.telephony.service.scenario.manager.ScenarioManager;
 import lombok.NonNull;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;

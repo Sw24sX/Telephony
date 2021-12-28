@@ -1,6 +1,5 @@
 package com.example.telephony.controller;
 
-import ch.loway.oss.ari4java.generated.models.Dial;
 import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.Dialing;
 import com.example.telephony.dto.DialingDto;

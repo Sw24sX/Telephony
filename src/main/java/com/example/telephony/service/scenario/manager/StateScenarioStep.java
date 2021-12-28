@@ -1,4 +1,4 @@
-package com.example.telephony.service.scenario.dialing;
+package com.example.telephony.service.scenario.manager;
 
 import com.example.telephony.domain.Caller;
 import com.example.telephony.domain.Dialing;
