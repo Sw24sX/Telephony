@@ -6,6 +6,7 @@ import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.DialingException;
 import com.example.telephony.exception.EntityNotFoundException;
+import com.example.telephony.repository.DialingCallerResultRepository;
 import com.example.telephony.repository.DialingRepository;
 import com.example.telephony.service.scenario.dialing.DialingManager;
 import org.apache.commons.lang3.NotImplementedException;
@@ -25,14 +26,17 @@ public class DialingService {
     private final CallerBaseService callerBaseService;
     private final DialingRepository dialingRepository;
     private final DialingManager dialingManager;
+    private final DialingCallerResultRepository dialingCallerResultRepository;
 
     @Autowired
     public DialingService(ScenarioManagerService scenarioManagerService, CallerBaseService callerBaseService,
-                          DialingRepository dialingRepository, DialingManager dialingManager) {
+                          DialingRepository dialingRepository, DialingManager dialingManager,
+                          DialingCallerResultRepository dialingCallerResultRepository) {
         this.scenarioManagerService = scenarioManagerService;
         this.callerBaseService = callerBaseService;
         this.dialingRepository = dialingRepository;
         this.dialingManager = dialingManager;
+        this.dialingCallerResultRepository = dialingCallerResultRepository;
     }
 
     public Dialing getById(Long id) {
@@ -115,8 +119,11 @@ public class DialingService {
         throw new NotImplementedException();
     }
 
-    public void endDialing(Dialing dialing) {
-        dialing.setStatus(DialingStatus.DONE);
-        dialingRepository.save(dialing);
+    public Integer getCountEndDialingCallers(Dialing dialing) {
+        return dialingCallerResultRepository.getCountDialingCallers(dialing.getId());
+    }
+
+    public Integer getCountDialingCallers(Dialing dialing) {
+        return callerBaseService.getCountCallers(dialing.getCallersBaseId());
     }
 }

@@ -10,8 +10,9 @@ import java.util.Date;
 @Data
 public class DialingDto extends BaseDto {
     private Date startDate;
-    private Long scenarioId;
-    private Long callersBaseId;
+    private CommonDto scenario;
+    private CommonDto callersBase;
     private DialingStatus status;
     private String name;
+    private Integer percentEnd;
 }
