@@ -7,7 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface DialingRepository extends JpaRepository<Dialing, Long> {
     @Query("select d from Dialing d where d.name like ?1 and d.status = ?2")
     Page<Dialing> findAll(String name, DialingStatus status, Pageable pageable);
+
+    List<Dialing> findAllByCallersBaseId(Long callersBaseId);
 }

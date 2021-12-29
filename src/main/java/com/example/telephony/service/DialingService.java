@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DialingService {
@@ -125,5 +126,9 @@ public class DialingService {
 
     public Integer getCountDialingCallers(Dialing dialing) {
         return callerBaseService.getCountCallers(dialing.getCallersBaseId());
+    }
+
+    public List<Dialing> getDialingsByCallersBaseId(Long callersBaseId) {
+        return dialingRepository.findAllByCallersBaseId(callersBaseId);
     }
 }

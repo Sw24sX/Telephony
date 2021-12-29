@@ -76,4 +76,11 @@ public class DialingController {
     public void deleteDialing(@PathVariable("id") Long id) {
         dialingService.deleteDialing(id);
     }
+
+    @GetMapping("callers-base/{callers_base_id}")
+    @ApiOperation("Get all dialings by callers base id")
+    public List<DialingDto> getDialingsByCallersBaseId(@ApiParam("Callers base id") @PathVariable("callers_base_id") Long callersBaseId) {
+        List<Dialing> dialings = dialingService.getDialingsByCallersBaseId(callersBaseId);
+        return dialingMapper.fromListDialing(dialings);
+    }
 }
