@@ -11,11 +11,11 @@ import java.util.List;
 
 public interface DialingRepository extends JpaRepository<Dialing, Long> {
     @Query("select d from Dialing d " +
-                "where d.name like ?1 and d.status = ?2")
+                "where lower(d.name) like lower(?1) and d.status = ?2")
     Page<Dialing> findAllByNameAndStatus(String name, DialingStatus status, Pageable pageable);
 
     @Query("select d from Dialing d " +
-            "where d.name like ?1 order by d.status")
+            "where lower(d.name) like lower(?1) order by d.status")
     Page<Dialing> findAllByName(String name, Pageable pageable);
 
     List<Dialing> findAllByCallersBaseId(Long callersBaseId);
