@@ -59,12 +59,6 @@ public class DialingService {
             throw new DialingException(ExceptionMessage.CAN_NOT_CREATE_DONE_DIALING.getMessage());
         }
 
-        if (!callerBaseService.isConfirmed(dialing.getCallersBaseId())) {
-            String message = String.format(
-                    ExceptionMessage.CALLER_BASE_NOT_CONFIRMED.getMessage(), dialing.getCallersBaseId());
-            throw new DialingException(message);
-        }
-
         dialing = dialingRepository.save(setStartDate(dialing));
 
         if (dialing.getStatus() == DialingStatus.RUN) {

@@ -27,14 +27,14 @@ public class CallerBaseService {
     }
 
     public List<CallersBase> getAll() {
-        return callerBaseRepository.findAllByConfirmedIs(true);
+        return callerBaseRepository.findAll();
     }
 
     public Page<CallersBase> getPage(int number, int size, FieldsPageSort fieldsPageSort,
                                      Sort.Direction direction, String name) {
         Sort sort = Sort.by(direction, fieldsPageSort.getFieldName());
         Pageable pageable = PageRequest.of(number, size, sort);
-        return callerBaseRepository.findAllByConfirmedIs(true, "%" + name + "%", pageable);
+        return callerBaseRepository.findAllByNameLike("%" + name + "%", pageable);
     }
 
     public CallersBase getById(Long id) {
@@ -48,7 +48,6 @@ public class CallerBaseService {
     public CallersBase update(Long id, CallersBase callersBase) {
         CallersBase callersBaseDb = getById(id);
         callersBaseDb.setName(callersBase.getName());
-        callersBaseDb.setConfirmed(callersBase.isConfirmed() || callersBaseDb.isConfirmed());
         callersBaseDb.setVariablesList(callersBase.getVariablesList());
         return callerBaseRepository.save(callersBaseDb);
     }
@@ -71,10 +70,6 @@ public class CallerBaseService {
         } catch (IOException e) {
             throw new TelephonyException(e.getMessage());
         }
-    }
-
-    public boolean isConfirmed(Long id) {
-        return callerBaseRepository.baseIsConfirmed(id);
     }
 
     public Integer getCountCallers(Long callerBaseId) {
