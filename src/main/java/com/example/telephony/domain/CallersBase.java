@@ -25,9 +25,6 @@ public class CallersBase extends BaseEntity {
     @OneToMany(mappedBy = "callersBase", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<VariablesTypeName> variablesList;
 
-    @Column(name = "is_confirmed")
-    private boolean isConfirmed;
-
     @UpdateTimestamp
     @Column(name = "updated_date")
     private Date updated;

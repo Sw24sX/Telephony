@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DialingService {
@@ -48,7 +49,9 @@ public class DialingService {
                                  Sort.Direction direction, String name, DialingStatus status) {
         Sort sort = Sort.by(direction, fieldsPageSort.getFieldName());
         Pageable pageable = PageRequest.of(number, size, sort);
-        return dialingRepository.findAll("%" + name + "%", status, pageable);
+        return status == null ?
+                dialingRepository.findAllByName("%" + name + "%", pageable) :
+                dialingRepository.findAllByNameAndStatus("%" + name + "%", status, pageable);
     }
 
     public Dialing createDialing(Dialing dialing) {
@@ -56,12 +59,6 @@ public class DialingService {
         // TODO: 19.12.2021 check callers base by confirmed
         if (dialing.getStatus() == DialingStatus.DONE) {
             throw new DialingException(ExceptionMessage.CAN_NOT_CREATE_DONE_DIALING.getMessage());
-        }
-
-        if (!callerBaseService.isConfirmed(dialing.getCallersBaseId())) {
-            String message = String.format(
-                    ExceptionMessage.CALLER_BASE_NOT_CONFIRMED.getMessage(), dialing.getCallersBaseId());
-            throw new DialingException(message);
         }
 
         dialing = dialingRepository.save(setStartDate(dialing));
@@ -125,5 +122,18 @@ public class DialingService {
 
     public Integer getCountDialingCallers(Dialing dialing) {
         return callerBaseService.getCountCallers(dialing.getCallersBaseId());
+    }
+
+    public List<Dialing> getDialingsByCallersBaseId(Long callersBaseId) {
+        return dialingRepository.findAllByCallersBaseId(callersBaseId);
+    }
+
+    public void startScheduledDialingNow(Long id) {
+        Dialing dialing = getById(id);
+        dialing.setStartDate(new Date());
+        dialing.setStatus(DialingStatus.RUN);
+        dialing = dialingRepository.save(dialing);
+
+        startDialing(dialing);
     }
 }

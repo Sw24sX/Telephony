@@ -52,7 +52,7 @@ public class DialingController {
                                            @ApiParam("Sort direction") @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
                                            @ApiParam("Sort field") @RequestParam(value = "sortBy", required = false, defaultValue = "NAME") FieldsPageSort sort,
                                            @ApiParam("Filtering by name") @RequestParam(value = "name", required = false, defaultValue = "") String searchedName,
-                                           @ApiParam("Filtering by status") @RequestParam(value = "status") DialingStatus status) {
+                                           @ApiParam("Filtering by status") @RequestParam(value = "status", required = false) DialingStatus status) {
         Page<Dialing> dialing = dialingService.getPage(page, size, sort, direction, searchedName, status);
         return dialing.map(dialingMapper::fromDialing);
     }
@@ -75,5 +75,18 @@ public class DialingController {
     @ApiOperation("Delete dialing")
     public void deleteDialing(@PathVariable("id") Long id) {
         dialingService.deleteDialing(id);
+    }
+
+    @GetMapping("callers-base/{callers_base_id}")
+    @ApiOperation("Get all dialings by callers base id")
+    public List<DialingDto> getDialingsByCallersBaseId(@ApiParam("Callers base id") @PathVariable("callers_base_id") Long callersBaseId) {
+        List<Dialing> dialings = dialingService.getDialingsByCallersBaseId(callersBaseId);
+        return dialingMapper.fromListDialing(dialings);
+    }
+
+    @PostMapping("scheduled/{id}/start")
+    @ApiOperation("Start scheduled dialing now")
+    public void startScheduledDialing(@PathVariable("id") Long id) {
+        dialingService.startScheduledDialingNow(id);
     }
 }

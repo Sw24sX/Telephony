@@ -41,7 +41,6 @@ public class CallersBaseParser {
 
     private CallersBase createCallerBase() {
         CallersBase result = new CallersBase();
-        result.setConfirmed(false);
         result.setCallers(new ArrayList<>());
         result.setVariablesList(new ArrayList<>());
         return result;
