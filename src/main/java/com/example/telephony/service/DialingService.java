@@ -127,4 +127,13 @@ public class DialingService {
     public List<Dialing> getDialingsByCallersBaseId(Long callersBaseId) {
         return dialingRepository.findAllByCallersBaseId(callersBaseId);
     }
+
+    public void startScheduledDialingNow(Long id) {
+        Dialing dialing = getById(id);
+        dialing.setStartDate(new Date());
+        dialing.setStatus(DialingStatus.RUN);
+        dialing = dialingRepository.save(dialing);
+
+        startDialing(dialing);
+    }
 }

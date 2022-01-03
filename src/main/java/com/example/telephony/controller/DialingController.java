@@ -83,4 +83,10 @@ public class DialingController {
         List<Dialing> dialings = dialingService.getDialingsByCallersBaseId(callersBaseId);
         return dialingMapper.fromListDialing(dialings);
     }
+
+    @PostMapping("scheduled/{id}/start")
+    @ApiOperation("Start scheduled dialing now")
+    public void startScheduledDialing(@PathVariable("id") Long id) {
+        dialingService.startScheduledDialingNow(id);
+    }
 }
