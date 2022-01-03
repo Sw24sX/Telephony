@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CallerBaseRepository extends JpaRepository<CallersBase, Long> {
-    @Query("select cb from CallersBase cb where cb.name like ?2")
+    @Query("select cb from CallersBase cb where cb.name like ?1")
     Page<CallersBase> findAllByNameLike(String name, Pageable pageable);
 
     @Query("select cb.callers.size from CallersBase cb where cb.id = ?1")
