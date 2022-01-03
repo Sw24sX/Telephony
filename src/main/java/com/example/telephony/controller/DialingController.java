@@ -52,7 +52,7 @@ public class DialingController {
                                            @ApiParam("Sort direction") @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
                                            @ApiParam("Sort field") @RequestParam(value = "sortBy", required = false, defaultValue = "NAME") FieldsPageSort sort,
                                            @ApiParam("Filtering by name") @RequestParam(value = "name", required = false, defaultValue = "") String searchedName,
-                                           @ApiParam("Filtering by status") @RequestParam(value = "status") DialingStatus status) {
+                                           @ApiParam("Filtering by status") @RequestParam(value = "status", required = false) DialingStatus status) {
         Page<Dialing> dialing = dialingService.getPage(page, size, sort, direction, searchedName, status);
         return dialing.map(dialingMapper::fromDialing);
     }

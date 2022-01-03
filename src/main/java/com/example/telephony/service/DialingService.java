@@ -49,7 +49,9 @@ public class DialingService {
                                  Sort.Direction direction, String name, DialingStatus status) {
         Sort sort = Sort.by(direction, fieldsPageSort.getFieldName());
         Pageable pageable = PageRequest.of(number, size, sort);
-        return dialingRepository.findAll("%" + name + "%", status, pageable);
+        return status == null ?
+                dialingRepository.findAllByName("%" + name + "%", pageable) :
+                dialingRepository.findAllByNameAndStatus("%" + name + "%", status, pageable);
     }
 
     public Dialing createDialing(Dialing dialing) {
