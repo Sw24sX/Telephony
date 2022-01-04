@@ -1,12 +1,16 @@
 package com.example.telephony.controller;
 
 import com.example.telephony.common.GlobalMapping;
-import com.example.telephony.domain.Dialing;
-import com.example.telephony.dto.DialingDto;
-import com.example.telephony.dto.DialingStatusDto;
+import com.example.telephony.domain.dialing.Dialing;
+import com.example.telephony.dto.dialing.DialingDto;
+import com.example.telephony.dto.dialing.common.DialingResultDto;
+import com.example.telephony.dto.dialing.DialingStatusDto;
+import com.example.telephony.dto.dialing.pie.chart.DialingResultPieChartDto;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
-import com.example.telephony.mapper.DialingMapper;
+import com.example.telephony.mapper.dialing.DialingMapper;
+import com.example.telephony.mapper.dialing.DialingPieChartMapper;
+import com.example.telephony.mapper.dialing.DialingResultMapper;
 import com.example.telephony.service.DialingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,10 +29,15 @@ import java.util.stream.Collectors;
 public class DialingController {
     private final DialingService dialingService;
     private final DialingMapper dialingMapper;
+    private final DialingResultMapper dialingResultMapper;
+    private final DialingPieChartMapper dialingPieChartMapper;
 
-    public DialingController(DialingService dialingService, DialingMapper dialingMapper) {
+    public DialingController(DialingService dialingService, DialingMapper dialingMapper,
+                             DialingResultMapper dialingResultMapper, DialingPieChartMapper dialingPieChartMapper) {
         this.dialingService = dialingService;
         this.dialingMapper = dialingMapper;
+        this.dialingResultMapper = dialingResultMapper;
+        this.dialingPieChartMapper = dialingPieChartMapper;
     }
 
     @GetMapping("statuses")
@@ -84,9 +93,33 @@ public class DialingController {
         return dialingMapper.fromListDialing(dialings);
     }
 
+    @GetMapping("scenario/{scenario_id}")
+    @ApiOperation("get all dialings by scenario id")
+    public List<DialingDto> getDialingsByScenarioId(@PathVariable("scenario_id") Long scenarioId) {
+        List<Dialing> dialings = dialingService.getDialingsByScenarioId(scenarioId);
+        return dialingMapper.fromListDialing(dialings);
+    }
+
+
     @PostMapping("scheduled/{id}/start")
     @ApiOperation("Start scheduled dialing now")
     public void startScheduledDialing(@PathVariable("id") Long id) {
         dialingService.startScheduledDialingNow(id);
     }
+
+    @GetMapping("{id}/result/common")
+    @ApiOperation("Get result statistic fo dialing")
+    public DialingResultDto getDialingResult(@PathVariable("id") Long id) {
+        Dialing dialing = dialingService.getById(id);
+        return dialingResultMapper.fromDialing(dialing);
+    }
+
+    @GetMapping("{id}/result/pie-chart")
+    @ApiOperation("Get result statistic for pie chart graphic")
+    public DialingResultPieChartDto getPieChar(@PathVariable("id") Long id) {
+        Dialing dialing = dialingService.getById(id);
+        return dialingPieChartMapper.fromDialing(dialing);
+    }
+
+
 }

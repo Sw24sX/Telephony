@@ -1,11 +1,8 @@
 package com.example.telephony;
 
 import com.example.telephony.common.CallersBaseBuilder;
-import com.example.telephony.domain.CallersBase;
+import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.exception.FileParsingException;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.io.InputStream;

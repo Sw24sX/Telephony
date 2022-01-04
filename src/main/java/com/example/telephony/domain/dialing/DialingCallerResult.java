@@ -1,5 +1,9 @@
-package com.example.telephony.domain;
+package com.example.telephony.domain.dialing;
 
+import com.example.telephony.converter.DialCallerStatusConverter;
+import com.example.telephony.domain.BaseEntity;
+import com.example.telephony.domain.callers.base.Caller;
+import com.example.telephony.enums.DialCallerStatus;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import lombok.Data;
 import org.hibernate.Hibernate;
@@ -32,6 +36,10 @@ public class DialingCallerResult extends BaseEntity {
 
     @Column(name = "message_hold_on")
     private String message;
+
+    @Column(name = "status_code")
+    @Convert(converter = DialCallerStatusConverter.class)
+    private DialCallerStatus status;
 
     @Override
     public boolean equals(Object o) {

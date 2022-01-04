@@ -1,6 +1,6 @@
 package com.example.telephony.service;
 
-import com.example.telephony.domain.Caller;
+import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.ScenarioQuestion;
 import com.example.telephony.domain.scenario.ScenarioQuestionPart;

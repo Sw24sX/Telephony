@@ -1,6 +1,7 @@
 package com.example.telephony.domain;
 
 import com.example.telephony.converter.VariablesTypeCodeConverter;
+import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.enums.VariablesType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

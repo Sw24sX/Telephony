@@ -1,6 +1,7 @@
 package com.example.telephony.service;
 
-import com.example.telephony.domain.Dialing;
+import com.example.telephony.domain.dialing.Dialing;
+import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
@@ -128,6 +129,10 @@ public class DialingService {
         return dialingRepository.findAllByCallersBaseId(callersBaseId);
     }
 
+    public List<Dialing> getDialingsByScenarioId(Long scenarioId) {
+        return dialingRepository.findAllByScenario_Id(scenarioId);
+    }
+
     public void startScheduledDialingNow(Long id) {
         Dialing dialing = getById(id);
         dialing.setStartDate(new Date());
@@ -135,5 +140,9 @@ public class DialingService {
         dialing = dialingRepository.save(dialing);
 
         startDialing(dialing);
+    }
+
+    public Integer getCountDialsByStatus(Dialing dialing, DialCallerStatus status) {
+        return dialingCallerResultRepository.getCountDialingCallersByStatus(dialing.getId(), status);
     }
 }
