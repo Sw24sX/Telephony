@@ -1,5 +1,7 @@
-package com.example.telephony.domain;
+package com.example.telephony.domain.dialing;
 
+import com.example.telephony.domain.BaseEntity;
+import com.example.telephony.domain.callers.base.Caller;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import lombok.Data;
 import org.hibernate.Hibernate;

@@ -1,6 +1,7 @@
-package com.example.telephony.domain;
+package com.example.telephony.domain.dialing;
 
 import com.example.telephony.converter.DialingStatusConverter;
+import com.example.telephony.domain.BaseEntity;
 import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.enums.DialingStatus;
 import lombok.Data;
@@ -30,6 +31,9 @@ public class Dialing extends BaseEntity {
 
     @Column(name = "name")
     private String name;
+
+    @OneToOne(mappedBy = "dialing")
+    private DialingStatistic statistic;
 
     @Override
     public boolean equals(Object o) {

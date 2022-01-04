@@ -1,6 +1,6 @@
 package com.example.telephony.mapper;
 
-import com.example.telephony.domain.CallerVariable;
+import com.example.telephony.domain.callers.base.CallerVariable;
 import com.example.telephony.dto.CallerVariablesDto;
 import org.mapstruct.Mapper;
 

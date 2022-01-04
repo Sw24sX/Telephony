@@ -1,5 +1,7 @@
-package com.example.telephony.domain;
+package com.example.telephony.domain.callers.base;
 
+import com.example.telephony.domain.BaseEntity;
+import com.example.telephony.domain.VariablesTypeName;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

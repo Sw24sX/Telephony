@@ -1,8 +1,8 @@
 package com.example.telephony.service;
 
-import com.example.telephony.domain.Caller;
-import com.example.telephony.domain.Dialing;
-import com.example.telephony.domain.DialingCallerResult;
+import com.example.telephony.domain.callers.base.Caller;
+import com.example.telephony.domain.dialing.Dialing;
+import com.example.telephony.domain.dialing.DialingCallerResult;
 import com.example.telephony.enums.DialingResultHoldOnMessages;
 import com.example.telephony.repository.DialingCallerResultRepository;
 import org.springframework.stereotype.Service;

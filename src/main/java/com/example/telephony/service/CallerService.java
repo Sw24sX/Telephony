@@ -1,6 +1,6 @@
 package com.example.telephony.service;
 
-import com.example.telephony.domain.Caller;
+import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.repository.CallerRepository;

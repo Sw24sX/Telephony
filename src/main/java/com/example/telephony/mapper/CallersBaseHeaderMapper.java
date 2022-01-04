@@ -1,6 +1,6 @@
 package com.example.telephony.mapper;
 
-import com.example.telephony.domain.CallersBase;
+import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.dto.CallersBaseHeaderDto;
 import com.example.telephony.service.CallerService;
 import org.mapstruct.Mapper;

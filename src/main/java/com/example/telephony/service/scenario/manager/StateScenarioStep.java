@@ -1,7 +1,7 @@
 package com.example.telephony.service.scenario.manager;
 
-import com.example.telephony.domain.Caller;
-import com.example.telephony.domain.Dialing;
+import com.example.telephony.domain.callers.base.Caller;
+import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.service.scenario.steps.ScenarioStep;
 import lombok.*;

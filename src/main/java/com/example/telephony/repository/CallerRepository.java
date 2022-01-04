@@ -1,6 +1,6 @@
 package com.example.telephony.repository;
 
-import com.example.telephony.domain.Caller;
+import com.example.telephony.domain.callers.base.Caller;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

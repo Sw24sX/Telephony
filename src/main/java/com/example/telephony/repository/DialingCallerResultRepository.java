@@ -1,6 +1,6 @@
 package com.example.telephony.repository;
 
-import com.example.telephony.domain.DialingCallerResult;
+import com.example.telephony.domain.dialing.DialingCallerResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

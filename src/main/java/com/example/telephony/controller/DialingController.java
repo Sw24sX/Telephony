@@ -1,9 +1,9 @@
 package com.example.telephony.controller;
 
 import com.example.telephony.common.GlobalMapping;
-import com.example.telephony.domain.Dialing;
-import com.example.telephony.dto.DialingDto;
-import com.example.telephony.dto.DialingStatusDto;
+import com.example.telephony.domain.dialing.Dialing;
+import com.example.telephony.dto.dialing.DialingDto;
+import com.example.telephony.dto.dialing.DialingStatusDto;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.mapper.DialingMapper;

@@ -1,6 +1,6 @@
 package com.example.telephony.repository;
 
-import com.example.telephony.domain.Dialing;
+import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.enums.DialingStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,9 +1,9 @@
 package com.example.telephony.service;
 
 import ch.loway.oss.ari4java.tools.RestException;
-import com.example.telephony.domain.Caller;
-import com.example.telephony.domain.CallersBase;
-import com.example.telephony.domain.Dialing;
+import com.example.telephony.domain.callers.base.Caller;
+import com.example.telephony.domain.callers.base.CallersBase;
+import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.enums.DialingResultHoldOnMessages;
 import com.example.telephony.exception.ScenarioBuildException;

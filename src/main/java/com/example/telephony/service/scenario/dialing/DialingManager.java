@@ -1,6 +1,6 @@
 package com.example.telephony.service.scenario.dialing;
 
-import com.example.telephony.domain.Dialing;
+import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.DialingException;
