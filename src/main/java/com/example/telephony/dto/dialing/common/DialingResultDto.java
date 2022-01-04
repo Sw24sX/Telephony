@@ -1,7 +1,6 @@
-package com.example.telephony.dto.dialing;
+package com.example.telephony.dto.dialing.common;
 
 import com.example.telephony.dto.BaseDto;
-import com.example.telephony.dto.CommonDto;
 import com.example.telephony.enums.DialingStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

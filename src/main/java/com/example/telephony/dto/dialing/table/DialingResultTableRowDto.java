@@ -1,4 +1,4 @@
-package com.example.telephony.dto.dialing;
+package com.example.telephony.dto.dialing.table;
 
 import com.example.telephony.dto.CallerDto;
 import lombok.Data;
