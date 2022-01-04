@@ -1,11 +1,9 @@
 package com.example.telephony.domain.dialing;
 
 import com.example.telephony.converter.DialCallerStatusConverter;
-import com.example.telephony.converter.DialingStatusConverter;
 import com.example.telephony.domain.BaseEntity;
 import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.enums.DialCallerStatus;
-import com.example.telephony.enums.DialingStatus;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import lombok.Data;
 import org.hibernate.Hibernate;
