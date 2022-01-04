@@ -55,7 +55,7 @@ public abstract class DialingResultMapper {
     private DialingProgressDto createProgress(Dialing dialing) {
         DialingProgressDto result = new DialingProgressDto();
 
-        result.setCountEnd(dialingService.getCountDialingCallers(dialing));
+        result.setCountCallers(dialingService.getCountDialingCallers(dialing));
         result.setCountEnd(dialingService.getCountEndDialingCallers(dialing));
         result.setPercentEnd(calculatePercent(result.getCountCallers(), result.getCountEnd()));
         return result;

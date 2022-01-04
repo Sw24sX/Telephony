@@ -3,10 +3,12 @@ package com.example.telephony.controller;
 import com.example.telephony.common.GlobalMapping;
 import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.dto.dialing.DialingDto;
+import com.example.telephony.dto.dialing.DialingResultDto;
 import com.example.telephony.dto.dialing.DialingStatusDto;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.mapper.dialing.DialingMapper;
+import com.example.telephony.mapper.dialing.DialingResultMapper;
 import com.example.telephony.service.DialingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,10 +27,12 @@ import java.util.stream.Collectors;
 public class DialingController {
     private final DialingService dialingService;
     private final DialingMapper dialingMapper;
+    private final DialingResultMapper dialingResultMapper;
 
-    public DialingController(DialingService dialingService, DialingMapper dialingMapper) {
+    public DialingController(DialingService dialingService, DialingMapper dialingMapper, DialingResultMapper dialingResultMapper) {
         this.dialingService = dialingService;
         this.dialingMapper = dialingMapper;
+        this.dialingResultMapper = dialingResultMapper;
     }
 
     @GetMapping("statuses")
@@ -88,5 +92,12 @@ public class DialingController {
     @ApiOperation("Start scheduled dialing now")
     public void startScheduledDialing(@PathVariable("id") Long id) {
         dialingService.startScheduledDialingNow(id);
+    }
+
+    @GetMapping("{id}/result")
+    @ApiOperation("Get result statistic fo dialing")
+    public DialingResultDto getDialingResult(@PathVariable("id") Long id) {
+        Dialing dialing = dialingService.getById(id);
+        return dialingResultMapper.fromDialing(dialing);
     }
 }
