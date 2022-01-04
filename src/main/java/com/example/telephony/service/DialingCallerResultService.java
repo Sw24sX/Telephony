@@ -3,6 +3,7 @@ package com.example.telephony.service;
 import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.domain.dialing.DialingCallerResult;
+import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.enums.DialingResultHoldOnMessages;
 import com.example.telephony.repository.DialingCallerResultRepository;
 import org.springframework.stereotype.Service;
@@ -23,15 +24,17 @@ public class DialingCallerResultService {
         dialingCallerResult.setCaller(caller);
         dialingCallerResult.setAnswers(answers);
         dialingCallerResult.setHoldOn(false);
+        dialingCallerResult.setStatus(DialCallerStatus.CORRECT);
         return dialingCallerResultRepository.save(dialingCallerResult);
     }
 
-    public DialingCallerResult createHoldOn(Caller caller, Dialing dialing, DialingResultHoldOnMessages message) {
+    public DialingCallerResult createHoldOn(Caller caller, Dialing dialing, DialingResultHoldOnMessages message, DialCallerStatus status) {
         DialingCallerResult dialingCallerResult = new DialingCallerResult();
         dialingCallerResult.setDialing(dialing);
         dialingCallerResult.setCaller(caller);
         dialingCallerResult.setHoldOn(true);
         dialingCallerResult.setMessage(message.getMessage());
+        dialingCallerResult.setStatus(status);
         return dialingCallerResultRepository.save(dialingCallerResult);
     }
 }

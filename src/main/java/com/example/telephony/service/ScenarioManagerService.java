@@ -5,6 +5,7 @@ import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.domain.GeneratedSound;
+import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.enums.DialingResultHoldOnMessages;
 import com.example.telephony.exception.ScenarioBuildException;
 import com.example.telephony.repository.CallerRepository;
@@ -53,10 +54,10 @@ public class ScenarioManagerService {
             try {
                 addCallerToScenarioExecute(caller, scenarioStep, dialing);
             } catch (ScenarioBuildException e) {
-                dialingCallerResultService.createHoldOn(caller, dialing, DialingResultHoldOnMessages.INCORRECT_CALLER_VARIABLE);
+                dialingCallerResultService.createHoldOn(caller, dialing, DialingResultHoldOnMessages.INCORRECT_CALLER_VARIABLE, DialCallerStatus.SCENARIO_NOT_END);
                 dialingManager.endDialCaller(dialing);
             } catch (RestException e) {
-                dialingCallerResultService.createHoldOn(caller, dialing, DialingResultHoldOnMessages.INCORRECT_NUMBER);
+                dialingCallerResultService.createHoldOn(caller, dialing, DialingResultHoldOnMessages.INCORRECT_NUMBER, DialCallerStatus.HAVEN_NOT_REACHED);
                 dialingManager.endDialCaller(dialing);
             }
         }

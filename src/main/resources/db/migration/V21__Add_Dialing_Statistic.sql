@@ -5,3 +5,6 @@ create table "dialing_statistic" (
     "start_date" timestamp not null,
     "end_date" timestamp
 );
+
+alter table "dialing_caller_result"
+    add column "status_code" int2 not null;

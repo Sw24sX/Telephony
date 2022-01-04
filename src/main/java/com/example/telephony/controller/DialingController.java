@@ -6,7 +6,7 @@ import com.example.telephony.dto.dialing.DialingDto;
 import com.example.telephony.dto.dialing.DialingStatusDto;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
-import com.example.telephony.mapper.DialingMapper;
+import com.example.telephony.mapper.dialing.DialingMapper;
 import com.example.telephony.service.DialingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

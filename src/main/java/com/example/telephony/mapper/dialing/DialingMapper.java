@@ -1,4 +1,4 @@
-package com.example.telephony.mapper;
+package com.example.telephony.mapper.dialing;
 
 import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.domain.dialing.Dialing;

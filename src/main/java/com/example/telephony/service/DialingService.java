@@ -1,6 +1,7 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.dialing.Dialing;
+import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
@@ -135,5 +136,9 @@ public class DialingService {
         dialing = dialingRepository.save(dialing);
 
         startDialing(dialing);
+    }
+
+    public Integer getCountDialsByStatus(Dialing dialing, DialCallerStatus status) {
+        return dialingCallerResultRepository.getCountDialingCallersByStatus(dialing.getId(), status);
     }
 }
