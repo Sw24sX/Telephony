@@ -129,6 +129,10 @@ public class DialingService {
         return dialingRepository.findAllByCallersBaseId(callersBaseId);
     }
 
+    public List<Dialing> getDialingsByScenarioId(Long scenarioId) {
+        return dialingRepository.findAllByScenario_Id(scenarioId);
+    }
+
     public void startScheduledDialingNow(Long id) {
         Dialing dialing = getById(id);
         dialing.setStartDate(new Date());

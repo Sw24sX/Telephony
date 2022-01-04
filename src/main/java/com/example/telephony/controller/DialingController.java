@@ -88,6 +88,14 @@ public class DialingController {
         return dialingMapper.fromListDialing(dialings);
     }
 
+    @GetMapping("scenario/{scenario_id}")
+    @ApiOperation("get all dialings by scenario id")
+    public List<DialingDto> getDialingsByScenarioId(@PathVariable("scenario_id") Long scenarioId) {
+        List<Dialing> dialings = dialingService.getDialingsByScenarioId(scenarioId);
+        return dialingMapper.fromListDialing(dialings);
+    }
+
+
     @PostMapping("scheduled/{id}/start")
     @ApiOperation("Start scheduled dialing now")
     public void startScheduledDialing(@PathVariable("id") Long id) {
