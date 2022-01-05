@@ -1,12 +1,15 @@
 package com.example.telephony.service;
 
+import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.dialing.Dialing;
+import com.example.telephony.domain.dialing.DialingCallerResult;
 import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.DialingException;
 import com.example.telephony.exception.EntityNotFoundException;
+import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.repository.DialingCallerResultRepository;
 import com.example.telephony.repository.DialingRepository;
 import com.example.telephony.service.scenario.dialing.DialingManager;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DialingService {
@@ -29,16 +33,18 @@ public class DialingService {
     private final DialingRepository dialingRepository;
     private final DialingManager dialingManager;
     private final DialingCallerResultRepository dialingCallerResultRepository;
+    private final CallerRepository callerRepository;
 
     @Autowired
     public DialingService(ScenarioManagerService scenarioManagerService, CallerBaseService callerBaseService,
                           DialingRepository dialingRepository, DialingManager dialingManager,
-                          DialingCallerResultRepository dialingCallerResultRepository) {
+                          DialingCallerResultRepository dialingCallerResultRepository, CallerRepository callerRepository) {
         this.scenarioManagerService = scenarioManagerService;
         this.callerBaseService = callerBaseService;
         this.dialingRepository = dialingRepository;
         this.dialingManager = dialingManager;
         this.dialingCallerResultRepository = dialingCallerResultRepository;
+        this.callerRepository = callerRepository;
     }
 
     public Dialing getById(Long id) {
@@ -135,6 +141,10 @@ public class DialingService {
 
     public void startScheduledDialingNow(Long id) {
         Dialing dialing = getById(id);
+        if (dialing.getStatus() != DialingStatus.SCHEDULED) {
+            throw new DialingException(ExceptionMessage.DIALING_NOT_SCHEDULED_STATUS.getMessage());
+        }
+
         dialing.setStartDate(new Date());
         dialing.setStatus(DialingStatus.RUN);
         dialing = dialingRepository.save(dialing);
@@ -144,5 +154,18 @@ public class DialingService {
 
     public Integer getCountDialsByStatus(Dialing dialing, DialCallerStatus status) {
         return dialingCallerResultRepository.getCountDialingCallersByStatus(dialing.getId(), status);
+    }
+
+    public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDate(Dialing dialing) {
+        return dialingCallerResultRepository.getDialingCallerResultByDialingIdAndStatusOrderByCreated(dialing.getId(), DialCallerStatus.CORRECT);
+    }
+
+    public Optional<DialingCallerResult> getDialResultByDialingAndCaller(Dialing dialing, Caller caller) {
+        return dialingCallerResultRepository.getDialingCallerResultByDialingIdAndCallerId(dialing.getId(), caller.getId());
+    }
+
+    public Page<Caller> getPageCallersResult(Long dialingId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return callerRepository.getCallersByDialingId(dialingId, pageable);
     }
 }

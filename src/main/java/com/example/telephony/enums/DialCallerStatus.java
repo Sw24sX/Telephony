@@ -9,7 +9,8 @@ import java.util.Objects;
 public enum DialCallerStatus {
     CORRECT((short) 1, "Успешно завершен"),
     HAVEN_NOT_REACHED((short) 2, "Не дозвонились"),
-    SCENARIO_NOT_END((short) 3, "Сценарий не завершен");
+    SCENARIO_NOT_END((short) 3, "Сценарий не завершен"),
+    IN_PROGRESS((short) 4, "В процессе");
 
     private final short code;
     private final String message;
