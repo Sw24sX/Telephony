@@ -2,7 +2,6 @@ package com.example.telephony.mapper.dialing;
 
 import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.domain.dialing.Dialing;
-import com.example.telephony.dto.CallerVariablesDto;
 import com.example.telephony.dto.CallersBaseColumnDto;
 import com.example.telephony.dto.CallersBaseHeaderDto;
 import com.example.telephony.dto.dialing.table.DialingResultTableDto;
