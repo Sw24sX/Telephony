@@ -155,4 +155,10 @@ public class DialingController {
         Page<Caller> callers = dialingService.getPageCallersResult(id, page, size);
         return callers.map(caller -> dialingTableRowMapper.fromCaller(caller, dialing));
     }
+
+    @GetMapping("result/common")
+    @ApiOperation("Get common result by all dialings")
+    public Object getCommonResultsByAllDialings() {
+        return null;
+    }
 }
