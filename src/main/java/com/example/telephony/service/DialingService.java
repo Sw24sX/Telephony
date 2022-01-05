@@ -136,6 +136,10 @@ public class DialingService {
 
     public void startScheduledDialingNow(Long id) {
         Dialing dialing = getById(id);
+        if (dialing.getStatus() != DialingStatus.SCHEDULED) {
+            throw new DialingException(ExceptionMessage.DIALING_NOT_SCHEDULED_STATUS.getMessage());
+        }
+
         dialing.setStartDate(new Date());
         dialing.setStatus(DialingStatus.RUN);
         dialing = dialingRepository.save(dialing);

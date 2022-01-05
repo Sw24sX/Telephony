@@ -21,7 +21,8 @@ public enum ExceptionMessage {
     CAN_NOT_CREATE_DONE_DIALING("Нельзя создать выполненный обзвон"),
     DIALING_DATE_NOT_VALID("Дата обзвона не указана или указана неверно"),
     DIALING_ALREADY_ADDED_TO_DIALING_MANAGER("Обзваниевание уже добавлено в менеджер обзвонов"),
-    DIALING_NOT_ADDED_TO_DIALING_MANAGER("Обзвон не добавлен в менеджер обзвонов");
+    DIALING_NOT_ADDED_TO_DIALING_MANAGER("Обзвон не добавлен в менеджер обзвонов"),
+    DIALING_NOT_SCHEDULED_STATUS("Обзвон не является отложенным, его нельзя запустить");
 
     private final String message;
 
