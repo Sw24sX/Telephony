@@ -1,4 +1,4 @@
-package com.example.telephony.dto.dialing.pie.chart;
+package com.example.telephony.dto.dialing.charts.pie;
 
 import lombok.Data;
 

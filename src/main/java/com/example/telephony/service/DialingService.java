@@ -1,6 +1,7 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.dialing.Dialing;
+import com.example.telephony.domain.dialing.DialingCallerResult;
 import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
@@ -144,5 +145,9 @@ public class DialingService {
 
     public Integer getCountDialsByStatus(Dialing dialing, DialCallerStatus status) {
         return dialingCallerResultRepository.getCountDialingCallersByStatus(dialing.getId(), status);
+    }
+
+    public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDate(Dialing dialing) {
+        return dialingCallerResultRepository.getDialingCallerResultByDialingIdAndStatusOrderByCreated(dialing.getId(), DialCallerStatus.CORRECT);
     }
 }

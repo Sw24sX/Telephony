@@ -1,8 +1,8 @@
 package com.example.telephony.mapper.dialing;
 
 import com.example.telephony.domain.dialing.Dialing;
-import com.example.telephony.dto.dialing.pie.chart.DialingResultPartPieChartDto;
-import com.example.telephony.dto.dialing.pie.chart.DialingResultPieChartDto;
+import com.example.telephony.dto.dialing.charts.pie.DialingResultPartPieChartDto;
+import com.example.telephony.dto.dialing.charts.pie.DialingResultPieChartDto;
 import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.service.DialingService;
 import org.mapstruct.Mapper;
