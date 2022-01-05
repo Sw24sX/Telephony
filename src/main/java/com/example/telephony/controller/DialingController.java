@@ -1,18 +1,18 @@
 package com.example.telephony.controller;
 
 import com.example.telephony.common.GlobalMapping;
+import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.dto.dialing.DialingDto;
 import com.example.telephony.dto.dialing.charts.succes.calls.DialingResultSuccessCallsChartDto;
 import com.example.telephony.dto.dialing.common.DialingResultDto;
 import com.example.telephony.dto.dialing.DialingStatusDto;
 import com.example.telephony.dto.dialing.charts.pie.DialingResultPieChartDto;
+import com.example.telephony.dto.dialing.table.DialingResultTableDto;
+import com.example.telephony.dto.dialing.table.DialingResultTableRowDto;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
-import com.example.telephony.mapper.dialing.DialingMapper;
-import com.example.telephony.mapper.dialing.DialingPieChartMapper;
-import com.example.telephony.mapper.dialing.DialingResultMapper;
-import com.example.telephony.mapper.dialing.DialingSuccessCallsMapper;
+import com.example.telephony.mapper.dialing.*;
 import com.example.telephony.service.DialingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,15 +34,20 @@ public class DialingController {
     private final DialingResultMapper dialingResultMapper;
     private final DialingPieChartMapper dialingPieChartMapper;
     private final DialingSuccessCallsMapper dialingSuccessCallsMapper;
+    private final DialingTableHeaderMapper dialingTableHeaderMapper;
+    private final DialingTableRowMapper dialingTableRowMapper;
 
     public DialingController(DialingService dialingService, DialingMapper dialingMapper,
                              DialingResultMapper dialingResultMapper, DialingPieChartMapper dialingPieChartMapper,
-                             DialingSuccessCallsMapper dialingSuccessCallsMapper) {
+                             DialingSuccessCallsMapper dialingSuccessCallsMapper, DialingTableHeaderMapper dialingTableHeaderMapper,
+                             DialingTableRowMapper dialingTableRowMapper) {
         this.dialingService = dialingService;
         this.dialingMapper = dialingMapper;
         this.dialingResultMapper = dialingResultMapper;
         this.dialingPieChartMapper = dialingPieChartMapper;
         this.dialingSuccessCallsMapper = dialingSuccessCallsMapper;
+        this.dialingTableHeaderMapper = dialingTableHeaderMapper;
+        this.dialingTableRowMapper = dialingTableRowMapper;
     }
 
     @GetMapping("statuses")
@@ -132,5 +137,22 @@ public class DialingController {
                                                                         @RequestParam(value = "countSteps", required = false, defaultValue = "4") Integer count) {
         Dialing dialing = dialingService.getById(id);
         return dialingSuccessCallsMapper.fromDialing(dialing, count);
+    }
+
+    @GetMapping("{id}/result/table/header")
+    @ApiOperation("Get headers for result table")
+    public DialingResultTableDto getHeadersResultTable(@PathVariable("id") long id) {
+        Dialing dialing = dialingService.getById(id);
+        return dialingTableHeaderMapper.fromDialing(dialing);
+    }
+
+    @GetMapping("{id}/result/table/data")
+    @ApiOperation("Get page data table result")
+    public Page<DialingResultTableRowDto> getPageRowsTableResult(@PathVariable("id") long id,
+                                                                 @ApiParam("Number page") @RequestParam("page") int page,
+                                                                 @ApiParam("Page size") @RequestParam("size") int size) {
+        Dialing dialing = dialingService.getById(id);
+        Page<Caller> callers = dialingService.getPageCallersResult(id, page, size);
+        return callers.map(caller -> dialingTableRowMapper.fromCaller(caller, dialing));
     }
 }

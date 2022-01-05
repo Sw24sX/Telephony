@@ -1,12 +1,12 @@
 package com.example.telephony.dto.dialing.table;
 
-import com.example.telephony.dto.CallersBaseHeaderDto;
+import com.example.telephony.dto.CallersBaseColumnDto;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 public class DialingResultTableDto {
-    private CallersBaseHeaderDto callersBase;
-    List<DialingResultTableDto> rows;
+    private List<CallersBaseColumnDto> original;
+    private List<CallersBaseColumnDto> extra;
 }
