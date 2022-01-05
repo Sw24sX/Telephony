@@ -24,17 +24,22 @@ public abstract class DialingPieChartMapper {
         int countSuccess = 0;
         List<DialingResultPartPieChartDto> parts = new ArrayList<>();
         for (DialCallerStatus status : DialCallerStatus.values()) {
+            if (status == DialCallerStatus.IN_PROGRESS) {
+                continue;
+            }
+
             int percentCount = dialingService.getCountDialsByStatus(dialing, status);
             countInProgress -= percentCount;
 
             int percent = calculatePercent(percentCount, count);
-            parts.add(new DialingResultPartPieChartDto(status.getMessage(), percent));
+            parts.add(new DialingResultPartPieChartDto(status.getMessage(), percent, status.name()));
 
             if (status == DialCallerStatus.CORRECT) {
                 countSuccess = percentCount;
             }
         }
-        parts.add(new DialingResultPartPieChartDto(IN_PROGRESS, calculatePercent(countInProgress, count)));
+        parts.add(new DialingResultPartPieChartDto(DialCallerStatus.IN_PROGRESS.getMessage(),
+                calculatePercent(countInProgress, count), DialCallerStatus.IN_PROGRESS.name()));
 
         DialingResultPieChartDto result = new DialingResultPieChartDto();
         result.setParts(parts);
