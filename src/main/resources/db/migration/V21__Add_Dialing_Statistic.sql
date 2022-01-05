@@ -1,4 +1,4 @@
-create table "dialing_statistic" (
+create table if not exists  "dialing_statistic" (
     "id" int8 not null primary key,
     "creation_date" timestamp not null default now(),
     "dialing_id" int8 not null references "dialing" ("id") unique,
@@ -7,4 +7,4 @@ create table "dialing_statistic" (
 );
 
 alter table "dialing_caller_result"
-    add column "status_code" int2 not null;
+    add column if not exists "status_code" int2 not null default 1;
