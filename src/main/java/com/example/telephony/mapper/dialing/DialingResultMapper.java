@@ -45,7 +45,7 @@ public abstract class DialingResultMapper {
 
         if (dialing.getStatistic() != null) {
             dto.setStartDialing(dialing.getStatistic().getStartDate());
-            dto.setStartDialing(dialing.getStatistic().getEndDate());
+            dto.setEndDialing(dialing.getStatistic().getEndDate());
         } else {
             dto.setStartDialing(dialing.getStartDate());
         }
