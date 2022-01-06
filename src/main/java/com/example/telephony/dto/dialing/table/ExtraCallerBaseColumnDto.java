@@ -1,12 +1,14 @@
-package com.example.telephony.dto;
+package com.example.telephony.dto.dialing.table;
 
 import com.example.telephony.enums.VariablesType;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
+import java.util.Date;
+
 @Data
-public class CallersBaseColumnDto extends BaseDto {
+public class ExtraCallerBaseColumnDto {
+    private String id;
+    private Date created;
     private String nameInTable;
     private String currentName;
     private VariablesType type;

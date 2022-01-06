@@ -14,6 +14,7 @@ import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.mapper.dialing.*;
 import com.example.telephony.service.DialingService;
+import com.example.telephony.service.StatisticService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -32,22 +33,19 @@ public class DialingController {
     private final DialingService dialingService;
     private final DialingMapper dialingMapper;
     private final DialingResultMapper dialingResultMapper;
-    private final DialingPieChartMapper dialingPieChartMapper;
-    private final DialingSuccessCallsMapper dialingSuccessCallsMapper;
     private final DialingTableHeaderMapper dialingTableHeaderMapper;
     private final DialingTableRowMapper dialingTableRowMapper;
+    private final StatisticService statisticService;
 
     public DialingController(DialingService dialingService, DialingMapper dialingMapper,
-                             DialingResultMapper dialingResultMapper, DialingPieChartMapper dialingPieChartMapper,
-                             DialingSuccessCallsMapper dialingSuccessCallsMapper, DialingTableHeaderMapper dialingTableHeaderMapper,
-                             DialingTableRowMapper dialingTableRowMapper) {
+                             DialingResultMapper dialingResultMapper, DialingTableHeaderMapper dialingTableHeaderMapper,
+                             DialingTableRowMapper dialingTableRowMapper, StatisticService statisticService) {
         this.dialingService = dialingService;
         this.dialingMapper = dialingMapper;
         this.dialingResultMapper = dialingResultMapper;
-        this.dialingPieChartMapper = dialingPieChartMapper;
-        this.dialingSuccessCallsMapper = dialingSuccessCallsMapper;
         this.dialingTableHeaderMapper = dialingTableHeaderMapper;
         this.dialingTableRowMapper = dialingTableRowMapper;
+        this.statisticService = statisticService;
     }
 
     @GetMapping("statuses")
@@ -128,15 +126,13 @@ public class DialingController {
     @ApiOperation("Get result statistic for pie chart")
     public DialingResultPieChartDto getPieChar(@PathVariable("id") Long id) {
         Dialing dialing = dialingService.getById(id);
-        return dialingPieChartMapper.fromDialing(dialing);
+        return statisticService.createPieChartByDialing(dialing);
     }
 
     @GetMapping("{id}/result/success-calls-chart")
     @ApiOperation("Get result for chart success calls")
-    public List<DialingResultSuccessCallsChartDto> getSuccessCallsChart(@PathVariable("id") Long id,
-                                                                        @RequestParam(value = "countSteps", required = false, defaultValue = "4") Integer count) {
-        Dialing dialing = dialingService.getById(id);
-        return dialingSuccessCallsMapper.fromDialing(dialing, count);
+    public List<DialingResultSuccessCallsChartDto> getSuccessCallsChart(@PathVariable("id") Long id) {
+        return statisticService.createSuccessChartByDialing(id);
     }
 
     @GetMapping("{id}/result/table/header")
@@ -154,5 +150,11 @@ public class DialingController {
         Dialing dialing = dialingService.getById(id);
         Page<Caller> callers = dialingService.getPageCallersResult(id, page, size);
         return callers.map(caller -> dialingTableRowMapper.fromCaller(caller, dialing));
+    }
+
+    @GetMapping("result/common")
+    @ApiOperation("Get common result by all dialings")
+    public Object getCommonResultsByAllDialings() {
+        return null;
     }
 }

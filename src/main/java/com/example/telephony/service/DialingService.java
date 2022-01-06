@@ -1,18 +1,22 @@
 package com.example.telephony.service;
 
+import com.example.telephony.common.SuccessChartSteps;
 import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.domain.dialing.DialingCallerResult;
+import com.example.telephony.dto.dialing.charts.succes.calls.DialingResultSuccessCallsChartDto;
 import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.DialingException;
 import com.example.telephony.exception.EntityNotFoundException;
+import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.repository.DialingCallerResultRepository;
 import com.example.telephony.repository.DialingRepository;
 import com.example.telephony.service.scenario.dialing.DialingManager;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -156,8 +161,12 @@ public class DialingService {
         return dialingCallerResultRepository.getCountDialingCallersByStatus(dialing.getId(), status);
     }
 
-    public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDate(Dialing dialing) {
-        return dialingCallerResultRepository.getDialingCallerResultByDialingIdAndStatusOrderByCreated(dialing.getId(), DialCallerStatus.CORRECT);
+    public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDateByDialing(Dialing dialing) {
+        return dialingCallerResultRepository.getDialingResultsByDialingOrderByMillsOfDay(dialing.getId());
+    }
+
+    public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDate() {
+        return dialingCallerResultRepository.getDialingResultsOrderByMillsOfDay();
     }
 
     public Optional<DialingCallerResult> getDialResultByDialingAndCaller(Dialing dialing, Caller caller) {
@@ -168,4 +177,6 @@ public class DialingService {
         Pageable pageable = PageRequest.of(page, size);
         return callerRepository.getCallersByDialingId(dialingId, pageable);
     }
+
+
 }

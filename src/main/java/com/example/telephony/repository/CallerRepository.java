@@ -19,7 +19,7 @@ public interface CallerRepository extends JpaRepository<Caller, Long> {
     @Query("select c.value from CallerVariable c where c.caller.id = ?1 and c.isPhoneColumn = true")
     String getCallerNumber(Long caller_id);
 
-    @Query("select d.caller from DialingCallerResult d where d.dialing.id = ?1")
+    @Query("select d.caller from DialingCallerResult d where d.dialing.id = ?1 order by d.caller.number")
     Page<Caller> getCallersByDialingId(Long dialingId, Pageable pageable);
 
 }

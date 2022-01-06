@@ -1,5 +1,6 @@
-package com.example.telephony.dto;
+package com.example.telephony.dto.caller.base;
 
+import com.example.telephony.dto.BaseDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
