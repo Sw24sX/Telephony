@@ -21,5 +21,31 @@ public interface DialingCallerResultRepository extends JpaRepository<DialingCall
     @Query("select d from DialingCallerResult d where d.dialing.id = ?1 and d.caller.id = ?2")
     Optional<DialingCallerResult> getDialingCallerResultByDialingIdAndCallerId(Long dialingId, Long callerId);
 
-
+    @Query(value = "select \n" +
+            "\t ds.id, \n" +
+            "\t ds.creation_date, \n" +
+            "\tds.caller_id,\n" +
+            "\tds.is_hold_on,\n" +
+            "\tds.answers,\n" +
+            "\tds.dialing_id,\n" +
+            "\tds.message_hold_on,\n" +
+            "\tds.status_code\n" +
+            "from (\n" +
+                    "\t select \n" +
+                    "\t\t id,\n" +
+                    "\t\t creation_date,\n" +
+                    "\t\t caller_id,\n" +
+                    "\t\t is_hold_on,\n" +
+                    "\t\t answers,\n" +
+                    "\t\t dialing_id,\n" +
+                    "\t\t message_hold_on,\n" +
+                    "\t\t status_code,\n" +
+                    "\t\t extract(hour from dcr.creation_date) * 60 * 60 * 1000 + \n" +
+                    "\t\t extract(MINUTE  from dcr.creation_date) * 60 * 1000 +\n" +
+                    "\t\t extract(MILLISECONDS from dcr.creation_date) as millsSum\n" +
+                "\t from dialing_caller_result dcr\n" +
+                "\t where (?1 is null) or (dialing_id = ?1) \n" +
+                "\t order by millsSum\n" +
+            ") as ds;", nativeQuery = true)
+    List<DialingCallerResult> getDialingResultsOrder(Long dialingId);
 }

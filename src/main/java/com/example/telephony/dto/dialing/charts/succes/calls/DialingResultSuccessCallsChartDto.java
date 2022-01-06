@@ -10,4 +10,5 @@ import java.util.Date;
 public class DialingResultSuccessCallsChartDto {
     private Integer successCalls;
     private Date date;
+    private String time;
 }

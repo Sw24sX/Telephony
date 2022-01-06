@@ -33,19 +33,16 @@ public class DialingController {
     private final DialingMapper dialingMapper;
     private final DialingResultMapper dialingResultMapper;
     private final DialingPieChartMapper dialingPieChartMapper;
-    private final DialingSuccessCallsMapper dialingSuccessCallsMapper;
     private final DialingTableHeaderMapper dialingTableHeaderMapper;
     private final DialingTableRowMapper dialingTableRowMapper;
 
     public DialingController(DialingService dialingService, DialingMapper dialingMapper,
                              DialingResultMapper dialingResultMapper, DialingPieChartMapper dialingPieChartMapper,
-                             DialingSuccessCallsMapper dialingSuccessCallsMapper, DialingTableHeaderMapper dialingTableHeaderMapper,
-                             DialingTableRowMapper dialingTableRowMapper) {
+                             DialingTableHeaderMapper dialingTableHeaderMapper, DialingTableRowMapper dialingTableRowMapper) {
         this.dialingService = dialingService;
         this.dialingMapper = dialingMapper;
         this.dialingResultMapper = dialingResultMapper;
         this.dialingPieChartMapper = dialingPieChartMapper;
-        this.dialingSuccessCallsMapper = dialingSuccessCallsMapper;
         this.dialingTableHeaderMapper = dialingTableHeaderMapper;
         this.dialingTableRowMapper = dialingTableRowMapper;
     }
@@ -133,10 +130,8 @@ public class DialingController {
 
     @GetMapping("{id}/result/success-calls-chart")
     @ApiOperation("Get result for chart success calls")
-    public List<DialingResultSuccessCallsChartDto> getSuccessCallsChart(@PathVariable("id") Long id,
-                                                                        @RequestParam(value = "countSteps", required = false, defaultValue = "4") Integer count) {
-        Dialing dialing = dialingService.getById(id);
-        return dialingSuccessCallsMapper.fromDialing(dialing, count);
+    public List<DialingResultSuccessCallsChartDto> getSuccessCallsChart(@PathVariable("id") Long id) {
+        return dialingService.createSuccessChart(id);
     }
 
     @GetMapping("{id}/result/table/header")

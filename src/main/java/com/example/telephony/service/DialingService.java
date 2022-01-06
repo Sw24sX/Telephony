@@ -1,18 +1,22 @@
 package com.example.telephony.service;
 
+import com.example.telephony.common.SuccessChartSteps;
 import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.domain.dialing.DialingCallerResult;
+import com.example.telephony.dto.dialing.charts.succes.calls.DialingResultSuccessCallsChartDto;
 import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.DialingException;
 import com.example.telephony.exception.EntityNotFoundException;
+import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerRepository;
 import com.example.telephony.repository.DialingCallerResultRepository;
 import com.example.telephony.repository.DialingRepository;
 import com.example.telephony.service.scenario.dialing.DialingManager;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -157,7 +162,8 @@ public class DialingService {
     }
 
     public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDate(Dialing dialing) {
-        return dialingCallerResultRepository.getDialingCallerResultByDialingIdAndStatusOrderByCreated(dialing.getId(), DialCallerStatus.CORRECT);
+//        return dialingCallerResultRepository.getDialingCallerResultByDialingIdAndStatusOrderByCreated(dialing.getId(), DialCallerStatus.CORRECT);
+        return dialingCallerResultRepository.getDialingResultsOrder(dialing.getId());
     }
 
     public Optional<DialingCallerResult> getDialResultByDialingAndCaller(Dialing dialing, Caller caller) {
@@ -167,5 +173,69 @@ public class DialingService {
     public Page<Caller> getPageCallersResult(Long dialingId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return callerRepository.getCallersByDialingId(dialingId, pageable);
+    }
+
+    public List<DialingResultSuccessCallsChartDto> createSuccessChart(Long id) {
+        Dialing dialing = getById(id);
+        List<DialingCallerResult> results = getSuccessCallersResultOrderByCreatedDate(dialing);
+        if (CollectionUtils.isEmpty(results)) {
+            return new ArrayList<>();
+        }
+
+        long startDate = results.get(0).getCreated().getTime();
+        long endDate = results.get(results.size() - 1).getCreated().getTime();
+        long deltaTime = endDate - startDate;
+        long step = SuccessChartSteps.getStep(deltaTime);
+        return calculateChart(results, createSteps(step, startDate));
+    }
+
+    private List<DialingResultSuccessCallsChartDto> createSteps(long step, long startDate) {
+        List<DialingResultSuccessCallsChartDto> result = new ArrayList<>();
+        for (int i = 0; i < SuccessChartSteps.getStepCount(step); i++) {
+            Date date = new Date(startDate + step * i);
+            result.add(new DialingResultSuccessCallsChartDto(0, date, getTime(date)));
+        }
+        return result;
+    }
+
+    private String getTime(Date date) {
+        //todo not correct
+        String timePattern = "%s:%s";
+        String minutes = String.valueOf(date.getMinutes());
+        return String.format(timePattern, date.getHours(), minutes.length() > 1 ? minutes : '0' + minutes);
+    }
+
+    private List<DialingResultSuccessCallsChartDto> calculateChart(List<DialingCallerResult> callerResults, List<DialingResultSuccessCallsChartDto> steps) {
+        if (CollectionUtils.isEmpty(steps) || CollectionUtils.isEmpty(callerResults)) {
+            return steps;
+        }
+
+        int currentStepDateIndex = 0;
+        int currentResultIndex = 0;
+        while(currentResultIndex < callerResults.size()) {
+            DialingResultSuccessCallsChartDto currentStep = steps.get(currentStepDateIndex);
+            long currentMills = getMillsFromStartDay(callerResults.get(currentResultIndex).getCreated());
+            long stepMills = getMillsFromStartDay(currentStep.getDate());
+            if (currentMills > stepMills) {
+                if (currentStepDateIndex + 1 >= steps.size()) {
+                    //todo correct message
+                    throw new TelephonyException("Incorrect steps for chart");
+                }
+
+                currentStepDateIndex += 1;
+                continue;
+            }
+
+            currentStep.setSuccessCalls(currentStep.getSuccessCalls() + 1);
+            currentResultIndex++;
+        }
+
+        return steps;
+    }
+
+    private long getMillsFromStartDay(Date date) {
+        return date.getHours() * 60 * 60 * 1000 +
+                date.getMinutes() * 60 * 1000 +
+                date.getSeconds() * 1000;
     }
 }
