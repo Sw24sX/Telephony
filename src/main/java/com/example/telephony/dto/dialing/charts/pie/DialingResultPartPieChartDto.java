@@ -8,4 +8,5 @@ import lombok.Data;
 public class DialingResultPartPieChartDto {
     private String name;
     private Integer value;
+    private String key;
 }
