@@ -35,7 +35,7 @@ public class ScenarioManager {
         }
         scenariosByChannelId.remove(channelId);
         generationSoundsService.deleteAll(currentState.getSounds().values());
-        dialingCallerResultService.create(currentState.getCaller(), currentState.getDialing(), currentState.getAnswers());
+        dialingCallerResultService.create(currentState.getCaller(), currentState.getDialing(), currentState.getAnswers(), currentState.getStartCall());
         dialingManager.endDialCaller(currentState.getDialing());
     }
 

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -74,6 +75,7 @@ public class ScenarioManagerService {
                 .isFinished(false)
                 .isStart(true)
                 .sounds(sounds)
+                .startCall(new Date())
                 .build();
 
         scenarioManager.addCallScenario(channelId, stateScenarioStep);
