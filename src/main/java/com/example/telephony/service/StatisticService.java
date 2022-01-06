@@ -138,9 +138,7 @@ public class StatisticService {
     }
 
     private CustomTime getAverageDialingDuration() {
-//        Double date = dialingStatisticRepository.getAverageDialingDuration();
         return CustomTime.fromMilliseconds(dialingStatisticRepository.getAverageDialingDuration());
-//        return null;
     }
 
     private Integer countDialings() {
