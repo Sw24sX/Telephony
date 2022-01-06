@@ -130,22 +130,11 @@ public class StatisticService {
 
     public CommonStatisticDto createCommonStatistic() {
         CommonStatisticDto result = new CommonStatisticDto();
-        result.setAverageDialingsDuration(getAverageDialingDuration());
-        result.setTotalDialings(countDialings());
-        result.setAverageNumberOfCallsPerDialing(getAverageCallersPerDialing());
-        //todo set avearge duration call
+        result.setAverageDialingsDuration(CustomTime.fromMilliseconds(dialingStatisticRepository.getAverageDialingDuration()));
+        result.setTotalDialings(dialingStatisticRepository.getCountDialingsRun());
+        result.setAverageNumberOfCallsPerDialing(dialingCallerResultRepository.getAverageCountCallers());
+        Double suc = dialingCallerResultRepository.getAverageCallDuration();
+        result.setAverageCallDuration(CustomTime.fromMilliseconds(suc));
         return  result;
-    }
-
-    private CustomTime getAverageDialingDuration() {
-        return CustomTime.fromMilliseconds(dialingStatisticRepository.getAverageDialingDuration());
-    }
-
-    private Integer countDialings() {
-        return dialingStatisticRepository.getCountDialingsRun();
-    }
-
-    private Integer getAverageCallersPerDialing() {
-        return dialingCallerResultRepository.getAverageCountCallers();
     }
 }

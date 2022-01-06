@@ -82,4 +82,10 @@ public interface DialingCallerResultRepository extends JpaRepository<DialingCall
             "group by dialing_id \n" +
             ") as cl;", nativeQuery = true)
     Integer getAverageCountCallers();
+
+    @Query(value = "select \n" +
+                "cast ( extract(EPOCH FROM (sum(end_date - start_call) / count(*))) * 1000 as text)\n" +
+            "from dialing_caller_result dcr\n" +
+            "where is_hold_on = false;", nativeQuery = true)
+    Double getAverageCallDuration();
 }
