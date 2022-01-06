@@ -11,6 +11,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,6 +41,12 @@ public class DialingCallerResult extends BaseEntity {
     @Column(name = "status_code")
     @Convert(converter = DialCallerStatusConverter.class)
     private DialCallerStatus status;
+
+    @Column(name = "start_call")
+    private Date startCall;
+
+    @Column(name = "end_date")
+    private Date endCall;
 
     @Override
     public boolean equals(Object o) {
