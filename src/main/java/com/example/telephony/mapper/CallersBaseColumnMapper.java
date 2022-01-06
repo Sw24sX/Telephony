@@ -1,7 +1,7 @@
 package com.example.telephony.mapper;
 
 import com.example.telephony.domain.VariablesTypeName;
-import com.example.telephony.dto.CallersBaseColumnDto;
+import com.example.telephony.dto.caller.base.CallersBaseColumnDto;
 import com.example.telephony.repository.VariablesTypeNameRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

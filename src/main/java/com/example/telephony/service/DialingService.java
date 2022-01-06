@@ -161,9 +161,12 @@ public class DialingService {
         return dialingCallerResultRepository.getCountDialingCallersByStatus(dialing.getId(), status);
     }
 
-    public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDate(Dialing dialing) {
-//        return dialingCallerResultRepository.getDialingCallerResultByDialingIdAndStatusOrderByCreated(dialing.getId(), DialCallerStatus.CORRECT);
-        return dialingCallerResultRepository.getDialingResultsOrder(dialing.getId());
+    public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDateByDialing(Dialing dialing) {
+        return dialingCallerResultRepository.getDialingResultsByDialingOrderByMillsOfDay(dialing.getId());
+    }
+
+    public List<DialingCallerResult> getAllSuccessCallersResultOrderByCreatedDate() {
+        return dialingCallerResultRepository.getDialingResultsOrderByMillsOfDay();
     }
 
     public Optional<DialingCallerResult> getDialResultByDialingAndCaller(Dialing dialing, Caller caller) {
@@ -175,67 +178,5 @@ public class DialingService {
         return callerRepository.getCallersByDialingId(dialingId, pageable);
     }
 
-    public List<DialingResultSuccessCallsChartDto> createSuccessChart(Long id) {
-        Dialing dialing = getById(id);
-        List<DialingCallerResult> results = getSuccessCallersResultOrderByCreatedDate(dialing);
-        if (CollectionUtils.isEmpty(results)) {
-            return new ArrayList<>();
-        }
 
-        long startDate = results.get(0).getCreated().getTime();
-        long endDate = results.get(results.size() - 1).getCreated().getTime();
-        long deltaTime = endDate - startDate;
-        long step = SuccessChartSteps.getStep(deltaTime);
-        return calculateChart(results, createSteps(step, startDate));
-    }
-
-    private List<DialingResultSuccessCallsChartDto> createSteps(long step, long startDate) {
-        List<DialingResultSuccessCallsChartDto> result = new ArrayList<>();
-        for (int i = 0; i < SuccessChartSteps.getStepCount(step); i++) {
-            Date date = new Date(startDate + step * i);
-            result.add(new DialingResultSuccessCallsChartDto(0, date, getTime(date)));
-        }
-        return result;
-    }
-
-    private String getTime(Date date) {
-        //todo not correct
-        String timePattern = "%s:%s";
-        String minutes = String.valueOf(date.getMinutes());
-        return String.format(timePattern, date.getHours(), minutes.length() > 1 ? minutes : '0' + minutes);
-    }
-
-    private List<DialingResultSuccessCallsChartDto> calculateChart(List<DialingCallerResult> callerResults, List<DialingResultSuccessCallsChartDto> steps) {
-        if (CollectionUtils.isEmpty(steps) || CollectionUtils.isEmpty(callerResults)) {
-            return steps;
-        }
-
-        int currentStepDateIndex = 0;
-        int currentResultIndex = 0;
-        while(currentResultIndex < callerResults.size()) {
-            DialingResultSuccessCallsChartDto currentStep = steps.get(currentStepDateIndex);
-            long currentMills = getMillsFromStartDay(callerResults.get(currentResultIndex).getCreated());
-            long stepMills = getMillsFromStartDay(currentStep.getDate());
-            if (currentMills > stepMills) {
-                if (currentStepDateIndex + 1 >= steps.size()) {
-                    //todo correct message
-                    throw new TelephonyException("Incorrect steps for chart");
-                }
-
-                currentStepDateIndex += 1;
-                continue;
-            }
-
-            currentStep.setSuccessCalls(currentStep.getSuccessCalls() + 1);
-            currentResultIndex++;
-        }
-
-        return steps;
-    }
-
-    private long getMillsFromStartDay(Date date) {
-        return date.getHours() * 60 * 60 * 1000 +
-                date.getMinutes() * 60 * 1000 +
-                date.getSeconds() * 1000;
-    }
 }

@@ -1,6 +1,6 @@
 package com.example.telephony.dto.dialing.table;
 
-import com.example.telephony.dto.CallersBaseColumnDto;
+import com.example.telephony.dto.caller.base.CallersBaseColumnDto;
 import lombok.Data;
 
 import java.util.List;

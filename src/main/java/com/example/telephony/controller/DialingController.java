@@ -14,6 +14,7 @@ import com.example.telephony.enums.DialingStatus;
 import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.mapper.dialing.*;
 import com.example.telephony.service.DialingService;
+import com.example.telephony.service.StatisticService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -32,19 +33,19 @@ public class DialingController {
     private final DialingService dialingService;
     private final DialingMapper dialingMapper;
     private final DialingResultMapper dialingResultMapper;
-    private final DialingPieChartMapper dialingPieChartMapper;
     private final DialingTableHeaderMapper dialingTableHeaderMapper;
     private final DialingTableRowMapper dialingTableRowMapper;
+    private final StatisticService statisticService;
 
     public DialingController(DialingService dialingService, DialingMapper dialingMapper,
-                             DialingResultMapper dialingResultMapper, DialingPieChartMapper dialingPieChartMapper,
-                             DialingTableHeaderMapper dialingTableHeaderMapper, DialingTableRowMapper dialingTableRowMapper) {
+                             DialingResultMapper dialingResultMapper, DialingTableHeaderMapper dialingTableHeaderMapper,
+                             DialingTableRowMapper dialingTableRowMapper, StatisticService statisticService) {
         this.dialingService = dialingService;
         this.dialingMapper = dialingMapper;
         this.dialingResultMapper = dialingResultMapper;
-        this.dialingPieChartMapper = dialingPieChartMapper;
         this.dialingTableHeaderMapper = dialingTableHeaderMapper;
         this.dialingTableRowMapper = dialingTableRowMapper;
+        this.statisticService = statisticService;
     }
 
     @GetMapping("statuses")
@@ -125,13 +126,13 @@ public class DialingController {
     @ApiOperation("Get result statistic for pie chart")
     public DialingResultPieChartDto getPieChar(@PathVariable("id") Long id) {
         Dialing dialing = dialingService.getById(id);
-        return dialingPieChartMapper.fromDialing(dialing);
+        return statisticService.createPieChartByDialing(dialing);
     }
 
     @GetMapping("{id}/result/success-calls-chart")
     @ApiOperation("Get result for chart success calls")
     public List<DialingResultSuccessCallsChartDto> getSuccessCallsChart(@PathVariable("id") Long id) {
-        return dialingService.createSuccessChart(id);
+        return statisticService.createSuccessChart(id);
     }
 
     @GetMapping("{id}/result/table/header")

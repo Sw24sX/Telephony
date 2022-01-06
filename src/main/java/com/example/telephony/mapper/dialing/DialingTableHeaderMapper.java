@@ -2,8 +2,7 @@ package com.example.telephony.mapper.dialing;
 
 import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.domain.dialing.Dialing;
-import com.example.telephony.dto.CallersBaseColumnDto;
-import com.example.telephony.dto.CallersBaseHeaderDto;
+import com.example.telephony.dto.caller.base.CallersBaseHeaderDto;
 import com.example.telephony.dto.dialing.table.DialingResultTableDto;
 import com.example.telephony.dto.dialing.table.ExtraCallerBaseColumnDto;
 import com.example.telephony.enums.VariablesType;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring")
