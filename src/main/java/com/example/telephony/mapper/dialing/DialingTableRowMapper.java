@@ -6,6 +6,7 @@ import com.example.telephony.domain.dialing.DialingCallerResult;
 import com.example.telephony.dto.CallerDto;
 import com.example.telephony.dto.CallerVariablesDto;
 import com.example.telephony.dto.dialing.table.DialingResultTableRowDto;
+import com.example.telephony.dto.dialing.table.ExtraCallerVariablesDto;
 import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.mapper.CallerMapper;
 import com.example.telephony.service.DialingService;
@@ -14,7 +15,9 @@ import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public abstract class DialingTableRowMapper {
@@ -38,20 +41,26 @@ public abstract class DialingTableRowMapper {
         return result;
     }
 
-    private List<CallerVariablesDto> createExtraVariables(DialingCallerResult dialingCallerResult) {
-        CallerVariablesDto status = new CallerVariablesDto();
-        CallerVariablesDto answers = new CallerVariablesDto();
+    private List<ExtraCallerVariablesDto> createExtraVariables(DialingCallerResult dialingCallerResult) {
+        ExtraCallerVariablesDto status = createExtraValue();
+        ExtraCallerVariablesDto answers = createExtraValue();
 
         if (dialingCallerResult == null) {
             status.setValue(DialCallerStatus.IN_PROGRESS.getMessage());
         } else {
             status.setValue(dialingCallerResult.getStatus().getMessage());
-            status.setValid(true);
-
             answers.setValue(StringUtils.join(dialingCallerResult.getAnswers(), ";"));
-            answers.setValid(true);
         }
 
         return Arrays.asList(status, answers);
+    }
+
+    private ExtraCallerVariablesDto createExtraValue() {
+        ExtraCallerVariablesDto result = new ExtraCallerVariablesDto();
+        result.setId(UUID.randomUUID().toString());
+        result.setCreated(new Date());
+        result.setValid(true);
+        result.setPhoneColumn(false);
+        return result;
     }
 }

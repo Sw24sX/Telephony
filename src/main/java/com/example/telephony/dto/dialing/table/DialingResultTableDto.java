@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 public class DialingResultTableDto {
     private List<CallersBaseColumnDto> original;
-    private List<CallersBaseColumnDto> extra;
+    private List<ExtraCallerBaseColumnDto> extra;
 }

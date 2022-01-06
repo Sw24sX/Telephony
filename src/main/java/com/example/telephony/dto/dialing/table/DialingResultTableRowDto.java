@@ -9,5 +9,5 @@ import java.util.List;
 public class DialingResultTableRowDto {
     private Integer number;
     private List<CallerVariablesDto> original;
-    private List<CallerVariablesDto> extra;
+    private List<ExtraCallerVariablesDto> extra;
 }
