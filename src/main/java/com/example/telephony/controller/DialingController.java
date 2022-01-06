@@ -132,7 +132,7 @@ public class DialingController {
     @GetMapping("{id}/result/success-calls-chart")
     @ApiOperation("Get result for chart success calls")
     public List<DialingResultSuccessCallsChartDto> getSuccessCallsChart(@PathVariable("id") Long id) {
-        return statisticService.createSuccessChart(id);
+        return statisticService.createSuccessChartByDialing(id);
     }
 
     @GetMapping("{id}/result/table/header")

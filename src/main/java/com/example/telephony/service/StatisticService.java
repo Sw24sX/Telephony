@@ -16,6 +16,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -34,18 +35,25 @@ public class StatisticService {
         this.dialingCallerResultRepository = dialingCallerResultRepository;
     }
 
-    public List<DialingResultSuccessCallsChartDto> createSuccessChart(Long id) {
-        Dialing dialing = dialingService.getById(id);
-        List<DialingCallerResult> results = dialingService.getSuccessCallersResultOrderByCreatedDateByDialing(dialing);
+    public List<DialingResultSuccessCallsChartDto> createSuccessChartByDialing(Long dialingId) {
+        Dialing dialing = dialingService.getById(dialingId);
+        return createSuccessChart(dialingService.getSuccessCallersResultOrderByCreatedDateByDialing(dialing));
+    }
+
+    public List<DialingResultSuccessCallsChartDto> createSuccessChartByAll() {
+        return createSuccessChart(dialingService.getSuccessCallersResultOrderByCreatedDate());
+    }
+
+    private List<DialingResultSuccessCallsChartDto> createSuccessChart(List<DialingCallerResult> results) {
         if (CollectionUtils.isEmpty(results)) {
             return new ArrayList<>();
         }
 
-        long startDate = results.get(0).getCreated().getTime();
-        long endDate = results.get(results.size() - 1).getCreated().getTime();
+        long startDate = getMillsFromStartDay(results.get(0).getCreated());
+        long endDate = getMillsFromStartDay(results.get(results.size() - 1).getCreated());
         long deltaTime = endDate - startDate;
         long step = SuccessChartSteps.getStep(deltaTime);
-        return calculateChart(results, createSteps(step, startDate));
+        return calculateChart(results, createSteps(step, results.get(0).getCreated().getTime()));
     }
 
     private List<DialingResultSuccessCallsChartDto> createSteps(long step, long startDate) {
@@ -54,6 +62,7 @@ public class StatisticService {
             Date date = new Date(startDate + step * i);
             result.add(new DialingResultSuccessCallsChartDto(0, date, getTime(date)));
         }
+        result.sort(Comparator.comparingLong(a -> getMillsFromStartDay(a.getDate())));
         return result;
     }
 

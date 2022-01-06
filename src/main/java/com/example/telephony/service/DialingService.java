@@ -165,7 +165,7 @@ public class DialingService {
         return dialingCallerResultRepository.getDialingResultsByDialingOrderByMillsOfDay(dialing.getId());
     }
 
-    public List<DialingCallerResult> getAllSuccessCallersResultOrderByCreatedDate() {
+    public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDate() {
         return dialingCallerResultRepository.getDialingResultsOrderByMillsOfDay();
     }
 

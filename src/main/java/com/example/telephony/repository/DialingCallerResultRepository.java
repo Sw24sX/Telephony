@@ -19,59 +19,70 @@ public interface DialingCallerResultRepository extends JpaRepository<DialingCall
     Optional<DialingCallerResult> getDialingCallerResultByDialingIdAndCallerId(Long dialingId, Long callerId);
 
     @Query(value = "select \n" +
-            "\t ds.id, \n" +
-            "\t ds.creation_date, \n" +
-            "\tds.caller_id,\n" +
-            "\tds.is_hold_on,\n" +
-            "\tds.answers,\n" +
-            "\tds.dialing_id,\n" +
-            "\tds.message_hold_on,\n" +
-            "\tds.status_code\n" +
-            "from (\n" +
-                    "\t select \n" +
-                    "\t\t id,\n" +
-                    "\t\t creation_date,\n" +
-                    "\t\t caller_id,\n" +
-                    "\t\t is_hold_on,\n" +
-                    "\t\t answers,\n" +
-                    "\t\t dialing_id,\n" +
-                    "\t\t message_hold_on,\n" +
-                    "\t\t status_code,\n" +
-                    "\t\t extract(hour from dcr.creation_date) * 60 * 60 * 1000 + \n" +
-                    "\t\t extract(MINUTE  from dcr.creation_date) * 60 * 1000 +\n" +
-                    "\t\t extract(MILLISECONDS from dcr.creation_date) as millsSum\n" +
-                "\t from dialing_caller_result dcr\n" +
-                "\t where (?1 is null) or (dialing_id = ?1) \n" +
-                "\t order by millsSum\n" +
+            "ds.id, \n" +
+            "ds.creation_date, \n" +
+            "ds.caller_id, \n" +
+            "ds.is_hold_on, \n" +
+            "ds.answers, \n" +
+            "ds.dialing_id, \n" +
+            "ds.message_hold_on, \n" +
+            "ds.end_date, \n" +
+            "ds.start_call, \n" +
+            "ds.status_code \n" +
+            "from ( \n" +
+                "select \n" +
+                    "id, \n" +
+                    "creation_date, \n" +
+                    "caller_id, \n" +
+                    "is_hold_on, \n" +
+                    "answers, \n" +
+                    "dialing_id, \n" +
+                    "message_hold_on, \n" +
+                    "status_code, \n" +
+                    "start_call, \n" +
+                    "end_date, \n" +
+                    "extract(hour from dcr.creation_date) * 60 * 60 * 1000 + \n" +
+                    "extract(MINUTE  from dcr.creation_date) * 60 * 1000 + \n" +
+                    "extract(MILLISECONDS from dcr.creation_date) as millsSum \n" +
+                "from dialing_caller_result dcr\n" +
+                "where dialing_id = ?1 and is_hold_on = false \n" +
+                "order by millsSum \n" +
             ") as ds;", nativeQuery = true)
     List<DialingCallerResult> getDialingResultsByDialingOrderByMillsOfDay(Long dialingId);
 
-    @Query(value = "select \n" +
-            "\t ds.id, \n" +
-            "\t ds.creation_date, \n" +
-            "\tds.caller_id,\n" +
-            "\tds.is_hold_on,\n" +
-            "\tds.answers,\n" +
-            "\tds.dialing_id,\n" +
-            "\tds.message_hold_on,\n" +
-            "\tds.status_code\n" +
-            "from (\n" +
-            "\t select \n" +
-            "\t\t id,\n" +
-            "\t\t creation_date,\n" +
-            "\t\t caller_id,\n" +
-            "\t\t is_hold_on,\n" +
-            "\t\t answers,\n" +
-            "\t\t dialing_id,\n" +
-            "\t\t message_hold_on,\n" +
-            "\t\t status_code,\n" +
-            "\t\t extract(hour from dcr.creation_date) * 60 * 60 * 1000 + \n" +
-            "\t\t extract(MINUTE  from dcr.creation_date) * 60 * 1000 +\n" +
-            "\t\t extract(MILLISECONDS from dcr.creation_date) as millsSum\n" +
-            "\t from dialing_caller_result dcr\n" +
-            "\t order by millsSum\n" +
+    @Query(value = "" +
+            "select \n" +
+                "ds.id, \n" +
+                "ds.creation_date, \n" +
+                "ds.caller_id, \n" +
+                "ds.is_hold_on, \n" +
+                "ds.answers, \n" +
+                "ds.dialing_id, \n" +
+                "ds.message_hold_on, \n" +
+                "ds.end_date, \n" +
+                "ds.start_call, \n" +
+                "ds.status_code \n" +
+            "from ( \n" +
+                "select \n" +
+                    "id, \n" +
+                    "creation_date, \n" +
+                    "caller_id, \n" +
+                    "is_hold_on, \n" +
+                    "answers, \n" +
+                    "dialing_id, \n" +
+                    "message_hold_on, \n" +
+                    "status_code, \n" +
+                    "start_call, \n" +
+                    "end_date, \n" +
+                    "extract(hour from dcr.creation_date) * 60 * 60 * 1000 + \n" +
+                    "extract(MINUTE  from dcr.creation_date) * 60 * 1000 + \n" +
+                    "extract(MILLISECONDS from dcr.creation_date) as millsSum \n" +
+                "from dialing_caller_result dcr\n" +
+                "where is_hold_on = false \n" +
+                "order by millsSum\n" +
             ") as ds;", nativeQuery = true)
     List<DialingCallerResult> getDialingResultsOrderByMillsOfDay();
+
 
     @Query(value = "select \n" +
                 "sum(cl.countCallers) / count(cl.countCallers)" +
