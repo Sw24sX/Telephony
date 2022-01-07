@@ -105,6 +105,36 @@ public class StatisticService {
                 date.getSeconds() * 1000;
     }
 
+    public DialingResultPieChartDto createPieChartAllStatistic() {
+        int count = dialingService.getAllCountDialingsCallers();
+        int countInProgress = count;
+        int countSuccess = 0;
+        List<DialingResultPartPieChartDto> parts = new ArrayList<>();
+        for (DialCallerStatus status : DialCallerStatus.values()) {
+            if (status == DialCallerStatus.IN_PROGRESS) {
+                continue;
+            }
+
+            int percentCount = dialingService.getAllCountDialsByStatus(status);
+            countInProgress -= percentCount;
+
+            int percent = calculatePercent(percentCount, count);
+            parts.add(new DialingResultPartPieChartDto(status.getMessage(), percent, status.name()));
+
+            if (status == DialCallerStatus.CORRECT) {
+                countSuccess = percentCount;
+            }
+        }
+        parts.add(new DialingResultPartPieChartDto(DialCallerStatus.IN_PROGRESS.getMessage(), calculatePercent(countInProgress, count), DialCallerStatus.IN_PROGRESS.name()));
+
+        DialingResultPieChartDto result = new DialingResultPieChartDto();
+        result.setParts(parts);
+        result.setCountCallers(count);
+        result.setCountSuccess(countSuccess);
+        result.setPercentSuccess(calculatePercent(result.getCountSuccess(), result.getCountCallers()));
+        return result;
+    }
+
     public DialingResultPieChartDto createPieChartByDialing(Dialing dialing) {
         int count = dialingService.getCountDialingCallers(dialing);
         int countInProgress = count;

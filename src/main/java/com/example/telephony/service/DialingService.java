@@ -136,6 +136,14 @@ public class DialingService {
         return callerBaseService.getCountCallers(dialing.getCallersBaseId());
     }
 
+    public Integer getAllCountDialingsCallers() {
+        Integer result = 0;
+        for (Dialing dialing : dialingRepository.findAll()) {
+            result += callerBaseService.getCountCallers(dialing.getCallersBaseId());
+        }
+        return result;
+    }
+
     public List<Dialing> getDialingsByCallersBaseId(Long callersBaseId) {
         return dialingRepository.findAllByCallersBaseId(callersBaseId);
     }
@@ -161,6 +169,10 @@ public class DialingService {
         return dialingCallerResultRepository.getCountDialingCallersByStatus(dialing.getId(), status);
     }
 
+    public Integer getAllCountDialsByStatus(DialCallerStatus status) {
+        return dialingCallerResultRepository.getCountCallersByStatus(status);
+    }
+
     public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDateByDialing(Dialing dialing) {
         return dialingCallerResultRepository.getDialingResultsByDialingOrderByMillsOfDay(dialing.getId());
     }
@@ -178,5 +190,7 @@ public class DialingService {
         return callerRepository.getCallersByDialingId(dialingId, pageable);
     }
 
-
+    public List<DialingCallerResult> getResultsCallerByDialing(Dialing dialing) {
+        return dialingCallerResultRepository.findAllByDialing(dialing);
+    }
 }
