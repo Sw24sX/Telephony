@@ -34,21 +34,17 @@ public class ExportController {
 
     @GetMapping("results/{dialing_id}")
     @ApiOperation("Export dialing result to xlsx file")
-    public ResponseEntity<ByteArrayResource> exportXlsxDialingResult(@PathVariable("dialing_id") Long id,
-                                                         HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        response.setContentType("text/xlsx");
-//        String fileName = String.format("results_%s.xlsx", id);
-//        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + fileName);
-
+    public ResponseEntity<ByteArrayResource> exportXlsxDialingResult(@PathVariable("dialing_id") Long id) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        XSSFWorkbook workbook = exportService.createResultFile(id); // creates the workbook
+        XSSFWorkbook workbook = exportService.createResultFile(id);
+        workbook.write(stream);
+        workbook.close();
+
         HttpHeaders header = new HttpHeaders();
         header.setContentType(new MediaType("application", "force-download"));
         String fileName = String.format("results_%s.xlsx", id);
         header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
-        workbook.write(stream);
-        workbook.close();
-        return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()),
-                header, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()), header, HttpStatus.OK);
     }
 }

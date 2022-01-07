@@ -29,6 +29,8 @@ public class ExportService {
 
         for (DialingCallerResult callResult : dialingService.getResultsCallerByDialing(dialing)) {
             Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+
+            // TODO: 07.01.2022 get by pages
             for (CallerVariable variable : callResult.getCaller().getVariables()) {
                 int rowNumber = row.getLastCellNum() == -1 ? 0 : row.getLastCellNum();
                 row.createCell(rowNumber).setCellValue(variable.getValue());
