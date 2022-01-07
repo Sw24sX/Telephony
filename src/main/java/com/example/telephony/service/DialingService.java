@@ -190,5 +190,7 @@ public class DialingService {
         return callerRepository.getCallersByDialingId(dialingId, pageable);
     }
 
-
+    public List<DialingCallerResult> getResultsCallerByDialing(Dialing dialing) {
+        return dialingCallerResultRepository.findAllByDialing(dialing);
+    }
 }

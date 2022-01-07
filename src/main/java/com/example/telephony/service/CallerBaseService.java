@@ -6,6 +6,7 @@ import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
+import com.example.telephony.repository.VariablesTypeNameRepository;
 import com.example.telephony.service.file.CallersBaseParser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +22,11 @@ import java.util.List;
 @Service
 public class CallerBaseService {
     private final CallerBaseRepository callerBaseRepository;
+    private final VariablesTypeNameRepository variablesTypeNameRepository;
 
-    public CallerBaseService(CallerBaseRepository callerBaseRepository) {
+    public CallerBaseService(CallerBaseRepository callerBaseRepository, VariablesTypeNameRepository variablesTypeNameRepository) {
         this.callerBaseRepository = callerBaseRepository;
+        this.variablesTypeNameRepository = variablesTypeNameRepository;
     }
 
     public List<CallersBase> getAll() {
@@ -74,5 +77,9 @@ public class CallerBaseService {
 
     public Integer getCountCallers(Long callerBaseId) {
         return callerBaseRepository.getCountCallersByCallersBaseId(callerBaseId);
+    }
+
+    public List<String> getListColumnsName(Long callerBaseId) {
+        return variablesTypeNameRepository.getListColumnsName(callerBaseId);
     }
 }

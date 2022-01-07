@@ -1,5 +1,6 @@
 package com.example.telephony.repository;
 
+import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.domain.dialing.DialingCallerResult;
 import com.example.telephony.enums.DialCallerStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -102,4 +103,6 @@ public interface DialingCallerResultRepository extends JpaRepository<DialingCall
             "from dialing_caller_result dcr\n" +
             "where is_hold_on = false;", nativeQuery = true)
     Double getAverageCallDuration();
+
+    List<DialingCallerResult> findAllByDialing(Dialing dialing);
 }
