@@ -30,7 +30,7 @@ public class ScenarioController {
         this.scenarioHeaderMapper = scenarioHeaderMapper;
     }
 
-    @GetMapping
+    @GetMapping()
     @ApiOperation("Get scenarios headers by pages")
     public Page<ScenarioHeaderDto> getAll(@ApiParam("Number page") @RequestParam("page") int page,
                                           @ApiParam("Page size") @RequestParam("size") int size,

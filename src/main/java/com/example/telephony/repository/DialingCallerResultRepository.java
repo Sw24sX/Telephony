@@ -15,6 +15,9 @@ public interface DialingCallerResultRepository extends JpaRepository<DialingCall
     @Query("select count(d) from DialingCallerResult d where d.dialing.id = ?1 and d.status = ?2")
     Integer getCountDialingCallersByStatus(Long dialingId, DialCallerStatus status);
 
+    @Query("select count(d) from DialingCallerResult d where d.status = ?1")
+    Integer getCountCallersByStatus(DialCallerStatus status);
+
     @Query("select d from DialingCallerResult d where d.dialing.id = ?1 and d.caller.id = ?2")
     Optional<DialingCallerResult> getDialingCallerResultByDialingIdAndCallerId(Long dialingId, Long callerId);
 
