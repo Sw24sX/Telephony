@@ -32,9 +32,10 @@ public class ExportController {
     @ApiOperation("Export dialing result to xlsx file")
     public ResponseEntity<ByteArrayResource> exportXlsxDialingResult(@PathVariable("dialing_id") Long id) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        XSSFWorkbook workbook = exportService.createResultFile(id);
-        workbook.write(stream);
-        workbook.close();
+        try (XSSFWorkbook workbook = exportService.createResultFile(id)) {
+            workbook.write(stream);
+        }
+
 
         HttpHeaders header = new HttpHeaders();
         header.setContentType(new MediaType("application", "force-download"));

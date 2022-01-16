@@ -20,8 +20,14 @@ public class ScenarioQuestion extends BaseEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+            return false;
+        }
+
         ScenarioQuestion that = (ScenarioQuestion) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
