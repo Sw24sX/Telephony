@@ -16,6 +16,10 @@ public class ExelParsingFileTest {
 //    @Autowired
 //    private CallersBaseParseService callersBaseParseService;
 
+    public static final String PHONE = "phone";
+    public static final String TEST = "test";
+    public static final String TEST_1 = "test_1";
+
     private final static String RELATIVE_WAY = "src\\test\\java\\com\\example\\telephony\\data\\exel";
     private final static String CORRECT_FILES = "correct";
     private final static String WRONG_FILES = "wrong";
@@ -36,8 +40,8 @@ public class ExelParsingFileTest {
         InputStream inputStream = getCorrectFile("simple.xlsx");
 //        CallersBase actual = callersBaseParseService.parseExelToCallersBase(inputStream, "test");
 
-        CallersBase expected = new CallersBaseBuilder(Arrays.asList("phone", "test", "test_1"))
-                .addPhoneColumnName("phone")
+        CallersBase expected = new CallersBaseBuilder(Arrays.asList(PHONE, TEST, "test_1"))
+                .addPhoneColumnName(PHONE)
                 .addCallerRow(Arrays.asList("8(12)123", "name", "surname"), true)
                 .addCallerRow(Arrays.asList("890(123)", "neam", "searname"), true)
                 .build();
@@ -50,7 +54,7 @@ public class ExelParsingFileTest {
         InputStream inputStream = getCorrectFile("correct_cell_type.xlsx");
 //        CallersBase actual = callersBaseParseService.parseExelToCallersBase(inputStream, "test");
 
-        CallersBase expected = new CallersBaseBuilder(Arrays.asList("номер телефона", "test", "test_1", "one two three", "date"))
+        CallersBase expected = new CallersBaseBuilder(Arrays.asList("номер телефона", TEST, "test_1", "one two three", "date"))
                 .addPhoneColumnName("номер телефона")
                 .addCallerRow(Arrays.asList("123.0", "dcewa", "ces", "123.0", "44510.0"), true)
                 .addCallerRow(Arrays.asList("8(12)", "cesa", "dcvds", "dcs", "cvds"), true)
@@ -78,9 +82,9 @@ public class ExelParsingFileTest {
         InputStream inputStream = getCorrectFile("empty_row.xlsx");
 //        CallersBase actual = callersBaseParseService.parseExelToCallersBase(inputStream, "test");
 
-        CallersBase expected = new CallersBaseBuilder(Arrays.asList("phone", "test", "test_1"))
-                .addPhoneColumnName("phone")
-                .addCallerRow(Arrays.asList("test", "test", "test"), true)
+        CallersBase expected = new CallersBaseBuilder(Arrays.asList(PHONE, TEST, TEST_1))
+                .addPhoneColumnName(PHONE)
+                .addCallerRow(Arrays.asList(TEST, TEST, TEST), true)
                 .build();
 
 //        Assertions.assertEquals(expected, actual);
@@ -159,8 +163,8 @@ public class ExelParsingFileTest {
         InputStream inputStream = getNotValidFile("one_cell_empty_in_left.xlsx");
 //        CallersBase actual = callersBaseParseService.parseExelToCallersBase(inputStream, "test");
 
-        CallersBase expected = new CallersBaseBuilder(Arrays.asList("phone", "test", "test_1"))
-                .addPhoneColumnName("phone")
+        CallersBase expected = new CallersBaseBuilder(Arrays.asList(PHONE, TEST, TEST_1))
+                .addPhoneColumnName(PHONE)
 //                .addCallerRow(Arrays.asList(callersBaseParseService.NOT_VALID_VALUE, "test", "test"), false)
                 .build();
 
@@ -172,8 +176,8 @@ public class ExelParsingFileTest {
         InputStream inputStream = getNotValidFile("one_cell_empty_in_middle.xlsx");
 //        CallersBase actual = callersBaseParseService.parseExelToCallersBase(inputStream, "test");
 
-        CallersBase expected = new CallersBaseBuilder(Arrays.asList("phone", "test", "test_1"))
-                .addPhoneColumnName("phone")
+        CallersBase expected = new CallersBaseBuilder(Arrays.asList(PHONE, TEST, TEST_1))
+                .addPhoneColumnName(PHONE)
 //                .addCallerRow(Arrays.asList("test", callersBaseParseService.NOT_VALID_VALUE, "test"), false)
                 .build();
 
@@ -185,8 +189,8 @@ public class ExelParsingFileTest {
         InputStream inputStream = getNotValidFile("one_cell_empty_in_right.xlsx");
 //        CallersBase actual = callersBaseParseService.parseExelToCallersBase(inputStream, "test");
 
-        CallersBase expected = new CallersBaseBuilder(Arrays.asList("phone", "test", "test_1"))
-                .addPhoneColumnName("phone")
+        CallersBase expected = new CallersBaseBuilder(Arrays.asList(PHONE, TEST, TEST_1))
+                .addPhoneColumnName(PHONE)
 //                .addCallerRow(Arrays.asList("test", "test", callersBaseParseService.NOT_VALID_VALUE), false)
                 .build();
 

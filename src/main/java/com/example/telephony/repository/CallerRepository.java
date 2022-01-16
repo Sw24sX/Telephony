@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface CallerRepository extends JpaRepository<Caller, Long> {
-    @Query(value = "select count(c) from Caller c where c.isValid = false and c.callersBase.id  = ?1")
+    @Query("select count(c) from Caller c where c.isValid = false and c.callersBase.id  = ?1")
     int getCountInvalidCallers(Long callersBaseId);
 
     @Query("select c from Caller c where c.callersBase.id = ?1 and c.isValid = ?2")

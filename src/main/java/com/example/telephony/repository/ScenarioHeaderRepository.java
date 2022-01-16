@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ScenarioHeaderRepository extends JpaRepository<ScenarioHeader, Long> {
-    @Query(value = "select s from ScenarioHeader s where lower(s.name) like lower(?1)")
+    @Query("select s from ScenarioHeader s where lower(s.name) like lower(?1)")
     Page<ScenarioHeader> findAll(String name, Pageable pageable);
 }

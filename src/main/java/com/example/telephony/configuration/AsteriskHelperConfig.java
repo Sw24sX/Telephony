@@ -20,7 +20,7 @@ public class AsteriskHelperConfig {
     }
 
     @Bean
-    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+    @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
     public AsteriskHelper asteriskHelper() throws ARIException {
         return new AsteriskHelper(environment, messageCallBack);
     }

@@ -19,7 +19,7 @@ public class DialingManagerConfig {
     }
 
     @Bean
-    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+    @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
     public DialingManager dialingManager() {
         return new DialingManager(dialingRepository, dialingStatisticRepository);
     }

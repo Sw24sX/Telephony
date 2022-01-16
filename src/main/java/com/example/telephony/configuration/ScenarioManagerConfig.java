@@ -23,7 +23,7 @@ public class ScenarioManagerConfig {
     }
 
     @Bean
-    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+    @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
     public ScenarioManager scenarioCall() {
         return new ScenarioManager(generationSoundsService, dialingCallerResultService, dialingManager);
     }

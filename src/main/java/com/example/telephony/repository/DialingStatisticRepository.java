@@ -4,8 +4,6 @@ import com.example.telephony.domain.dialing.DialingStatistic;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Date;
-
 public interface DialingStatisticRepository extends JpaRepository<DialingStatistic, Long> {
     @Query(value = "" +
             "select cast (extract(EPOCH FROM average) * 1000 as text) from (\n" +
@@ -14,9 +12,6 @@ public interface DialingStatisticRepository extends JpaRepository<DialingStatist
                 "from dialing_statistic ds\n" +
             ") as av;", nativeQuery = true)
     Double getAverageDialingDuration();
-
-//    @Query("select sum(d.endDate - d.startDate) / count(d) from DialingStatistic d")
-//    Date getAverageDialingDuration();
 
     @Query("select count(d) from DialingStatistic d")
     Integer getCountDialingsRun();
