@@ -8,8 +8,12 @@ import org.mapstruct.Mapper;
 import java.util.Optional;
 
 @Mapper(componentModel = "spring")
-public abstract class ScenarioNodeDataMapper {
-    protected ScenarioQuestionParser questionParser = new ScenarioQuestionParser();
+public class ScenarioNodeDataMapper {
+    private final ScenarioQuestionParser questionParser;
+
+    public ScenarioNodeDataMapper() {
+        questionParser = new ScenarioQuestionParser();
+    }
 
     public ScenarioNodeData fromScenarioNodeDataDto(ScenarioNodeDataDto dto) {
         if (dto == null) {

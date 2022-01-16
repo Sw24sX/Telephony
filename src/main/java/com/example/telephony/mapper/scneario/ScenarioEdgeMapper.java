@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring")
-public abstract class ScenarioEdgeMapper {
+public class ScenarioEdgeMapper {
     public ScenarioEdgeDto fromScenarioEdge(ScenarioEdge scenarioEdge) {
         if (scenarioEdge == null) {
             return null;

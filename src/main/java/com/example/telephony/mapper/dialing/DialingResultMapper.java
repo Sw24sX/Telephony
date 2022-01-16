@@ -14,15 +14,15 @@ import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
-public abstract class DialingResultMapper {
+public class DialingResultMapper {
     @Autowired
-    protected ScenarioService scenarioService;
+    private ScenarioService scenarioService;
 
     @Autowired
-    protected CallerBaseService callerBaseService;
+    private CallerBaseService callerBaseService;
 
     @Autowired
-    protected DialingService dialingService;
+    private DialingService dialingService;
 
     public DialingResultDto fromDialing(Dialing dialing) {
         if (dialing == null) {
