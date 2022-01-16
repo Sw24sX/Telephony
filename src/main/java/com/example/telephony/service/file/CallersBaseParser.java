@@ -1,11 +1,9 @@
 package com.example.telephony.service.file;
 
-import com.example.telephony.domain.callers.base.Caller;
-import com.example.telephony.domain.callers.base.CallerVariable;
-import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.domain.VariablesTypeName;
-import com.example.telephony.enums.exception.messages.FileParsingExceptionMessage;
+import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.enums.VariablesType;
+import com.example.telephony.enums.exception.messages.FileParsingExceptionMessage;
 import com.example.telephony.exception.FileParsingException;
 import com.example.telephony.exception.TelephonyException;
 import com.google.common.collect.Lists;
@@ -66,7 +64,8 @@ public class CallersBaseParser {
     private void checkFormatCorrected() {
         int firstRowNum = sheet.getFirstRowNum();
         int lastRowNum = sheet.getLastRowNum();
-        if (lastRowNum - firstRowNum + 1 < 2) {
+        int minRowsInFileWithCallersBase = 2;
+        if (lastRowNum - firstRowNum + 1 < minRowsInFileWithCallersBase) {
             throw new FileParsingException(FileParsingExceptionMessage.EMPTY_DATA.getMessage());
         }
     }
