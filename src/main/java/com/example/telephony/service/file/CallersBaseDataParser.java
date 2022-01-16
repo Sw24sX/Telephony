@@ -16,15 +16,15 @@ import java.util.List;
 import java.util.Set;
 
 public class CallersBaseDataParser {
-    public final String NOT_VALID_VALUE;
-    private final Set<String> PHONE_COLUMN_NAME;
+    public final String notValidValue;
+    private final Set<String> phoneColumnName;
     private final CallersBase callersBase;
     private final List<VariablesTypeName> columns;
     private final Sheet sheet;
 
-    public CallersBaseDataParser(String not_valid_value, Set<String> phone_column_name, CallersBase callersBase, Sheet sheet) {
-        NOT_VALID_VALUE = not_valid_value;
-        PHONE_COLUMN_NAME = phone_column_name;
+    public CallersBaseDataParser(String notValidValue, Set<String> phoneColumnName, CallersBase callersBase, Sheet sheet) {
+        this.notValidValue = notValidValue;
+        this.phoneColumnName = phoneColumnName;
         this.callersBase = callersBase;
         this.columns = this.callersBase.getVariablesList();
         this.sheet = sheet;
@@ -49,7 +49,7 @@ public class CallersBaseDataParser {
 
     private int findIndexColumnPhoneNumber() {
         for (int i = 0; i < columns.size(); i++) {
-            if (PHONE_COLUMN_NAME.contains(columns.get(i).getTableName())) {
+            if (phoneColumnName.contains(columns.get(i).getTableName())) {
                 return i;
             }
         }
@@ -79,7 +79,7 @@ public class CallersBaseDataParser {
 
     private String getValueCell(Cell cell) {
         if (cell == null) {
-            return NOT_VALID_VALUE;
+            return notValidValue;
         }
 
         switch (cell.getCellType()) {
@@ -90,7 +90,7 @@ public class CallersBaseDataParser {
             case NUMERIC:
                 return String.valueOf(cell.getNumericCellValue());
             default:
-                return NOT_VALID_VALUE;
+                return notValidValue;
         }
     }
 
@@ -109,6 +109,6 @@ public class CallersBaseDataParser {
     }
 
     private boolean cellValueIsInvalid(String value) {
-        return value == null || value.isEmpty() || value.equals(NOT_VALID_VALUE);
+        return value == null || value.isEmpty() || value.equals(notValidValue);
     }
 }
