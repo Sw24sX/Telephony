@@ -54,8 +54,7 @@ public interface DialingCallerResultRepository extends JpaRepository<DialingCall
             ") as ds;", nativeQuery = true)
     List<DialingCallerResult> getDialingResultsByDialingOrderByMillsOfDay(Long dialingId);
 
-    @Query(value = "" +
-            "select " +
+    @Query(value = "select " +
                 "ds.id, " +
                 "ds.creation_date, " +
                 "ds.caller_id, " +

@@ -49,11 +49,11 @@ public class ScenarioPreparationService {
     }
 
     private String addCallerVariables(ScenarioQuestion question, Map<String, String> variables) throws ScenarioBuildException {
-        StringBuilder builder = new StringBuilder();
         if (question == null) {
             return null;
         }
 
+        StringBuilder builder = new StringBuilder();
         for (ScenarioQuestionPart part : question.getParts()) {
             if(!part.isVariable()) {
                 builder.append(part.getQuestionPart());

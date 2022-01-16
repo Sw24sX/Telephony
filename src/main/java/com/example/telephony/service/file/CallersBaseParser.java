@@ -50,7 +50,7 @@ public class CallersBaseParser {
         try {
             return new XSSFWorkbook(inputStream);
         } catch (IOException e) {
-            throw new TelephonyException(e.getMessage());
+            throw new TelephonyException(e);
         }
     }
 
@@ -82,13 +82,12 @@ public class CallersBaseParser {
 
     private VariablesTypeName createVariablesTypeFromCell(int cellNum) {
         Row firstRow = sheet.getRow(sheet.getFirstRowNum());
-        Row secondRow = sheet.getRow(sheet.getFirstRowNum() + 1);
-
         Cell firstRowCell = firstRow.getCell(cellNum);
         if (firstRowCell == null) {
             throw new FileParsingException(FileParsingExceptionMessage.EMPTY_CELL_IN_HEADER.getMessage());
         }
 
+        Row secondRow = sheet.getRow(sheet.getFirstRowNum() + 1);
         Cell secondRowCell = secondRow.getCell(cellNum);
         if (secondRowCell == null) {
             throw new FileParsingException(String.format(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage(), 2));

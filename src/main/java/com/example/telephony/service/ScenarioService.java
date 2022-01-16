@@ -84,7 +84,8 @@ public class ScenarioService {
     private ScenarioNodeData createReplicaData() {
         ScenarioNodeData data = new ScenarioNodeData();
         data.setQuestion(parser.parseTextToScenarioQuestion("Текст реплики"));
-        data.setWaitingTime(50000);
+        int defaultWaitingTime = 5000;
+        data.setWaitingTime(defaultWaitingTime);
         data.setNeedAnswer(false);
         return data;
     }

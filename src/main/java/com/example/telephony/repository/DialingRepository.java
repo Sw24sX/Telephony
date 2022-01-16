@@ -20,5 +20,5 @@ public interface DialingRepository extends JpaRepository<Dialing, Long> {
 
     List<Dialing> findAllByCallersBaseId(Long callersBaseId);
 
-    List<Dialing> findAllByScenario_Id(Long scenario_id);
+    List<Dialing> findAllByScenario_Id(Long scenarioId);
 }

@@ -95,7 +95,7 @@ public class ExelParsingFileTest {
             Path path = correctFiles.resolve(fileName);
             return Files.newInputStream(path);
         } catch (IOException e) {
-            throw new FileParsingException(e.getMessage());
+            throw new FileParsingException(e);
         }
     }
 
@@ -154,7 +154,7 @@ public class ExelParsingFileTest {
             Path path = wrongFiles.resolve(fileName);
             return Files.newInputStream(path);
         } catch (IOException e) {
-            throw new FileParsingException(e.getMessage());
+            throw new FileParsingException(e);
         }
     }
 
@@ -202,7 +202,7 @@ public class ExelParsingFileTest {
             Path path = notValidFiles.resolve(fileName);
             return Files.newInputStream(path);
         } catch (IOException e) {
-            throw new FileParsingException(e.getMessage());
+            throw new FileParsingException(e);
         }
     }
 }

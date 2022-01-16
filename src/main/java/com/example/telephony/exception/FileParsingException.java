@@ -10,4 +10,8 @@ public class FileParsingException extends TelephonyException {
     public FileParsingException(String message) {
         super(message);
     }
+
+    public FileParsingException(Throwable cause) {
+        super(cause);
+    }
 }

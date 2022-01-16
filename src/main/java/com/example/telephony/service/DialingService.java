@@ -68,13 +68,13 @@ public class DialingService {
             throw new DialingException(ExceptionMessage.CAN_NOT_CREATE_DONE_DIALING.getMessage());
         }
 
-        dialing = dialingRepository.save(setStartDate(dialing));
+        Dialing newDialing = dialingRepository.save(setStartDate(dialing));
 
-        if (dialing.getStatus() == DialingStatus.RUN) {
-            startDialing(dialing);
+        if (newDialing.getStatus() == DialingStatus.RUN) {
+            startDialing(newDialing);
         }
 
-        return dialing;
+        return newDialing;
     }
 
     private void startDialing(Dialing dialing) {

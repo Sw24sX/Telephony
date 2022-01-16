@@ -40,7 +40,7 @@ public class AsteriskHelper {
         try {
             return ari.channels().play(channelId, mediaUrl).execute();
         } catch (RestException e) {
-            throw new TelephonyException(e.getMessage());
+            throw new TelephonyException(e);
         }
     }
 
@@ -48,7 +48,7 @@ public class AsteriskHelper {
         try {
             ari.channels().hangup(channelId).execute();
         } catch (RestException e) {
-            throw new TelephonyException(e.getMessage());
+            throw new TelephonyException(e);
         }
     }
 }

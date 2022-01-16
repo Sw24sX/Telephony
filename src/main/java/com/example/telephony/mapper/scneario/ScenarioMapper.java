@@ -67,7 +67,7 @@ public abstract class ScenarioMapper {
             return null;
         }
 
-        Scenario scenario = new Scenario();
+
 
         Map<String, ScenarioNode> scenarioNodes = new HashMap<>();
         Map<ScenarioNode, Map<String, ScenarioEdge>> scenarioEdgesWithAnswers = new HashMap<>();
@@ -83,6 +83,7 @@ public abstract class ScenarioMapper {
             throw new ScenarioMappingException(ScenarioExceptionMessages.ROOT_NODE_HAVE_NOT_CHILD.getMessage());
         }
 
+        Scenario scenario = new Scenario();
         scenario.setName(dto.getName());
         scenario.setRoot(root);
         scenario.setCountSteps(scenarioNodes.size());
