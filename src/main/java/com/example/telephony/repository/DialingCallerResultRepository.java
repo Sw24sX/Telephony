@@ -6,6 +6,7 @@ import com.example.telephony.enums.DialCallerStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,12 @@ public interface DialingCallerResultRepository extends JpaRepository<DialingCall
 
     @Query("select d from DialingCallerResult d where d.dialing.id = ?1 and d.caller.id = ?2")
     Optional<DialingCallerResult> getDialingCallerResultByDialingIdAndCallerId(Long dialingId, Long callerId);
+
+    @Query("select d.startCall from DialingCallerResult d order by d.startCall")
+    List<LocalTime> findAllStartCallTime();
+
+    @Query("select d.startCall from DialingCallerResult d where d.dialing.id = ?1 order by d.startCall")
+    List<LocalTime> findAllStartCallTimeByDialingId(Long dialingId);
 
     @Query(value = "select " +
             "ds.id, " +

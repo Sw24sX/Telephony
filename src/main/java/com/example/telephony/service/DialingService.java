@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -168,12 +169,12 @@ public class DialingService {
         return dialingCallerResultRepository.getCountCallersByStatus(status);
     }
 
-    public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDateByDialing(Dialing dialing) {
-        return dialingCallerResultRepository.getDialingResultsByDialingOrderByMillsOfDay(dialing.getId());
+    public List<LocalTime> getSuccessCallersResultOrderByCreatedDateByDialing(Dialing dialing) {
+        return dialingCallerResultRepository.findAllStartCallTimeByDialingId(dialing.getId());
     }
 
-    public List<DialingCallerResult> getSuccessCallersResultOrderByCreatedDate() {
-        return dialingCallerResultRepository.getDialingResultsOrderByMillsOfDay();
+    public List<LocalTime> getSuccessCallersResultOrderByCreatedDate() {
+        return dialingCallerResultRepository.findAllStartCallTime();
     }
 
     public Optional<DialingCallerResult> getDialResultByDialingAndCaller(Dialing dialing, Caller caller) {
