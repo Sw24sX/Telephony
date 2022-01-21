@@ -18,6 +18,7 @@ import com.example.telephony.service.scenario.steps.ScenarioStep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -75,7 +76,7 @@ public class ScenarioManagerService {
                 .isFinished(false)
                 .isStart(true)
                 .sounds(sounds)
-                .startCall(new Date())
+                .startCall(LocalTime.now())
                 .build();
 
         scenarioManager.addCallScenario(channelId, stateScenarioStep);

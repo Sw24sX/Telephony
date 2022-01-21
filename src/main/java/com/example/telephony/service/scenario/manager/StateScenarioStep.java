@@ -6,6 +6,7 @@ import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.service.scenario.steps.ScenarioStep;
 import lombok.*;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class StateScenarioStep {
     private String playbackId;
     private final List<String> answers;
     private final Caller caller;
-    private final Date startCall;
+    private final LocalTime startCall;
 
     public void playbackEnd() {
         isFinished = true;
