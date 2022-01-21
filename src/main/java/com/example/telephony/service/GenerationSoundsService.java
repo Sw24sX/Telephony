@@ -1,6 +1,6 @@
 package com.example.telephony.service;
 
-import com.example.telephony.common.Properties;
+import com.example.telephony.common.PropertiesHelper;
 import com.example.telephony.domain.GeneratedSound;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.enums.SpeechVoice;
@@ -29,7 +29,7 @@ public class GenerationSoundsService {
         this.microsoftTextToSpeech = microsoftTextToSpeech;
         this.environment = environment;
         this.generatedSoundRepository = generatedSoundRepository;
-        generatedFilePath = Paths.get(Properties.getProperty(environment, "file.generated.path"));
+        generatedFilePath = Paths.get(PropertiesHelper.getProperty(environment, "file.generated.path"));
     }
 
     public GeneratedSound textToFile(String text, SpeechVoice voice) {
@@ -43,9 +43,9 @@ public class GenerationSoundsService {
     private String buildFileUri(String fileName) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http")
-                .host(Properties.getProperty(environment, "server.address"))
-                .port(Properties.getProperty(environment, "server.port"))
-                .path(Properties.getProperty(environment, "file.generated.url") + fileName).build();
+                .host(PropertiesHelper.getProperty(environment, "server.address"))
+                .port(PropertiesHelper.getProperty(environment, "server.port"))
+                .path(PropertiesHelper.getProperty(environment, "file.generated.url") + fileName).build();
         return uriComponents.toString();
     }
 
@@ -71,11 +71,6 @@ public class GenerationSoundsService {
     }
 
     public void deleteAll(Collection<GeneratedSound> sounds) {
-        for (GeneratedSound sound : sounds) {
-            if (!new File(sound.getPath()).delete()) {
-                System.out.println(String.format(ExceptionMessage.FILE_NOT_FOUND.getMessage(), sound.getPath()));
-            }
-        }
         generatedSoundRepository.deleteAll(sounds);
     }
 }

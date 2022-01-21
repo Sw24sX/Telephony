@@ -1,6 +1,6 @@
 package com.example.telephony.controller;
 
-import com.example.telephony.common.GlobalMapping;
+import com.example.telephony.common.GlobalMappingUtils;
 import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.dto.dialing.DialingDto;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(GlobalMapping.API + "dialing")
+@RequestMapping(GlobalMappingUtils.API + "dialing")
 @Api("Operations pertaining to dialing to caller or callers base")
 public class DialingController {
     private final DialingService dialingService;

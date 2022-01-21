@@ -1,6 +1,6 @@
 package com.example.telephony.service.tts;
 
-import com.example.telephony.common.Properties;
+import com.example.telephony.common.PropertiesHelper;
 import com.example.telephony.enums.SpeechVoice;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class MicrosoftTextToSpeech {
     private final Path path;
 
     public MicrosoftTextToSpeech(Environment environment) {
-        this.path = Paths.get(Properties.getProperty(environment, "file.generated.path"));
+        this.path = Paths.get(PropertiesHelper.getProperty(environment, "file.generated.path"));
     }
 
     public String textToFile(String text, SpeechVoice speechVoice) {
@@ -46,6 +46,8 @@ public class MicrosoftTextToSpeech {
         String threadName = "powershell.exe";
 
         new Thread(new Runnable() {
+
+            @Override
             public void run() {
                 ProcessBuilder processBuilder = new ProcessBuilder(command);
                 processBuilder.redirectErrorStream(true);

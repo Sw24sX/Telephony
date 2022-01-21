@@ -1,5 +1,5 @@
 package com.example.telephony.common;
 
-public class GlobalMapping {
+public class GlobalMappingUtils {
     public static final String API = "api/v1/";
 }

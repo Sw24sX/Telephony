@@ -11,7 +11,7 @@ import com.example.telephony.service.scenario.steps.*;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class ScenarioBuilder {
+public final class ScenarioBuilder {
     private final AsteriskHelper asteriskHelper;
     private ScenarioStep startStep;
 

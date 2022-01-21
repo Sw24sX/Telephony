@@ -1,6 +1,6 @@
 package com.example.telephony.controller;
 
-import com.example.telephony.common.GlobalMapping;
+import com.example.telephony.common.GlobalMappingUtils;
 import com.example.telephony.domain.scenario.Scenario;
 import com.example.telephony.dto.scenario.ScenarioDto;
 import com.example.telephony.dto.scenario.ScenarioHeaderDto;
@@ -16,7 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(GlobalMapping.API + "scenario")
+@RequestMapping(GlobalMappingUtils.API + "scenario")
 @Api("Operations pertaining to scenario")
 public class ScenarioController {
     private final ScenarioService scenarioService;

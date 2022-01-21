@@ -17,7 +17,7 @@ public class StateScenarioStep {
     private final boolean isStart;
     private final Map<ScenarioStep, GeneratedSound> sounds;
     private final Dialing dialing;
-    private boolean isFinished = false;
+    private boolean isFinished;
     private String playbackId;
     private final List<String> answers;
     private final Caller caller;
@@ -25,7 +25,6 @@ public class StateScenarioStep {
 
     public void playbackEnd() {
         isFinished = true;
-        playbackId = null;
     }
 
     public GeneratedSound getSoundForScenarioStep() {

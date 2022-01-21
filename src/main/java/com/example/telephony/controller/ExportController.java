@@ -1,6 +1,6 @@
 package com.example.telephony.controller;
 
-import com.example.telephony.common.GlobalMapping;
+import com.example.telephony.common.GlobalMappingUtils;
 import com.example.telephony.service.ExportService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,7 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(GlobalMapping.API + "export")
+@RequestMapping(GlobalMappingUtils.API + "export")
 @Api("Operations pertaining to export results")
 public class ExportController {
     private final ExportService exportService;

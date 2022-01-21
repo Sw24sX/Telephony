@@ -1,6 +1,6 @@
 package com.example.telephony.controller;
 
-import com.example.telephony.common.GlobalMapping;
+import com.example.telephony.common.GlobalMappingUtils;
 import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.dto.caller.base.CallerDto;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(GlobalMapping.API + "callers-base")
+@RequestMapping(GlobalMappingUtils.API + "callers-base")
 @Api("Operations pertaining to callers bases")
 public class CallerBaseController {
     private static final String CALLERS_BASE_ID = "Callers base id";
