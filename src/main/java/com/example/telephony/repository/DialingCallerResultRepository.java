@@ -23,11 +23,11 @@ public interface DialingCallerResultRepository extends JpaRepository<DialingCall
     @Query("select d from DialingCallerResult d where d.dialing.id = ?1 and d.caller.id = ?2")
     Optional<DialingCallerResult> getDialingCallerResultByDialingIdAndCallerId(Long dialingId, Long callerId);
 
-    @Query("select d.startCall from DialingCallerResult d order by d.startCall")
-    List<LocalTime> findAllStartCallTime();
+    @Query("select d.startCall from DialingCallerResult d where d.status = :status order by d.startCall")
+    List<LocalTime> findAllStartCallTime(DialCallerStatus status);
 
-    @Query("select d.startCall from DialingCallerResult d where d.dialing.id = ?1 order by d.startCall")
-    List<LocalTime> findAllStartCallTimeByDialingId(Long dialingId);
+    @Query("select d.startCall from DialingCallerResult d where d.dialing.id = :dialingId and d.status = :status order by d.startCall")
+    List<LocalTime> findAllStartCallTimeByDialingId(Long dialingId, DialCallerStatus status);
 
     @Query(value = "select " +
                 "sum(cl.countCallers) / count(cl.countCallers) " +
@@ -40,9 +40,8 @@ public interface DialingCallerResultRepository extends JpaRepository<DialingCall
     Integer getAverageCountCallers();
 
     @Query(value = "select " +
-                "cast ( extract(EPOCH FROM (sum(end_date - start_call) / count(*))) * 1000 as text) " +
-            "from dialing_caller_result dcr " +
-            "where is_hold_on = false;", nativeQuery = true)
+                        "extract(EPOCH from sum(end_call_from_start_day - start_call_from_start_day) / count(*) ) " +
+                    "from dialing_caller_result dcr where dcr.is_hold_on = false", nativeQuery = true)
     Double getAverageCallDuration();
 
     List<DialingCallerResult> findAllByDialing(Dialing dialing);

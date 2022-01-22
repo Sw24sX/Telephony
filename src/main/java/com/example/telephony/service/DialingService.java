@@ -169,12 +169,12 @@ public class DialingService {
         return dialingCallerResultRepository.getCountCallersByStatus(status);
     }
 
-    public List<LocalTime> getSuccessCallersResultOrderByCreatedDateByDialing(Dialing dialing) {
-        return dialingCallerResultRepository.findAllStartCallTimeByDialingId(dialing.getId());
+    public List<LocalTime> getAllStartCallTimeByDialing(Dialing dialing) {
+        return dialingCallerResultRepository.findAllStartCallTimeByDialingId(dialing.getId(), DialCallerStatus.CORRECT);
     }
 
-    public List<LocalTime> getSuccessCallersResultOrderByCreatedDate() {
-        return dialingCallerResultRepository.findAllStartCallTime();
+    public List<LocalTime> getAllStartCallTime() {
+        return dialingCallerResultRepository.findAllStartCallTime(DialCallerStatus.CORRECT);
     }
 
     public Optional<DialingCallerResult> getDialResultByDialingAndCaller(Dialing dialing, Caller caller) {
