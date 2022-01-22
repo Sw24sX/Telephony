@@ -1,4 +1,4 @@
-package com.example.telephony.service.charts.PointingChart;
+package com.example.telephony.service.charts.pointing;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

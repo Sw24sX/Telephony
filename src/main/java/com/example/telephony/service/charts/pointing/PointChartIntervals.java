@@ -1,4 +1,4 @@
-package com.example.telephony.service.charts.PointingChart;
+package com.example.telephony.service.charts.pointing;
 
 import com.example.telephony.enums.exception.messages.ChartExceptionMessages;
 import com.example.telephony.exception.ChartException;

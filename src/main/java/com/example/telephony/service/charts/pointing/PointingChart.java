@@ -1,4 +1,4 @@
-package com.example.telephony.service.charts.PointingChart;
+package com.example.telephony.service.charts.pointing;
 
 import com.example.telephony.dto.dialing.charts.succes.calls.DialingResultSuccessCallsChartDto;
 import com.example.telephony.enums.exception.messages.ChartExceptionMessages;
@@ -38,6 +38,10 @@ public class PointingChart {
     }
 
     private void fillGroupingTimes(LocalTime startTime, int interval, int count) {
+        if (!groupingTimes.isEmpty()) {
+            throw new ChartException(ChartExceptionMessages.CHART_ALREADY_CREATED);
+        }
+
         int startSecondsOfDay = startTime.toSecondOfDay();
         for (int time = startSecondsOfDay; time < startSecondsOfDay + count * interval; time += interval) {
             LocalTime ceilTime = ceilTime(LocalTime.ofSecondOfDay(time % PointChartIntervals.MAX_INTERVAL), interval);
@@ -65,9 +69,9 @@ public class PointingChart {
     private Stream<DialingResultSuccessCallsChartDto> mapGroupingTimes() {
         return groupingTimes.keySet().stream().map(time -> {
             DialingResultSuccessCallsChartDto result = new DialingResultSuccessCallsChartDto();
-            result.setStartTime(time);
+            result.setDate(time);
             result.setSuccessCalls(groupingTimes.get(time));
-            result.setStringTime(time.toString());
+            result.setTime(time.toString());
             return result;
         });
     }
