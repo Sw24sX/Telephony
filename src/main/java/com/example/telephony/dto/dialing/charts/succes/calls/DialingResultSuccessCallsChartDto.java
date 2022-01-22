@@ -12,6 +12,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class DialingResultSuccessCallsChartDto {
     private Integer successCalls;
-    private LocalTime startTime;
-    private String stringTime;
+    private LocalTime date;
+    private String time;
 }
