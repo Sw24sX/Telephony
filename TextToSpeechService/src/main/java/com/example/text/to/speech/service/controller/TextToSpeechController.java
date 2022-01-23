@@ -5,11 +5,13 @@ import com.example.text.to.speech.service.dto.SpeechTextRequest;
 import com.example.text.to.speech.service.service.TextToSpeechService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@RestController("text-to-speech")
+@RestController()
+@RequestMapping("tts")
 public class TextToSpeechController {
     private final TextToSpeechService textToSpeechService;
 
@@ -17,7 +19,7 @@ public class TextToSpeechController {
         this.textToSpeechService = textToSpeechService;
     }
 
-    @PostMapping()
+    @PostMapping("create")
     public CreatedAudioFileResponse textToSpeech(@RequestBody SpeechTextRequest speechTextRequest) throws IOException {
         return textToSpeechService.textToSpeech(speechTextRequest);
     }
