@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4b4c408c-f452-4d87-8492-7a3266386637" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/ConnectToRemote.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/DeployByDoker.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/DeployForDev.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rulesets/pmd.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/TelephonyApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/common/CustomTime.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/common/GlobalMappingUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/common/PropertiesHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/common/ScenarioQuestionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/configuration/AsteriskHelperConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/configuration/DialingManagerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/configuration/MvcConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/configuration/ScenarioManagerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/configuration/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/configuration/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/controller/CallerBaseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/controller/DialingController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/controller/ExportController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/controller/ScenarioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/controller/StatisticController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/controller/TTSController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/converter/DialCallerStatusConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/converter/DialingStatusConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/converter/ScenarioNodeTypeConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/converter/VariablesTypeCodeConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/BaseEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/GeneratedSound.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/VariablesTypeName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/callers/base/Caller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/callers/base/CallerVariable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/callers/base/CallersBase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/dialing/Dialing.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/dialing/DialingCallerResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/dialing/DialingStatistic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/scenario/Scenario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/scenario/ScenarioEdge.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/scenario/ScenarioHeader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/scenario/ScenarioNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/scenario/ScenarioNodeData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/scenario/ScenarioNodeExtraData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/scenario/ScenarioNodePoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/scenario/ScenarioQuestion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/domain/scenario/ScenarioQuestionPart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/BaseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/CommonDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/CommonStatisticDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/GeneratedSoundDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/VariablesTypeDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/caller/base/CallerDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/caller/base/CallerVariablesDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/caller/base/CallersBaseColumnDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/caller/base/CallersBaseHeaderDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/DialingDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/DialingStatusDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/charts/pie/DialingResultPartPieChartDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/charts/pie/DialingResultPieChartDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/charts/succes/calls/DialingResultSuccessCallsChartDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/common/DialingCallersBaseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/common/DialingProgressDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/common/DialingResultDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/common/DialingScenarioDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/table/DialingResultTableDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/table/DialingResultTableRowDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/table/ExtraCallerBaseColumnDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/dialing/table/ExtraCallerVariablesDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/scenario/ScenarioDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/scenario/ScenarioEdgeDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/scenario/ScenarioHeaderDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/scenario/ScenarioNodeAnswersDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/scenario/ScenarioNodeDataDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/dto/scenario/ScenarioNodeDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/DialCallerStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/DialingResultHoldOnMessages.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/DialingStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/FieldsPageSort.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/ScenarioNodeTypes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/SpeechVoice.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/VariablesType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/exception/messages/ChartExceptionMessages.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/exception/messages/ExceptionMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/exception/messages/FileParsingExceptionMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/enums/exception/messages/ScenarioExceptionMessages.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/exception/ChartException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/exception/DialingException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/exception/EntityNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/exception/FileParsingException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/exception/MappingException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/exception/ScenarioBuildException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/exception/ScenarioMappingException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/exception/TelephonyException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/CallerMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/CallerVariableMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/CallersBaseColumnMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/CallersBaseHeaderMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/GeneratedSoundMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/dialing/DialingMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/dialing/DialingResultMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/dialing/DialingTableHeaderMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/dialing/DialingTableRowMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/scneario/ScenarioEdgeMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/scneario/ScenarioHeaderMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/scneario/ScenarioMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/scneario/ScenarioNodeDataMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/mapper/scneario/ScenarioNodeMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/CallerBaseRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/CallerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/CallerVariableRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/DialingCallerResultRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/DialingRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/DialingStatisticRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/GeneratedSoundRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/ScenarioHeaderRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/ScenarioNodeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/ScenarioRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/repository/VariablesTypeNameRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/scheduling/DeleteUnusedFiles.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/CallerBaseService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/CallerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/DialingCallerResultService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/DialingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/ExportService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/GenerationSoundsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/ScenarioManagerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/ScenarioPreparationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/ScenarioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/StatisticService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/asterisk/AsteriskEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/asterisk/AsteriskEventPublisher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/asterisk/AsteriskHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/asterisk/MessageCallBack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/charts/pie/PieChart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/charts/pointing/IntervalAndSteps.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/charts/pointing/PointChartIntervals.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/charts/pointing/PointingChart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/file/CallersBaseDataParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/file/CallersBaseParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/file/RowParseResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/ScenarioBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/dialing/DialingManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/dialing/DialingState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/event/listener/ChannelDtmfReceivedListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/event/listener/ChannelHangupRequestListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/event/listener/PlaybackFinishListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/event/listener/PlaybackStartedListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/event/listener/StasisEndListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/event/listener/StasisStartListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/manager/ScenarioManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/manager/StateScenarioStep.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/steps/BaseScenarioStep.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/steps/EndStep.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/steps/ScenarioStep.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/steps/SoundStep.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/scenario/steps/StartStep.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/tts/MicrosoftTextToSpeech.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/telephony/service/tts/SpeechCommandLineScriptBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V10__New_Structure_Scenario.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V11__Add_Columns_At_Scenario_Node_data.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V12__Add_Column_Number_Caller.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V13__Add_Answer_Key_For_Edges_Scenario.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V14__Add_Scenario_Header_View.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V15__Change_Scenario_Edge.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V16__Add_Parced_Question.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V17__Add_Dialing.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V18__Save_LastConnected_Callers_Base.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V19__Drop_Old_Statistic.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1__Init_DB.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V20__Drop_Confirm_Callers_Base.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V21__Add_Dialing_Statistic.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V22__Add_Start_And_End_Date_Call.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V23__Rename_Fields_For_Dialing_Result.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V2__Add_Dial.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V3__Add_Call_Statistic.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V4__Add_Sound.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V5__Add_Scenario.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V6__Change_Dial.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V7__Add_Vaiables_In_Caller_Base.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V8__Add_Generated_Sounds.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V9__Change_Type_Column_Variables_List_In_Caller_Base.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/TelephonyApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/correct/correct_cell_type.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/correct/empty_row.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/correct/simple.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/correct/small_table.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/not_valid/one_cell_empty_in_left.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/not_valid/one_cell_empty_in_middle.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/not_valid/one_cell_empty_in_right.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/wrong/cell_with_only_space_in_header.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/wrong/empty_cell_in_middle_in_headers.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/wrong/empty_file.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/wrong/empty_first_cell_in_headers.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/wrong/one_row.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/telephony/data/exel/wrong/two_equals_name_column.xlsx" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="246iRhZpV4FW8705kWuEWSBHfv6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Telephony" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4b4c408c-f452-4d87-8492-7a3266386637" name="Changes" comment="" />
+      <created>1642957430861</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1642957430861</updated>
+      <workItem from="1642957432293" duration="35000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
