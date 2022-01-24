@@ -2,6 +2,8 @@ package com.example.text.to.speech.service.service;
 
 import com.example.text.to.speech.service.dto.CreatedAudioFileResponse;
 import com.example.text.to.speech.service.dto.SpeechTextRequest;
+import com.example.text.to.speech.service.service.command.line.CommandLineExecutor;
+import com.example.text.to.speech.service.service.command.line.SoxCommands;
 import com.google.cloud.texttospeech.v1.*;
 import com.google.protobuf.ByteString;
 import org.springframework.stereotype.Service;
@@ -16,41 +18,22 @@ public class TextToSpeechService {
     public CreatedAudioFileResponse textToSpeech(SpeechTextRequest request) throws IOException {
         CreatedAudioFileResponse result = new CreatedAudioFileResponse(request);
 
-        try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
-            SynthesisInput input = createInput(request);
-            VoiceSelectionParams voice = createVoice(request);
-            AudioConfig audioConfig = createAudioConfig();
+        GoogleCloudTTS tts = new GoogleCloudTTS();
+        ByteString audioContents = tts.textToSpeech(request);
+        String fileName = writeOutputFile(audioContents);
 
-            SynthesizeSpeechResponse response = textToSpeechClient.synthesizeSpeech(input, voice, audioConfig);
-            String fileName = writeOutputFile(response.getAudioContent());
-            result.setName(fileName);
-        }
+        SoxCommands sox = new SoxCommands();
+        sox.addCommand(fileName, generateNewFileName("wav"));
+
+        CommandLineExecutor executor = new CommandLineExecutor();
+        executor.addCommands(sox);
+        executor.execute();
 
         return result;
     }
 
-    private SynthesisInput createInput(SpeechTextRequest request) {
-        return SynthesisInput.newBuilder()
-                .setText(request.getText())
-                .build();
-    }
-
-    private VoiceSelectionParams createVoice(SpeechTextRequest request) {
-        return VoiceSelectionParams.newBuilder()
-                .setLanguageCode(request.getVoice().getLanguageCode())
-                .setSsmlGender(request.getVoice().getVoiceGender())
-                .build();
-    }
-
-    private AudioConfig createAudioConfig() {
-        // TODO: 23.01.2022 try set correct parameters
-        return AudioConfig.newBuilder()
-                .setAudioEncoding(AudioEncoding.MP3)
-                .build();
-    }
-
     private String writeOutputFile(ByteString audioContents) throws IOException {
-        String fileName = String.format("%s.wav", UUID.randomUUID());
+        String fileName = generateNewFileName("mp3");
         try (OutputStream out = new FileOutputStream(fileName)) {
             out.write(audioContents.toByteArray());
             // TODO: 23.01.2022 log this
@@ -58,5 +41,9 @@ public class TextToSpeechService {
         }
 
         return fileName;
+    }
+
+    private String generateNewFileName(String format) {
+        return String.format("%s.%s", UUID.randomUUID(), format);
     }
 }

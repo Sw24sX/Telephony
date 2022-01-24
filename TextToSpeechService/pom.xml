@@ -55,6 +55,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>ie.corballis</groupId>
+            <artifactId>sox-java</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+
     </dependencies>
 
     <dependencyManagement>
