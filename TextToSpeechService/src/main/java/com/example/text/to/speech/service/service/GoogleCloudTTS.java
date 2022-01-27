@@ -35,11 +35,9 @@ public class GoogleCloudTTS {
     }
 
     private AudioConfig createAudioConfig() {
-        // TODO: 23.01.2022 try set correct parameters
         return AudioConfig.newBuilder()
                 .setAudioEncoding(AudioEncoding.LINEAR16)
                 .setSampleRateHertz(8000)
-//                .setAudioEncoding(AudioEncoding.MP3)
                 .build();
     }
 }
