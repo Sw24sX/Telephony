@@ -17,4 +17,7 @@ public class GeneratedSound extends BaseEntity {
 
     @Column(name = "path")
     private String path;
+
+    @Column(name = "text")
+    private String text;
 }
