@@ -49,7 +49,10 @@ public class TextToSpeechService {
     }
 
     private String reformatFile(String fileName) {
-        String soxPath = Paths.get("sox-14-4-2\\sox.exe").toAbsolutePath().toString();
+        String basePath = "sox-14-4-2/sox.exe";
+        String soxPath = System.getenv("SOX_PATH") == null ?
+                Paths.get(basePath).toAbsolutePath().toString() :
+                Paths.get(System.getenv("SOX_PATH")).toAbsolutePath().toString();
         Sox sox = new Sox(soxPath);
         String resultFileName = generateNewFileName("wav");
         try {
