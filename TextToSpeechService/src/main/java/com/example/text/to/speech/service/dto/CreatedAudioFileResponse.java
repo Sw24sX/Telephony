@@ -6,13 +6,12 @@ import lombok.EqualsAndHashCode;
 /**
  * Response with created file
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class CreatedAudioFileResponse extends SpeechTextRequest {
+public class CreatedAudioFileResponse {
     /**
-     * File name
+     * Id in data base
      */
-    private String name;
+    private Long id;
 
     /**
      * Uri to file
@@ -22,10 +21,10 @@ public class CreatedAudioFileResponse extends SpeechTextRequest {
     /**
      * Absolute path to file
      */
-    private String absolutePath;
+    private String path;
 
-    public CreatedAudioFileResponse(SpeechTextRequest request) {
-        this.setText(request.getText());
-        this.setVoice(request.getVoice());
-    }
+    /**
+     * Text for synthesis file
+     */
+    private String text;
 }

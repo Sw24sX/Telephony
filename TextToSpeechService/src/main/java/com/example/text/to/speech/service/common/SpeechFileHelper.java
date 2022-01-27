@@ -41,7 +41,8 @@ public class SpeechFileHelper {
      * @return Generated file name
      */
     public static File generateNewFile(String extension, String path) {
-        return new File(path, String.format("%s.%s", UUID.randomUUID(), extension));
+        String newName = UUID.randomUUID().toString().replace("-", "");
+        return new File(path, String.format("%s.%s", newName, extension));
     }
 
     /**

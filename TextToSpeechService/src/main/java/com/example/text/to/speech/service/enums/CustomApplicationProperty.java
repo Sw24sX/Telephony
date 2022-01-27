@@ -9,7 +9,9 @@ public enum CustomApplicationProperty {
     TTS_RESULT_URL("tts.result.url"),
     TTS_RESULT_PATTERN("tts.result.pattern"),
     SOX_PATH("sox.path"),
-    SOX_ENV_PATH("sox.env.path");
+    SOX_ENV_PATH("sox.env.path"),
+    SERVER_ADDRESS("server.address"),
+    SERVER_PORT("server.port");
 
     private final String name;
 
