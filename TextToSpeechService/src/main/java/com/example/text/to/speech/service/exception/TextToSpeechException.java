@@ -10,7 +10,11 @@ public class TextToSpeechException extends RuntimeException {
         super(message, cause);
     }
 
-    public TextToSpeechException(ExceptionMessages message) {
-        super(message.getMessage());
+    public TextToSpeechException(String message) {
+        super(message);
+    }
+
+    public TextToSpeechException(ExceptionMessages message, String... args) {
+        super(String.format(message.getMessage(), (Object[]) args));
     }
 }
