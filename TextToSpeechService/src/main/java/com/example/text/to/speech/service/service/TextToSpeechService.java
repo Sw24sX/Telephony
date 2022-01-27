@@ -3,24 +3,17 @@ package com.example.text.to.speech.service.service;
 import com.example.text.to.speech.service.dto.CreatedAudioFileResponse;
 import com.example.text.to.speech.service.dto.SpeechTextRequest;
 import com.example.text.to.speech.service.exception.TextToSpeechException;
-import com.example.text.to.speech.service.service.command.line.CommandLineExecutor;
-import com.example.text.to.speech.service.service.command.line.SoxCommands;
-import com.google.cloud.texttospeech.v1.*;
-import com.google.common.io.Files;
 import com.google.protobuf.ByteString;
 import ie.corballis.sox.Sox;
 import ie.corballis.sox.WrongParametersException;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
