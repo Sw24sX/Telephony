@@ -1,5 +1,6 @@
 package com.example.text.to.speech.service.common;
 
+import com.example.text.to.speech.service.enums.CustomApplicationProperty;
 import com.example.text.to.speech.service.enums.ExceptionMessages;
 import com.example.text.to.speech.service.exception.TextToSpeechException;
 import org.springframework.core.env.Environment;
@@ -8,16 +9,16 @@ public class PropertiesHelper {
     private PropertiesHelper() {
     }
 
-    public static String getApplicationProperty(String name, Environment environment) {
-        String property = environment.getProperty(name);
-        if (property == null) {
-            throw new TextToSpeechException(ExceptionMessages.PROPERTY_NOT_FOUND, name);
+    public static String getApplicationProperty(CustomApplicationProperty property, Environment environment) {
+        String result = environment.getProperty(property.getName());
+        if (result == null) {
+            throw new TextToSpeechException(ExceptionMessages.PROPERTY_NOT_FOUND, property.getName());
         }
 
-        return environment.getProperty(name);
+        return environment.getProperty(property.getName());
     }
 
-    public static String geSystemEnvironment(String name) {
+    public static String getSystemEnvironment(String name) {
         return System.getenv(name);
     }
 }
