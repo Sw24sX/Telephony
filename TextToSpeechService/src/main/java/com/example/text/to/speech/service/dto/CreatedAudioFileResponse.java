@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 public class CreatedAudioFileResponse extends SpeechTextRequest {
     private String name;
     private String uri;
+    private String absolutePath;
 
     public CreatedAudioFileResponse(SpeechTextRequest request) {
         this.setText(request.getText());
