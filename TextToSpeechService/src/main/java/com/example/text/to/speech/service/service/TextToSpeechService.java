@@ -40,7 +40,7 @@ public class TextToSpeechService {
         GoogleCloudTTS tts = new GoogleCloudTTS();
         ByteString audioContents = tts.textToSpeech(request);
         String tempFilePath = PropertiesHelper.getApplicationProperty(CustomApplicationProperty.TTS_TEMP_FILE, environment);
-        File tempFile = SpeechFileHelper.writeOutputFile(audioContents, tempFilePath);
+        File tempFile = SpeechFileHelper.writeTempFile(audioContents, tempFilePath);
 
         File resultFile = new SoxReformat(environment).reformatFile(tempFile);
         result.setName(resultFile.getName());
