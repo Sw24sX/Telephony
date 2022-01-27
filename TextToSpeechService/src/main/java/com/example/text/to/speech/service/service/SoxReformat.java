@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+/**
+ * Use sox utility
+ */
 public class SoxReformat {
     private final Sox sox;
     private final Environment environment;
@@ -38,6 +41,11 @@ public class SoxReformat {
         new File(path).mkdirs();
     }
 
+    /**
+     * Change file to 'asterisk'-format
+     * @param inputFile File before reformatting
+     * @return File after reformatting
+     */
     public File reformatFile(File inputFile) {
         String filePath = PropertiesHelper.getApplicationProperty(CustomApplicationProperty.TTS_RESULT_FILE, environment);
         File outputFile = SpeechFileHelper.generateNewFile(FilesFormat.WAV, filePath);

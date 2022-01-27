@@ -1,5 +1,8 @@
 package com.example.text.to.speech.service.enums;
 
+/**
+ * Enum with name properties from application.properties
+ */
 public enum CustomApplicationProperty {
     TTS_TEMP_FILE("tts.temp.file"),
     TTS_RESULT_FILE("tts.result.file"),
@@ -14,6 +17,9 @@ public enum CustomApplicationProperty {
         this.name = name;
     }
 
+    /**
+     * Property name in application.properties
+     */
     public String getName() {
         return name;
     }

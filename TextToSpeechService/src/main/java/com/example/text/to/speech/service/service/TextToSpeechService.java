@@ -13,6 +13,9 @@ import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Main service for synthesis file from text
+ */
 @Service
 public class TextToSpeechService {
     private final Environment environment;
@@ -21,6 +24,11 @@ public class TextToSpeechService {
         this.environment = environment;
     }
 
+    /**
+     * Create list file from list texts
+     * @param requests List requests for create files
+     * @return List synthesis files
+     */
     public List<CreatedAudioFileResponse> textToSpeechList(List<SpeechTextRequest> requests) {
         // TODO: 27.01.2022 multithreading
         List<CreatedAudioFileResponse> result = requests.stream().map(this::audioFileSynthesis).collect(Collectors.toList());
@@ -28,6 +36,11 @@ public class TextToSpeechService {
         return result;
     }
 
+    /**
+     * Create file from text
+     * @param request Request for create file
+     * @return Synthesis file
+     */
     public CreatedAudioFileResponse textToSpeech(SpeechTextRequest request) {
         CreatedAudioFileResponse result = audioFileSynthesis(request);
         clearTempDirectory();

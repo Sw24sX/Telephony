@@ -1,16 +1,23 @@
 package com.example.text.to.speech.service.enums;
 
+/**
+ * Enum with used extension file
+ */
 public enum FilesFormat {
     RAW(".raw"),
     WAV(".wav");
 
-    private final String format;
+    private final String extension;
 
-    FilesFormat(String format) {
-        this.format = format;
+    FilesFormat(String extension) {
+        this.extension = extension;
     }
 
-    public String getFormat() {
-        return format;
+    /**
+     * File extension
+     * @return
+     */
+    public String getExtension() {
+        return extension;
     }
 }

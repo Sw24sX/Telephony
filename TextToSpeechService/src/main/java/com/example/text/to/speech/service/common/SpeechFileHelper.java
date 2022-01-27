@@ -51,7 +51,7 @@ public class SpeechFileHelper {
      * @return Generated file name
      */
     public static File generateNewFile(FilesFormat format, String path) {
-        return generateNewFile(format.getFormat(), path);
+        return generateNewFile(format.getExtension(), path);
     }
 
     /**

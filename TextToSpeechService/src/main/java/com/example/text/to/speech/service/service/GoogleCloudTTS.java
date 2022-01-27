@@ -7,7 +7,16 @@ import com.google.protobuf.ByteString;
 
 import java.io.IOException;
 
+/**
+ * Use Google Clout tts
+ */
 public class GoogleCloudTTS {
+
+    /**
+     * Get bytes for audio from text
+     * @param request Request for create bytes for audio
+     * @return Bytes for audio file
+     */
     public ByteString textToSpeech(SpeechTextRequest request) {
         try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
             SynthesisInput input = createInput(request);
