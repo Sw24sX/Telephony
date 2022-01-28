@@ -15,7 +15,6 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,8 +90,6 @@ public class TextToSpeechService {
                 file.getName();
 
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
-                .scheme("http")
-                .host(PropertiesHelper.getApplicationProperty(CustomApplicationProperty.SERVER_ADDRESS, environment))
                 .port(PropertiesHelper.getApplicationProperty(CustomApplicationProperty.SERVER_PORT, environment))
                 .path(relativePath).build();
         return uriComponents.toString();
