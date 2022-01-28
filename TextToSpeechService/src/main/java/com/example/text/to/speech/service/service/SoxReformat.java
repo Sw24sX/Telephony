@@ -21,7 +21,6 @@ public class SoxReformat {
     private final Environment environment;
 
     public SoxReformat(Environment environment) {
-        createDirectoryIfNotExist(environment);
         this.sox = new Sox(getSoxPath(environment));
         this.environment = environment;
     }
@@ -34,11 +33,6 @@ public class SoxReformat {
         return systemPath == null ?
                 Paths.get(basePath).toAbsolutePath().toString() :
                 Paths.get(systemPath).toAbsolutePath().toString();
-    }
-
-    private static void createDirectoryIfNotExist(Environment environment) {
-        String path = PropertiesHelper.getApplicationProperty(CustomApplicationProperty.TTS_RESULT_FILE, environment);
-        new File(path).mkdirs();
     }
 
     /**
