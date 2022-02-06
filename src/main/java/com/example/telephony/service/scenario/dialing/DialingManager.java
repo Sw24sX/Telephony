@@ -40,7 +40,8 @@ public class DialingManager {
         }
 
         Integer currentCount = countCallersNotDialed.get(dialing).getCountCallersNotDialed();
-        if (currentCount == 1) {
+        int lastCallerNumber = 1;
+        if (currentCount == lastCallerNumber) {
             dialing.setStatus(DialingStatus.DONE);
             dialingRepository.save(dialing);
             dialingStatisticRepository.save(createDialingStatistic(countCallersNotDialed.get(dialing), dialing));

@@ -1,14 +1,15 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.callers.base.Caller;
-import com.example.telephony.domain.GeneratedSound;
+import com.example.telephony.tts.persistance.domain.GeneratedSound;
 import com.example.telephony.domain.scenario.ScenarioQuestion;
 import com.example.telephony.domain.scenario.ScenarioQuestionPart;
-import com.example.telephony.enums.SpeechVoice;
+import com.example.telephony.tts.persistance.enums.MicrosoftSpeechVoice;
 import com.example.telephony.enums.exception.messages.ScenarioExceptionMessages;
 import com.example.telephony.exception.ScenarioBuildException;
 import com.example.telephony.service.scenario.steps.BaseScenarioStep;
 import com.example.telephony.service.scenario.steps.ScenarioStep;
+import com.example.telephony.tts.service.GenerationSoundsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,7 @@ public class ScenarioPreparationService {
                 continue;
             }
 
-            GeneratedSound sound = generationSoundsService.textToFile(question, SpeechVoice.IRINA);
+            GeneratedSound sound = generationSoundsService.textToGeneratedFile(question);
             result.put(current, sound);
         }
 
@@ -49,11 +50,11 @@ public class ScenarioPreparationService {
     }
 
     private String addCallerVariables(ScenarioQuestion question, Map<String, String> variables) throws ScenarioBuildException {
-        StringBuilder builder = new StringBuilder();
         if (question == null) {
             return null;
         }
 
+        StringBuilder builder = new StringBuilder();
         for (ScenarioQuestionPart part : question.getParts()) {
             if(!part.isVariable()) {
                 builder.append(part.getQuestionPart());

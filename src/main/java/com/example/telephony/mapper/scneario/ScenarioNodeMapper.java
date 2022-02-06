@@ -22,9 +22,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {ScenarioNodeDataMapper.class})
-public abstract class ScenarioNodeMapper {
+public class ScenarioNodeMapper {
     @Autowired
-    protected ScenarioNodeDataMapper scenarioNodeDataMapper;
+    private ScenarioNodeDataMapper scenarioNodeDataMapper;
 
     public ScenarioNode fromScenarioNodeDto(ScenarioNodeDto dto) {
         if (dto == null) {

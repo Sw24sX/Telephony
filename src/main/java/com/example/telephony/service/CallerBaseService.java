@@ -71,7 +71,7 @@ public class CallerBaseService {
         try {
             return multipartFile.getInputStream();
         } catch (IOException e) {
-            throw new TelephonyException(e.getMessage());
+            throw new TelephonyException(e);
         }
     }
 

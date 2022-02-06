@@ -1,7 +1,7 @@
 package com.example.telephony.configuration;
 
 import com.example.telephony.service.DialingCallerResultService;
-import com.example.telephony.service.GenerationSoundsService;
+import com.example.telephony.tts.service.GenerationSoundsService;
 import com.example.telephony.service.scenario.dialing.DialingManager;
 import com.example.telephony.service.scenario.manager.ScenarioManager;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -23,7 +23,7 @@ public class ScenarioManagerConfig {
     }
 
     @Bean
-    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+    @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
     public ScenarioManager scenarioCall() {
         return new ScenarioManager(generationSoundsService, dialingCallerResultService, dialingManager);
     }

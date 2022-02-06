@@ -6,6 +6,7 @@ import com.example.telephony.enums.DialCallerStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,86 +23,25 @@ public interface DialingCallerResultRepository extends JpaRepository<DialingCall
     @Query("select d from DialingCallerResult d where d.dialing.id = ?1 and d.caller.id = ?2")
     Optional<DialingCallerResult> getDialingCallerResultByDialingIdAndCallerId(Long dialingId, Long callerId);
 
-    @Query(value = "select \n" +
-            "ds.id, \n" +
-            "ds.creation_date, \n" +
-            "ds.caller_id, \n" +
-            "ds.is_hold_on, \n" +
-            "ds.answers, \n" +
-            "ds.dialing_id, \n" +
-            "ds.message_hold_on, \n" +
-            "ds.end_date, \n" +
-            "ds.start_call, \n" +
-            "ds.status_code \n" +
-            "from ( \n" +
-                "select \n" +
-                    "id, \n" +
-                    "creation_date, \n" +
-                    "caller_id, \n" +
-                    "is_hold_on, \n" +
-                    "answers, \n" +
-                    "dialing_id, \n" +
-                    "message_hold_on, \n" +
-                    "status_code, \n" +
-                    "start_call, \n" +
-                    "end_date, \n" +
-                    "extract(hour from dcr.creation_date) * 60 * 60 * 1000 + \n" +
-                    "extract(MINUTE  from dcr.creation_date) * 60 * 1000 + \n" +
-                    "extract(MILLISECONDS from dcr.creation_date) as millsSum \n" +
-                "from dialing_caller_result dcr\n" +
-                "where dialing_id = ?1 and is_hold_on = false \n" +
-                "order by millsSum \n" +
-            ") as ds;", nativeQuery = true)
-    List<DialingCallerResult> getDialingResultsByDialingOrderByMillsOfDay(Long dialingId);
+    @Query("select d.startCall from DialingCallerResult d where d.status = :status order by d.startCall")
+    List<LocalTime> findAllStartCallTime(DialCallerStatus status);
 
-    @Query(value = "" +
-            "select \n" +
-                "ds.id, \n" +
-                "ds.creation_date, \n" +
-                "ds.caller_id, \n" +
-                "ds.is_hold_on, \n" +
-                "ds.answers, \n" +
-                "ds.dialing_id, \n" +
-                "ds.message_hold_on, \n" +
-                "ds.end_date, \n" +
-                "ds.start_call, \n" +
-                "ds.status_code \n" +
-            "from ( \n" +
-                "select \n" +
-                    "id, \n" +
-                    "creation_date, \n" +
-                    "caller_id, \n" +
-                    "is_hold_on, \n" +
-                    "answers, \n" +
-                    "dialing_id, \n" +
-                    "message_hold_on, \n" +
-                    "status_code, \n" +
-                    "start_call, \n" +
-                    "end_date, \n" +
-                    "extract(hour from dcr.creation_date) * 60 * 60 * 1000 + \n" +
-                    "extract(MINUTE  from dcr.creation_date) * 60 * 1000 + \n" +
-                    "extract(MILLISECONDS from dcr.creation_date) as millsSum \n" +
-                "from dialing_caller_result dcr\n" +
-                "where is_hold_on = false \n" +
-                "order by millsSum\n" +
-            ") as ds;", nativeQuery = true)
-    List<DialingCallerResult> getDialingResultsOrderByMillsOfDay();
+    @Query("select d.startCall from DialingCallerResult d where d.dialing.id = :dialingId and d.status = :status order by d.startCall")
+    List<LocalTime> findAllStartCallTimeByDialingId(Long dialingId, DialCallerStatus status);
 
-
-    @Query(value = "select \n" +
-                "sum(cl.countCallers) / count(cl.countCallers)" +
-            "from (\n" +
-            "select \n" +
-                "count(*) as countCallers\n" +
-                "from dialing_caller_result dcr\n" +
-            "group by dialing_id \n" +
+    @Query(value = "select " +
+                "sum(cl.countCallers) / count(cl.countCallers) " +
+            "from (" +
+            "select " +
+                "count(*) as countCallers " +
+                "from dialing_caller_result dcr " +
+            "group by dialing_id " +
             ") as cl;", nativeQuery = true)
     Integer getAverageCountCallers();
 
-    @Query(value = "select \n" +
-                "cast ( extract(EPOCH FROM (sum(end_date - start_call) / count(*))) * 1000 as text)\n" +
-            "from dialing_caller_result dcr\n" +
-            "where is_hold_on = false;", nativeQuery = true)
+    @Query(value = "select " +
+                        "extract(EPOCH from sum(end_call_from_start_day - start_call_from_start_day) / count(*) ) " +
+                    "from dialing_caller_result dcr where dcr.is_hold_on = false", nativeQuery = true)
     Double getAverageCallDuration();
 
     List<DialingCallerResult> findAllByDialing(Dialing dialing);

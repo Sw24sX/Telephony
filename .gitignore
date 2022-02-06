@@ -6,6 +6,7 @@ target/
 
 file/storage/**
 file/generate/**
+file/temp/**
 src/main/resources/environment.properties
 
 ### STS ###

@@ -1,7 +1,6 @@
 package com.example.telephony.service;
 
 import com.example.telephony.domain.callers.base.CallerVariable;
-import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.domain.dialing.Dialing;
 import com.example.telephony.domain.dialing.DialingCallerResult;
 import org.apache.commons.lang3.StringUtils;

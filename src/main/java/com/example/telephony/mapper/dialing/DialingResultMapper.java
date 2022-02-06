@@ -9,20 +9,16 @@ import com.example.telephony.dto.dialing.common.DialingResultDto;
 import com.example.telephony.dto.dialing.common.DialingScenarioDto;
 import com.example.telephony.service.CallerBaseService;
 import com.example.telephony.service.DialingService;
-import com.example.telephony.service.ScenarioService;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
-public abstract class DialingResultMapper {
+public class DialingResultMapper {
     @Autowired
-    protected ScenarioService scenarioService;
+    private CallerBaseService callerBaseService;
 
     @Autowired
-    protected CallerBaseService callerBaseService;
-
-    @Autowired
-    protected DialingService dialingService;
+    private DialingService dialingService;
 
     public DialingResultDto fromDialing(Dialing dialing) {
         if (dialing == null) {

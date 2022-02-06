@@ -8,6 +8,7 @@ import com.example.telephony.enums.DialingResultHoldOnMessages;
 import com.example.telephony.repository.DialingCallerResultRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class DialingCallerResultService {
         this.dialingCallerResultRepository = dialingCallerResultRepository;
     }
 
-    public DialingCallerResult create(Caller caller, Dialing dialing, List<String> answers, Date startCall) {
+    public DialingCallerResult create(Caller caller, Dialing dialing, List<String> answers, LocalTime startCall) {
         DialingCallerResult dialingCallerResult = new DialingCallerResult();
         dialingCallerResult.setDialing(dialing);
         dialingCallerResult.setCaller(caller);
@@ -27,7 +28,7 @@ public class DialingCallerResultService {
         dialingCallerResult.setHoldOn(false);
         dialingCallerResult.setStatus(DialCallerStatus.CORRECT);
         dialingCallerResult.setStartCall(startCall);
-        dialingCallerResult.setEndCall(new Date());
+        dialingCallerResult.setEndCall(LocalTime.now());
         return dialingCallerResultRepository.save(dialingCallerResult);
     }
 
@@ -38,8 +39,8 @@ public class DialingCallerResultService {
         dialingCallerResult.setHoldOn(true);
         dialingCallerResult.setMessage(message.getMessage());
         dialingCallerResult.setStatus(status);
-        dialingCallerResult.setStartCall(new Date());
-        dialingCallerResult.setEndCall(new Date());
+        dialingCallerResult.setStartCall(LocalTime.now());
+        dialingCallerResult.setEndCall(LocalTime.now());
         return dialingCallerResultRepository.save(dialingCallerResult);
     }
 }

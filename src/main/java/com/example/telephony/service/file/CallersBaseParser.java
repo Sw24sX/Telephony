@@ -1,11 +1,9 @@
 package com.example.telephony.service.file;
 
-import com.example.telephony.domain.callers.base.Caller;
-import com.example.telephony.domain.callers.base.CallerVariable;
-import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.domain.VariablesTypeName;
-import com.example.telephony.enums.exception.messages.FileParsingExceptionMessage;
+import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.enums.VariablesType;
+import com.example.telephony.enums.exception.messages.FileParsingExceptionMessage;
 import com.example.telephony.exception.FileParsingException;
 import com.example.telephony.exception.TelephonyException;
 import com.google.common.collect.Lists;
@@ -50,21 +48,24 @@ public class CallersBaseParser {
         try {
             return new XSSFWorkbook(inputStream);
         } catch (IOException e) {
-            throw new TelephonyException(e.getMessage());
+            throw new TelephonyException(e);
         }
     }
 
     public CallersBase parseExelToCallersBase() {
         checkFormatCorrected();
         createColumnVariables();
-        parseCallersData();
+        CallersBaseDataParser dataParser = new CallersBaseDataParser(NOT_VALID_VALUE, PHONE_COLUMN_NAME, callersBase, sheet);
+        dataParser.parseCallersData();
+        callersBase.setCallers(dataParser.getCallersBase().getCallers());
         return callersBase;
     }
 
     private void checkFormatCorrected() {
         int firstRowNum = sheet.getFirstRowNum();
         int lastRowNum = sheet.getLastRowNum();
-        if (lastRowNum - firstRowNum + 1 < 2) {
+        int minRowsInFileWithCallersBase = 2;
+        if (lastRowNum - firstRowNum + 1 < minRowsInFileWithCallersBase) {
             throw new FileParsingException(FileParsingExceptionMessage.EMPTY_DATA.getMessage());
         }
     }
@@ -82,13 +83,12 @@ public class CallersBaseParser {
 
     private VariablesTypeName createVariablesTypeFromCell(int cellNum) {
         Row firstRow = sheet.getRow(sheet.getFirstRowNum());
-        Row secondRow = sheet.getRow(sheet.getFirstRowNum() + 1);
-
         Cell firstRowCell = firstRow.getCell(cellNum);
         if (firstRowCell == null) {
             throw new FileParsingException(FileParsingExceptionMessage.EMPTY_CELL_IN_HEADER.getMessage());
         }
 
+        Row secondRow = sheet.getRow(sheet.getFirstRowNum() + 1);
         Cell secondRowCell = secondRow.getCell(cellNum);
         if (secondRowCell == null) {
             throw new FileParsingException(String.format(FileParsingExceptionMessage.FORMAT_NOT_CORRECT.getMessage(), 2));
@@ -152,79 +152,5 @@ public class CallersBaseParser {
         if(columnsSet.size() != columns.size()) {
             throw new FileParsingException(FileParsingExceptionMessage.HEADER_CONTAINS_NOT_UNIQUE_COLUMN.getMessage());
         }
-    }
-
-    private void parseCallersData() {
-        int startDataNumberRow = 1;
-        int phoneColumnIndex = findIndexColumnPhoneNumber();
-
-        for(int i = startDataNumberRow; i <= sheet.getLastRowNum(); i++) {
-            Row row = sheet.getRow(i);
-            if(row != null ) {
-                Caller caller = createCaller(sheet.getRow(i), phoneColumnIndex);
-                callersBase.getCallers().add(caller);
-            }
-        }
-    }
-
-    private int findIndexColumnPhoneNumber() {
-        for (int i = 0; i < columns.size(); i++) {
-            if (PHONE_COLUMN_NAME.contains(columns.get(i).getTableName())) {
-                return i;
-            }
-        }
-
-        throw new FileParsingException(FileParsingExceptionMessage.PHONE_NUMBER_COLUMN_NOT_FOUND.getMessage());
-    }
-
-    private Caller createCaller(Row row, int phoneColumnIndex) {
-        Caller caller = new Caller();
-        caller.setCallersBase(callersBase);
-        caller.setVariables(new ArrayList<>());
-        caller.setNumber(row.getRowNum());
-        caller.setValid(true);
-
-        for (int i = 0; i < columns.size(); i++) {
-            Cell cell = row.getCell(i);
-            VariablesTypeName currentVariablesTypeName = columns.get(i);
-            String cellValue = getValueCell(cell);
-            boolean isPhoneValue = i == phoneColumnIndex;
-            CallerVariable callerVariable = createCallerVariable(cellValue, currentVariablesTypeName, isPhoneValue, caller);
-            caller.getVariables().add(callerVariable);
-            caller.setValid(caller.isValid() && callerVariable.isValid());
-        }
-
-        return caller;
-    }
-
-    private String getValueCell(Cell cell) {
-        if (cell == null) {
-            return NOT_VALID_VALUE;
-        }
-
-        switch (cell.getCellType()) {
-            case BOOLEAN:
-                return String.valueOf(cell.getBooleanCellValue());
-            case STRING:
-                return cell.getStringCellValue().trim();
-            case NUMERIC:
-                return String.valueOf(cell.getNumericCellValue());
-            default:
-                return NOT_VALID_VALUE;
-        }
-    }
-
-    private CallerVariable createCallerVariable(String value, VariablesTypeName variablesTypeName, boolean isPhoneValue, Caller caller) {
-        CallerVariable callerVariable = new CallerVariable();
-        callerVariable.setValue(value);
-        callerVariable.setTypeName(variablesTypeName);
-        callerVariable.setValid(true);
-        callerVariable.setPhoneColumn(isPhoneValue);
-        callerVariable.setCaller(caller);
-        if(cellValueIsInvalid(value) || variablesTypeName.getType() == VariablesType.INDEFINITE) {
-            callerVariable.setValid(false);
-        }
-
-        return callerVariable;
     }
 }

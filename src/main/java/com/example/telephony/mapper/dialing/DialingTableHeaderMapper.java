@@ -16,12 +16,12 @@ import java.util.Date;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring")
-public abstract class DialingTableHeaderMapper {
+public class DialingTableHeaderMapper {
     @Autowired
-    protected CallersBaseHeaderMapper callersBaseHeaderMapper;
+    private CallersBaseHeaderMapper callersBaseHeaderMapper;
 
     @Autowired
-    protected CallerBaseService callerBaseService;
+    private CallerBaseService callerBaseService;
 
     public DialingResultTableDto fromDialing(Dialing dialing) {
         if (dialing == null) {

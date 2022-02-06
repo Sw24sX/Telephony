@@ -4,7 +4,7 @@ import ch.loway.oss.ari4java.tools.RestException;
 import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.domain.dialing.Dialing;
-import com.example.telephony.domain.GeneratedSound;
+import com.example.telephony.tts.persistance.domain.GeneratedSound;
 import com.example.telephony.enums.DialCallerStatus;
 import com.example.telephony.enums.DialingResultHoldOnMessages;
 import com.example.telephony.exception.ScenarioBuildException;
@@ -18,8 +18,8 @@ import com.example.telephony.service.scenario.steps.ScenarioStep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -75,7 +75,7 @@ public class ScenarioManagerService {
                 .isFinished(false)
                 .isStart(true)
                 .sounds(sounds)
-                .startCall(new Date())
+                .startCall(LocalTime.now())
                 .build();
 
         scenarioManager.addCallScenario(channelId, stateScenarioStep);

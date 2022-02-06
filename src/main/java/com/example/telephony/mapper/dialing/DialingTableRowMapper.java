@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring")
-public abstract class DialingTableRowMapper {
+public class DialingTableRowMapper {
     @Autowired
-    protected DialingService dialingService;
+    private DialingService dialingService;
 
     @Autowired
-    protected CallerMapper callerMapper;
+    private CallerMapper callerMapper;
 
     public DialingResultTableRowDto fromCaller(Caller caller, Dialing dialing) {
         if (caller == null) {

@@ -3,6 +3,8 @@ package com.example.telephony.common;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalTime;
+
 @Data
 @AllArgsConstructor
 public class CustomTime {
@@ -18,5 +20,9 @@ public class CustomTime {
         return new CustomTime((int) milliseconds / millisecondsPerHour,
                 (int) milliseconds % millisecondsPerHour / millisecondsPerMinutes,
                 (int) milliseconds % millisecondsPerHour % millisecondsPerMinutes / millisecondsPerSeconds);
+    }
+
+    public static CustomTime fromLocalTime(LocalTime localTime) {
+        return new CustomTime(localTime.getHour(), localTime.getMinute(), localTime.getSecond());
     }
 }

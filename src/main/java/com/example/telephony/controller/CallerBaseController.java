@@ -1,6 +1,6 @@
 package com.example.telephony.controller;
 
-import com.example.telephony.common.GlobalMapping;
+import com.example.telephony.common.GlobalMappingUtils;
 import com.example.telephony.domain.callers.base.Caller;
 import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.dto.caller.base.CallerDto;
@@ -27,9 +27,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(GlobalMapping.API + "callers-base")
+@RequestMapping(GlobalMappingUtils.API + "callers-base")
 @Api("Operations pertaining to callers bases")
 public class CallerBaseController {
+    private static final String CALLERS_BASE_ID = "Callers base id";
+    public static final String PATH_ID = "id";
+
     private final CallerBaseService callerBaseService;
     private final CallersBaseHeaderMapper callersBaseHeaderMapper;
     private final CallerService callerService;
@@ -57,7 +60,7 @@ public class CallerBaseController {
 
     @GetMapping("header/{id}")
     @ApiOperation("Get callers base by id")
-    public CallersBaseHeaderDto getById(@ApiParam("Callers base id") @PathVariable("id") Long id) {
+    public CallersBaseHeaderDto getById(@ApiParam(CALLERS_BASE_ID) @PathVariable(PATH_ID) Long id) {
         CallersBase callersBase = callerBaseService.getById(id);
         return callersBaseHeaderMapper.fromCallersBase(callersBase);
     }
@@ -65,14 +68,14 @@ public class CallerBaseController {
     @PutMapping("header/{id}")
     @ApiOperation("Update exists callers base. Can add exists callers")
     public CallersBaseHeaderDto update(@ApiParam("Callers base data") @Valid @RequestBody CallersBaseHeaderDto callersBaseHeaderDto,
-                                       @ApiParam("Callers base id") @PathVariable("id") Long id) {
+                                       @ApiParam(CALLERS_BASE_ID) @PathVariable(PATH_ID) Long id) {
         CallersBase callersBase = callersBaseHeaderMapper.fromCallersBaseHeaderDto(callersBaseHeaderDto);
         return callersBaseHeaderMapper.fromCallersBase(callerBaseService.update(id, callersBase));
     }
 
     @DeleteMapping("{id}")
     @ApiOperation("Delete callers base")
-    public void delete(@ApiParam("Callers base id") @PathVariable("id") Long id) {
+    public void delete(@ApiParam(CALLERS_BASE_ID) @PathVariable(PATH_ID) Long id) {
         callerBaseService.deleteCallersBase(id);
     }
 
@@ -94,7 +97,7 @@ public class CallerBaseController {
 
     @GetMapping("data/{id}")
     @ApiOperation("Get page of callers")
-    public Page<CallerDto> getCallersPage(@ApiParam("Callers base id") @PathVariable("id") Long callersBaseId,
+    public Page<CallerDto> getCallersPage(@ApiParam(CALLERS_BASE_ID) @PathVariable(PATH_ID) Long callersBaseId,
                                           @ApiParam("Page number. Start with 0") @RequestParam("page") Integer page,
                                           @ApiParam("Page size") @RequestParam("size") Integer size,
                                           @ApiParam("Return only invalid callers")

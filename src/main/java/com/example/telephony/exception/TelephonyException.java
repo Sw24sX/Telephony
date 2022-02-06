@@ -14,6 +14,10 @@ public class TelephonyException extends RuntimeException {
         this.telephonyMessage = telephonyMessage;
     }
 
+    public TelephonyException(Throwable cause) {
+        super(cause);
+    }
+
     public String getTelephonyMessage() {
         return telephonyMessage;
     }
