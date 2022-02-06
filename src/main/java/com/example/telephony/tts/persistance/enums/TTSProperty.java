@@ -1,5 +1,8 @@
 package com.example.telephony.tts.persistance.enums;
 
+/**
+ * Properties for tts
+ */
 public enum TTSProperty {
     TTS_TEMP_FILE("file.temp.path"),
     TTS_RESULT_FILE("file.generated.path"),

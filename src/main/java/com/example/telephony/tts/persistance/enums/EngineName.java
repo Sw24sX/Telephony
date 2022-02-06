@@ -4,6 +4,9 @@ import com.example.telephony.tts.exception.TextToSpeechException;
 
 import java.util.Arrays;
 
+/**
+ * Values for property tts.engine
+ */
 public enum EngineName {
     GOOGLE("google"),
     MICROSOFT("microsoft");

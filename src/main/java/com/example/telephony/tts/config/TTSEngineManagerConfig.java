@@ -1,6 +1,6 @@
 package com.example.telephony.tts.config;
 
-import com.example.telephony.tts.service.TTSEngineManager;
+import com.example.telephony.tts.service.engine.TTSEngineManager;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.example.telephony.tts.service;
+package com.example.telephony.tts.service.engine;
 
 import com.example.telephony.tts.common.SpeechFileHelper;
 import com.example.telephony.tts.common.TTSPropertiesHelper;
@@ -13,6 +13,9 @@ import org.springframework.core.env.Environment;
 import java.io.File;
 import java.util.function.Function;
 
+/**
+ * Text to speech engine manager
+ */
 public class TTSEngineManager {
     private final Function<String, File> ttsFunction;
     private final Environment environment;
@@ -35,6 +38,11 @@ public class TTSEngineManager {
         }
     }
 
+    /**
+     * Synthesize audio by engine
+     * @param text Text for synthesizing
+     * @return Synthesized file
+     */
     public File textToSpeech(String text) {
         File tempFile = ttsFunction.apply(text);
         SoxReformat soxReformat = new SoxReformat(environment);

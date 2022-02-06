@@ -5,6 +5,7 @@ import com.example.telephony.tts.persistance.domain.GeneratedSound;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.tts.persistance.repository.GeneratedSoundRepository;
+import com.example.telephony.tts.service.engine.TTSEngineManager;
 import com.example.telephony.tts.service.engine.microsoft.desktop.MicrosoftTextToSpeechEngine;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
@@ -15,11 +16,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.List;
 
 /**
- *
+ * Service for work with GeneratedSound entity
  */
 @Service
 public class GenerationSoundsService {
@@ -39,9 +39,9 @@ public class GenerationSoundsService {
     }
 
     /**
-     *
-     * @param text
-     * @return
+     * Get audio from text
+     * @param text text for synthesize
+     * @return generated sound file
      */
     public GeneratedSound textToGeneratedFile(String text) {
         String preparedText = StringUtils.trim(text);
@@ -68,17 +68,17 @@ public class GenerationSoundsService {
     }
 
     /**
-     *
-     * @return
+     * Get all generated files
+     * @return List all generated file
      */
     public List<GeneratedSound> getAll() {
         return generatedSoundRepository.findAll();
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Get generated file by id
+     * @param id Generated file id
+     * @return generated file or EntityNotFoundException
      */
     public GeneratedSound getById(Long id) {
         return generatedSoundRepository.findById(id).orElseThrow(() ->
@@ -86,22 +86,15 @@ public class GenerationSoundsService {
     }
 
     /**
-     *
-     * @param id
+     * Delete generated file from file system and database
+     * @param id Generated file id
      */
     public void delete(Long id) {
         GeneratedSound generatedSound = getById(id);
         if (!new File(generatedSound.getPath()).delete()) {
-            System.out.println(String.format(ExceptionMessage.FILE_NOT_FOUND.getMessage(), generatedSound.getPath()));
+            String message = String.format(ExceptionMessage.FILE_NOT_FOUND.getMessage(), generatedSound.getPath());
+            System.out.println(message);
         }
         generatedSoundRepository.delete(generatedSound);
-    }
-
-    /**
-     *
-     * @param sounds
-     */
-    public void deleteAll(Collection<GeneratedSound> sounds) {
-        generatedSoundRepository.deleteAll(sounds);
     }
 }
