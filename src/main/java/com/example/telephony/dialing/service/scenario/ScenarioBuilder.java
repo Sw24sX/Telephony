@@ -7,7 +7,6 @@ import com.example.telephony.domain.scenario.ScenarioNode;
 import com.example.telephony.enums.exception.messages.ScenarioExceptionMessages;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.dialing.service.asterisk.AsteriskHelper;
-import com.example.telephony.service.scenario.steps.*;
 
 import java.util.LinkedList;
 import java.util.Queue;
