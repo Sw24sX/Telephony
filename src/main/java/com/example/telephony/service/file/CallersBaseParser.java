@@ -1,10 +1,10 @@
 package com.example.telephony.service.file;
 
-import com.example.telephony.domain.Caller;
-import com.example.telephony.domain.CallerVariable;
-import com.example.telephony.domain.CallersBase;
+import com.example.telephony.domain.callers.base.Caller;
+import com.example.telephony.domain.callers.base.CallerVariable;
+import com.example.telephony.domain.callers.base.CallersBase;
 import com.example.telephony.domain.VariablesTypeName;
-import com.example.telephony.enums.FileParsingExceptionMessage;
+import com.example.telephony.enums.exception.messages.FileParsingExceptionMessage;
 import com.example.telephony.enums.VariablesType;
 import com.example.telephony.exception.FileParsingException;
 import com.example.telephony.exception.TelephonyException;
@@ -41,7 +41,6 @@ public class CallersBaseParser {
 
     private CallersBase createCallerBase() {
         CallersBase result = new CallersBase();
-        result.setConfirmed(false);
         result.setCallers(new ArrayList<>());
         result.setVariablesList(new ArrayList<>());
         return result;

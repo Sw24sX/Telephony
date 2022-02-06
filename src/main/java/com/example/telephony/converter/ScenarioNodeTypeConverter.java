@@ -9,7 +9,7 @@ import javax.persistence.Converter;
 public class ScenarioNodeTypeConverter implements AttributeConverter<ScenarioNodeTypes, Short> {
     @Override
     public Short convertToDatabaseColumn(ScenarioNodeTypes scenarioNodeTypes) {
-        return scenarioNodeTypes == null ? ScenarioNodeTypes.QUESTION.getCode() : scenarioNodeTypes.getCode();
+        return scenarioNodeTypes == null ? ScenarioNodeTypes.REPLICA.getCode() : scenarioNodeTypes.getCode();
     }
 
     @Override

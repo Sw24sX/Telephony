@@ -22,18 +22,20 @@ public class MicrosoftTextToSpeech {
     }
 
     public String textToFile(String text, SpeechVoice speechVoice) {
-        String uniqueFileName = getUniqueFileName();
-        Path pathToNewFile = path.resolve(uniqueFileName);
+        Path pathToFirstFile = path.resolve(getUniqueFileName());
+        String endFileName = getUniqueFileName();
+        Path pathToEndFile = path.resolve(endFileName);
 
         List<String> commandLineScript = new SpeechCommandLineScriptBuilder()
                 .setText(text)
-                .setPath(pathToNewFile)
+                .setPath(pathToFirstFile)
                 .setVoice(speechVoice)
+                .setSox(pathToFirstFile.toString(), pathToEndFile.toString())
                 .build();
 
         String[] list = commandLineScript.toArray(new String[0]);
         execute(list);
-        return uniqueFileName;
+        return endFileName;
     }
 
     private String getUniqueFileName() {

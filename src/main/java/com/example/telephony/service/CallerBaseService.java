@@ -1,12 +1,12 @@
 package com.example.telephony.service;
 
-import com.example.telephony.domain.CallersBase;
-import com.example.telephony.enums.CallersBasePageSort;
-import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.domain.callers.base.CallersBase;
+import com.example.telephony.enums.exception.messages.ExceptionMessage;
+import com.example.telephony.enums.FieldsPageSort;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.repository.CallerBaseRepository;
-import com.example.telephony.repository.CallerRepository;
+import com.example.telephony.repository.VariablesTypeNameRepository;
 import com.example.telephony.service.file.CallersBaseParser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,22 +22,22 @@ import java.util.List;
 @Service
 public class CallerBaseService {
     private final CallerBaseRepository callerBaseRepository;
-    private final CallerRepository callerRepository;
+    private final VariablesTypeNameRepository variablesTypeNameRepository;
 
-    public CallerBaseService(CallerBaseRepository callerBaseRepository, CallerRepository callerRepository) {
+    public CallerBaseService(CallerBaseRepository callerBaseRepository, VariablesTypeNameRepository variablesTypeNameRepository) {
         this.callerBaseRepository = callerBaseRepository;
-        this.callerRepository = callerRepository;
+        this.variablesTypeNameRepository = variablesTypeNameRepository;
     }
 
     public List<CallersBase> getAll() {
-        return callerBaseRepository.findAllByConfirmedIs(true);
+        return callerBaseRepository.findAll();
     }
 
-    public Page<CallersBase> getPage(int number, int size, CallersBasePageSort callersBasePageSort,
+    public Page<CallersBase> getPage(int number, int size, FieldsPageSort fieldsPageSort,
                                      Sort.Direction direction, String name) {
-        Sort sort = Sort.by(direction, callersBasePageSort.getFieldName());
+        Sort sort = Sort.by(direction, fieldsPageSort.getFieldName());
         Pageable pageable = PageRequest.of(number, size, sort);
-        return callerBaseRepository.findAllByConfirmedIs(true, "%" + name + "%", pageable);
+        return callerBaseRepository.findAllByNameLike("%" + name + "%", pageable);
     }
 
     public CallersBase getById(Long id) {
@@ -51,7 +51,6 @@ public class CallerBaseService {
     public CallersBase update(Long id, CallersBase callersBase) {
         CallersBase callersBaseDb = getById(id);
         callersBaseDb.setName(callersBase.getName());
-        callersBaseDb.setConfirmed(callersBase.isConfirmed() || callersBaseDb.isConfirmed());
         callersBaseDb.setVariablesList(callersBase.getVariablesList());
         return callerBaseRepository.save(callersBaseDb);
     }
@@ -65,8 +64,7 @@ public class CallerBaseService {
         CallersBase callersBase = callersBaseParser.parseExelToCallersBase();
         callersBase.setName(name);
 
-        CallersBase result = callerBaseRepository.save(callersBase);
-        return result;
+        return callerBaseRepository.save(callersBase);
     }
 
     private InputStream getInputStream(MultipartFile multipartFile) {
@@ -75,5 +73,13 @@ public class CallerBaseService {
         } catch (IOException e) {
             throw new TelephonyException(e.getMessage());
         }
+    }
+
+    public Integer getCountCallers(Long callerBaseId) {
+        return callerBaseRepository.getCountCallersByCallersBaseId(callerBaseId);
+    }
+
+    public List<String> getListColumnsName(Long callerBaseId) {
+        return variablesTypeNameRepository.getListColumnsName(callerBaseId);
     }
 }

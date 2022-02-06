@@ -14,7 +14,7 @@ public class PlaybackStartedListener implements ApplicationListener<AsteriskEven
         Event event = asteriskEvent.getEvent();
         if(event instanceof PlaybackStarted) {
             PlaybackStarted playbackStarted = (PlaybackStarted) event;
-//            System.out.println("PLayback started in listener");
+            System.out.println("Playback started in listener " + playbackStarted.getPlayback().getId());
         }
     }
 }

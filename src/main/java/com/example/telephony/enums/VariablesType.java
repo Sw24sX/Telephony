@@ -1,5 +1,6 @@
 package com.example.telephony.enums;
 
+import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
 
 import java.util.Arrays;

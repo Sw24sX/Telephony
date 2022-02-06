@@ -1,6 +1,6 @@
 package com.example.telephony.common;
 
-import com.example.telephony.enums.ExceptionMessage;
+import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
 import org.springframework.core.env.Environment;
 
