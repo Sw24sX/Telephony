@@ -2,9 +2,8 @@ package com.example.telephony.tts.rest;
 
 import com.example.telephony.common.GlobalMappingUtils;
 import com.example.telephony.tts.persistance.domain.GeneratedSound;
-import com.example.telephony.dto.GeneratedSoundDto;
-import com.example.telephony.tts.persistance.enums.MicrosoftSpeechVoice;
-import com.example.telephony.mapper.GeneratedSoundMapper;
+import com.example.telephony.tts.dto.GeneratedSoundDto;
+import com.example.telephony.tts.mapper.GeneratedSoundMapper;
 import com.example.telephony.tts.service.GenerationSoundsService;
 import org.springframework.web.bind.annotation.*;
 
