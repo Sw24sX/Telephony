@@ -3,7 +3,7 @@ package com.example.telephony.scheduling;
 import com.example.telephony.common.PropertiesHelper;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
-import com.example.telephony.repository.GeneratedSoundRepository;
+import com.example.telephony.tts.persistance.repository.GeneratedSoundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;

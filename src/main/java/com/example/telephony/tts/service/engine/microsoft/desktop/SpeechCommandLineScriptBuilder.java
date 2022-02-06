@@ -1,6 +1,6 @@
-package com.example.telephony.service.tts;
+package com.example.telephony.tts.service.engine.microsoft.desktop;
 
-import com.example.telephony.enums.SpeechVoice;
+import com.example.telephony.tts.persistance.enums.MicrosoftSpeechVoice;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class SpeechCommandLineScriptBuilder {
         return this;
     }
 
-    public SpeechCommandLineScriptBuilder setVoice(SpeechVoice speechVoice) {
+    public SpeechCommandLineScriptBuilder setVoice(MicrosoftSpeechVoice speechVoice) {
         this.voice = String.format(this.voice, speechVoice.getValue());
         return this;
     }

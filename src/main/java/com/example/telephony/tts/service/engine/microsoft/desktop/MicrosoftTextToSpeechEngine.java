@@ -1,27 +1,49 @@
-package com.example.telephony.service.tts;
+package com.example.telephony.tts.service.engine.microsoft.desktop;
 
 import com.example.telephony.common.PropertiesHelper;
-import com.example.telephony.enums.SpeechVoice;
+import com.example.telephony.tts.exception.TextToSpeechException;
+import com.example.telephony.tts.persistance.enums.EngineName;
+import com.example.telephony.tts.persistance.enums.MicrosoftSpeechVoice;
+import com.example.telephony.tts.persistance.enums.TTSExceptionMessage;
+import com.example.telephony.tts.service.engine.TextToSpeechEngine;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Component
-public class MicrosoftTextToSpeech {
+public class MicrosoftTextToSpeechEngine implements TextToSpeechEngine {
     private final Path path;
+    private static final MicrosoftSpeechVoice DEFAULT_VOICE = MicrosoftSpeechVoice.IRINA;
 
-    public MicrosoftTextToSpeech(Environment environment) {
+    public MicrosoftTextToSpeechEngine(Environment environment) {
         this.path = Paths.get(PropertiesHelper.getProperty(environment, "file.generated.path"));
     }
 
-    public String textToFile(String text, SpeechVoice speechVoice) {
+    @Override
+    public File textToSpeech(String text) {
+        return new File(textToFile(text, DEFAULT_VOICE));
+    }
+
+    @Override
+    public Function<String, File> getTextToSpeechFunction(String name) {
+        if (name.toLowerCase(Locale.ROOT).equals(EngineName.MICROSOFT.getName())) {
+            return this::textToSpeech;
+        }
+
+        throw new TextToSpeechException(TTSExceptionMessage.NOT_CORRECT_NAME_ENGINE);
+    }
+
+    public String textToFile(String text, MicrosoftSpeechVoice speechVoice) {
         Path pathToFirstFile = path.resolve(getUniqueFileName());
         String endFileName = getUniqueFileName();
         Path pathToEndFile = path.resolve(endFileName);
@@ -70,4 +92,5 @@ public class MicrosoftTextToSpeech {
             }
         }, threadName).start();
     }
+
 }

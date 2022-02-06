@@ -1,6 +1,6 @@
-package com.example.telephony.enums;
+package com.example.telephony.tts.persistance.enums;
 
-public enum SpeechVoice {
+public enum MicrosoftSpeechVoice {
     IRINA("Microsoft Irina Desktop", "Русский", (short) 1),
     ZIRA("Microsoft Zira Desktop", "English", (short) 2);
 
@@ -8,7 +8,7 @@ public enum SpeechVoice {
     private final String language;
     private final short code;
 
-    SpeechVoice(String value, String language, short code) {
+    MicrosoftSpeechVoice(String value, String language, short code) {
         this.value = value;
         this.language = language;
         this.code = code;

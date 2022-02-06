@@ -1,12 +1,12 @@
-package com.example.telephony.service;
+package com.example.telephony.tts.service;
 
 import com.example.telephony.common.PropertiesHelper;
-import com.example.telephony.domain.GeneratedSound;
+import com.example.telephony.tts.persistance.domain.GeneratedSound;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
-import com.example.telephony.enums.SpeechVoice;
+import com.example.telephony.tts.persistance.enums.MicrosoftSpeechVoice;
 import com.example.telephony.exception.EntityNotFoundException;
-import com.example.telephony.repository.GeneratedSoundRepository;
-import com.example.telephony.service.tts.MicrosoftTextToSpeech;
+import com.example.telephony.tts.persistance.repository.GeneratedSoundRepository;
+import com.example.telephony.tts.service.engine.microsoft.desktop.MicrosoftTextToSpeechEngine;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
@@ -18,25 +18,36 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ *
+ */
 @Service
 public class GenerationSoundsService {
-    private final MicrosoftTextToSpeech microsoftTextToSpeech;
+    private final MicrosoftTextToSpeechEngine microsoftTextToSpeech;
     private final Environment environment;
     private final GeneratedSoundRepository generatedSoundRepository;
     private final Path generatedFilePath;
+    private final TTSEngineManager ttsEngineManager;
 
-    public GenerationSoundsService(MicrosoftTextToSpeech microsoftTextToSpeech, Environment environment, GeneratedSoundRepository generatedSoundRepository) {
+    public GenerationSoundsService(MicrosoftTextToSpeechEngine microsoftTextToSpeech, Environment environment,
+                                   GeneratedSoundRepository generatedSoundRepository, TTSEngineManager ttsEngineManager) {
         this.microsoftTextToSpeech = microsoftTextToSpeech;
         this.environment = environment;
         this.generatedSoundRepository = generatedSoundRepository;
         generatedFilePath = Paths.get(PropertiesHelper.getProperty(environment, "file.generated.path"));
+        this.ttsEngineManager = ttsEngineManager;
     }
 
-    public GeneratedSound textToFile(String text, SpeechVoice voice) {
-        String fileName = microsoftTextToSpeech.textToFile(text, voice);
+    /**
+     *
+     * @param text
+     * @return
+     */
+    public GeneratedSound textToGeneratedFile(String text) {
+        File synthesizeFile = ttsEngineManager.textToSpeech(text);
         GeneratedSound generatedSound = new GeneratedSound();
-        generatedSound.setPath(getFilePath(fileName).toString());
-        generatedSound.setUri(buildFileUri(fileName));
+        generatedSound.setPath(synthesizeFile.getPath());
+        generatedSound.setUri(buildFileUri(synthesizeFile.getName()));
         return generatedSoundRepository.save(generatedSound);
     }
 
@@ -49,19 +60,28 @@ public class GenerationSoundsService {
         return uriComponents.toString();
     }
 
-    private Path getFilePath(String fileName) {
-        return generatedFilePath.resolve(fileName);
-    }
-
+    /**
+     *
+     * @return
+     */
     public List<GeneratedSound> getAll() {
         return generatedSoundRepository.findAll();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public GeneratedSound getById(Long id) {
         return generatedSoundRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format(ExceptionMessage.GENERATED_FILE_NOT_FOUND.getMessage(), id)));
     }
 
+    /**
+     *
+     * @param id
+     */
     public void delete(Long id) {
         GeneratedSound generatedSound = getById(id);
         if (!new File(generatedSound.getPath()).delete()) {
@@ -70,6 +90,10 @@ public class GenerationSoundsService {
         generatedSoundRepository.delete(generatedSound);
     }
 
+    /**
+     *
+     * @param sounds
+     */
     public void deleteAll(Collection<GeneratedSound> sounds) {
         generatedSoundRepository.deleteAll(sounds);
     }

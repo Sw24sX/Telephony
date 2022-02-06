@@ -4,7 +4,7 @@ import ch.loway.oss.ari4java.generated.models.Playback;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
 import com.example.telephony.exception.TelephonyException;
 import com.example.telephony.service.DialingCallerResultService;
-import com.example.telephony.service.GenerationSoundsService;
+import com.example.telephony.tts.service.GenerationSoundsService;
 import com.example.telephony.service.scenario.dialing.DialingManager;
 import com.example.telephony.service.scenario.steps.ScenarioStep;
 
