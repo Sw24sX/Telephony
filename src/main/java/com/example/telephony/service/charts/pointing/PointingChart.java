@@ -1,6 +1,6 @@
 package com.example.telephony.service.charts.pointing;
 
-import com.example.telephony.dto.dialing.charts.succes.calls.DialingResultSuccessCallsChartDto;
+import com.example.telephony.dialing.dto.charts.succes.calls.DialingResultSuccessCallsChartDto;
 import com.example.telephony.enums.exception.messages.ChartExceptionMessages;
 import com.example.telephony.exception.ChartException;
 import org.apache.commons.collections4.CollectionUtils;

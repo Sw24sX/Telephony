@@ -1,12 +1,12 @@
 package com.example.telephony.service.charts.pie;
 
-import com.example.telephony.domain.dialing.Dialing;
-import com.example.telephony.dto.dialing.charts.pie.DialingResultPartPieChartDto;
-import com.example.telephony.dto.dialing.charts.pie.DialingResultPieChartDto;
-import com.example.telephony.enums.DialCallerStatus;
+import com.example.telephony.dialing.persistance.model.Dialing;
+import com.example.telephony.dialing.dto.charts.pie.DialingResultPartPieChartDto;
+import com.example.telephony.dialing.dto.charts.pie.DialingResultPieChartDto;
+import com.example.telephony.dialing.persistance.enums.DialCallerStatus;
 import com.example.telephony.enums.exception.messages.ChartExceptionMessages;
 import com.example.telephony.exception.ChartException;
-import com.example.telephony.service.DialingService;
+import com.example.telephony.dialing.service.DialingService;
 
 import java.util.HashMap;
 import java.util.Map;

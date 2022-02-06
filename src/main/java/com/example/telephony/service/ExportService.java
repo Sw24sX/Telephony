@@ -1,8 +1,9 @@
 package com.example.telephony.service;
 
+import com.example.telephony.dialing.service.DialingService;
 import com.example.telephony.domain.callers.base.CallerVariable;
-import com.example.telephony.domain.dialing.Dialing;
-import com.example.telephony.domain.dialing.DialingCallerResult;
+import com.example.telephony.dialing.persistance.model.Dialing;
+import com.example.telephony.dialing.persistance.model.DialingCallerResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;

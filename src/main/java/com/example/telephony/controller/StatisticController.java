@@ -2,8 +2,8 @@ package com.example.telephony.controller;
 
 import com.example.telephony.common.GlobalMappingUtils;
 import com.example.telephony.dto.CommonStatisticDto;
-import com.example.telephony.dto.dialing.charts.pie.DialingResultPieChartDto;
-import com.example.telephony.dto.dialing.charts.succes.calls.DialingResultSuccessCallsChartDto;
+import com.example.telephony.dialing.dto.charts.pie.DialingResultPieChartDto;
+import com.example.telephony.dialing.dto.charts.succes.calls.DialingResultSuccessCallsChartDto;
 import com.example.telephony.service.StatisticService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

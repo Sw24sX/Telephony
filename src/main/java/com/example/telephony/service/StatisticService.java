@@ -1,16 +1,15 @@
 package com.example.telephony.service;
 
 import com.example.telephony.common.CustomTime;
+import com.example.telephony.dialing.service.DialingService;
 import com.example.telephony.service.charts.pie.PieChart;
 import com.example.telephony.service.charts.pointing.PointingChart;
-import com.example.telephony.domain.dialing.Dialing;
+import com.example.telephony.dialing.persistance.model.Dialing;
 import com.example.telephony.dto.CommonStatisticDto;
-import com.example.telephony.dto.dialing.charts.pie.DialingResultPartPieChartDto;
-import com.example.telephony.dto.dialing.charts.pie.DialingResultPieChartDto;
-import com.example.telephony.dto.dialing.charts.succes.calls.DialingResultSuccessCallsChartDto;
-import com.example.telephony.enums.DialCallerStatus;
-import com.example.telephony.repository.DialingCallerResultRepository;
-import com.example.telephony.repository.DialingStatisticRepository;
+import com.example.telephony.dialing.dto.charts.pie.DialingResultPieChartDto;
+import com.example.telephony.dialing.dto.charts.succes.calls.DialingResultSuccessCallsChartDto;
+import com.example.telephony.dialing.persistance.repository.DialingCallerResultRepository;
+import com.example.telephony.dialing.persistance.repository.DialingStatisticRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
