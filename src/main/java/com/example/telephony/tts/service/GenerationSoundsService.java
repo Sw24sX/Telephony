@@ -3,10 +3,10 @@ package com.example.telephony.tts.service;
 import com.example.telephony.common.PropertiesHelper;
 import com.example.telephony.tts.persistance.domain.GeneratedSound;
 import com.example.telephony.enums.exception.messages.ExceptionMessage;
-import com.example.telephony.tts.persistance.enums.MicrosoftSpeechVoice;
 import com.example.telephony.exception.EntityNotFoundException;
 import com.example.telephony.tts.persistance.repository.GeneratedSoundRepository;
 import com.example.telephony.tts.service.engine.microsoft.desktop.MicrosoftTextToSpeechEngine;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
@@ -44,10 +44,17 @@ public class GenerationSoundsService {
      * @return
      */
     public GeneratedSound textToGeneratedFile(String text) {
+        String preparedText = StringUtils.trim(text);
+        GeneratedSound generatedSoundDb = generatedSoundRepository.findGeneratedSoundByText(preparedText);
+        return generatedSoundDb == null ? generateNewFile(preparedText) : generatedSoundDb;
+    }
+
+    private GeneratedSound generateNewFile(String text) {
         File synthesizeFile = ttsEngineManager.textToSpeech(text);
         GeneratedSound generatedSound = new GeneratedSound();
         generatedSound.setPath(synthesizeFile.getPath());
         generatedSound.setUri(buildFileUri(synthesizeFile.getName()));
+        generatedSound.setText(text);
         return generatedSoundRepository.save(generatedSound);
     }
 
