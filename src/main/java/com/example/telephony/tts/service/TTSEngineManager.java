@@ -1,5 +1,6 @@
 package com.example.telephony.tts.service;
 
+import com.example.telephony.tts.common.SpeechFileHelper;
 import com.example.telephony.tts.common.TTSPropertiesHelper;
 import com.example.telephony.tts.exception.TextToSpeechException;
 import com.example.telephony.tts.persistance.enums.EngineName;
@@ -37,6 +38,8 @@ public class TTSEngineManager {
     public File textToSpeech(String text) {
         File tempFile = ttsFunction.apply(text);
         SoxReformat soxReformat = new SoxReformat(environment);
-        return soxReformat.reformatFile(tempFile);
+        File result = soxReformat.reformatFile(tempFile);
+        SpeechFileHelper.deleteTempFiles(TTSPropertiesHelper.getProperty(TTSProperty.TTS_TEMP_FILE, environment));
+        return result;
     }
 }
