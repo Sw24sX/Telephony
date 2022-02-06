@@ -23,18 +23,14 @@ import java.util.List;
  */
 @Service
 public class GenerationSoundsService {
-    private final MicrosoftTextToSpeechEngine microsoftTextToSpeech;
     private final Environment environment;
     private final GeneratedSoundRepository generatedSoundRepository;
-    private final Path generatedFilePath;
     private final TTSEngineManager ttsEngineManager;
 
-    public GenerationSoundsService(MicrosoftTextToSpeechEngine microsoftTextToSpeech, Environment environment,
-                                   GeneratedSoundRepository generatedSoundRepository, TTSEngineManager ttsEngineManager) {
-        this.microsoftTextToSpeech = microsoftTextToSpeech;
+    public GenerationSoundsService(Environment environment, GeneratedSoundRepository generatedSoundRepository,
+                                   TTSEngineManager ttsEngineManager) {
         this.environment = environment;
         this.generatedSoundRepository = generatedSoundRepository;
-        generatedFilePath = Paths.get(PropertiesHelper.getProperty(environment, "file.generated.path"));
         this.ttsEngineManager = ttsEngineManager;
     }
 
